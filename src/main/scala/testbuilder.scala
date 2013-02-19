@@ -1,50 +1,72 @@
 package testbuilder
 
-import org.tap4j.model._
-import org.tap4j.producer._
-import org.tap4j.util._
+import java.io.OutputStream
 
-class Builder (plan: Option[Int] = None) {
-  def this (plan: Int) =
-    this(Some(plan))
+class Builder (plan: Option[Int], out: OutputStream) {
+  plan.foreach(p => {
+    Console.withOut(out) {
+      println(tap.plan(p))
+    }
+  })
+
+  def this (plan: Int, out: OutputStream = System.out) =
+    this(Some(plan), out)
+
+  def this (out: OutputStream = System.out) =
+    this(None, out)
 
   def ok (test: Boolean, description: String) {
     ok(test, Some(description))
   }
 
   def ok (test: Boolean, description: Option[String] = None) {
-    val status = if (test) StatusValues.OK else StatusValues.NOT_OK
-    val result = new TestResult(status, currentTest)
-    description.foreach(d => result.setDescription("- " + d))
-    testSet.addTestResult(result)
-    currentTest += 1
+    val line = tap.result(test, state.currentTest, description)
+    state.ok(test)
+    Console.withOut(out) {
+      println(line)
+    }
   }
 
   def diag (message: String) {
-    testSet.addComment(new Comment(message))
+    val line = tap.comment(message)
+    Console.withOut(out) {
+      println(line)
+    }
   }
 
-  def tap: String = {
-    finalizeTestSet
-    producer.dump(testSet)
+  def doneTesting () {
+    if (noPlan) {
+      Console.withOut(out) {
+        println(tap.plan(state.currentTest - 1))
+      }
+    }
   }
 
   def isPassing: Boolean =
-    currentTest > 1 && !testSet.containsNotOk
+    state.isPassing
 
-  private val producer = TapProducerFactory.makeTap13Producer
-
-  private val testSet = new TestSet
-  plan.foreach(p => testSet.setPlan(new Plan(p)))
-
-  private var currentTest = 1
+  private val state = new TestState
 
   private def noPlan =
     plan.isEmpty
 
-  private def finalizeTestSet {
-    if (noPlan) {
-      testSet.setPlan(new Plan(currentTest - 1))
+  private class TestState {
+    private var passCount = 0
+    private var failCount = 0
+
+    def ok (cond: Boolean) {
+      if (cond) {
+        passCount += 1
+      }
+      else {
+        failCount += 1
+      }
     }
+
+    def currentTest: Int =
+      failCount + passCount + 1
+
+    def isPassing: Boolean =
+      currentTest > 1 && failCount == 0
   }
 }

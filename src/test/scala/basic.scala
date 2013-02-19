@@ -2,81 +2,78 @@ import org.scalatest.FunSuite
 
 import testbuilder._
 
+import java.io.ByteArrayOutputStream
+
 class Basic extends FunSuite {
   test ("ok") {
-    val builder = new Builder(4)
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(4, output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
     builder.ok(true)
     builder.ok(false)
+    builder.doneTesting
 
     val expected =
-      "1..4\n"                   +
-      "ok 1 - test succeeded\n"  +
-      "not ok 2 - test failed\n" +
-      "ok 3\n"                   +
+      "1..4\n"                 +
+      "ok 1 test succeeded\n"  +
+      "not ok 2 test failed\n" +
+      "ok 3\n"                 +
       "not ok 4\n"
 
-    assert(builder.tap === expected)
-
-    builder.ok(true)
-    assert(builder.tap === expected + "ok 5\n")
+    assert(output.toString === expected)
   }
 
   test ("no plan") {
-    val builder = new Builder
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
     builder.ok(true)
     builder.ok(false)
+    builder.doneTesting
 
     val expected =
-      "1..4\n"                   +
-      "ok 1 - test succeeded\n"  +
-      "not ok 2 - test failed\n" +
-      "ok 3\n"                   +
-      "not ok 4\n"
+      "ok 1 test succeeded\n"  +
+      "not ok 2 test failed\n" +
+      "ok 3\n"                 +
+      "not ok 4\n"             +
+      "1..4\n"
 
-    assert(builder.tap === expected)
-
-    val expectedModified =
-      "1..5\n"                   +
-      "ok 1 - test succeeded\n"  +
-      "not ok 2 - test failed\n" +
-      "ok 3\n"                   +
-      "not ok 4\n"               +
-      "ok 5\n"
-
-    builder.ok(true)
-    assert(builder.tap === expectedModified)
+    assert(output.toString === expected)
   }
 
   test ("empty") {
-    val builder = new Builder
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
+    builder.doneTesting
 
-    assert(builder.tap === "1..0\n")
+    assert(output.toString === "1..0\n")
   }
 
   test ("diag") {
-    val builder = new Builder
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
 
     builder.ok(true, "the test passes")
     builder.ok(false, "the test passes")
     builder.diag("got false, expected true")
     builder.ok(true)
+    builder.doneTesting
 
     val expected =
-      "1..3\n"                       +
-      "ok 1 - the test passes\n"     +
-      "not ok 2 - the test passes\n" +
+      "ok 1 the test passes\n"       +
+      "not ok 2 the test passes\n"   +
       "# got false, expected true\n" +
-      "ok 3\n"
+      "ok 3\n"                       +
+      "1..3\n"
 
-    assert(builder.tap === expected)
+    assert(output.toString === expected)
   }
 
   test ("is passing") {
-    val builder = new Builder
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
 
     assert(!builder.isPassing)
     builder.ok(true)
