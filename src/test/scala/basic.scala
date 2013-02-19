@@ -19,7 +19,8 @@ class Basic extends FunSuite {
       "ok 1 test succeeded\n"  +
       "not ok 2 test failed\n" +
       "ok 3\n"                 +
-      "not ok 4\n"
+      "not ok 4\n"             +
+      "# Looks like you failed 2 tests of 4.\n"
 
     assert(output.toString === expected)
   }
@@ -38,7 +39,8 @@ class Basic extends FunSuite {
       "not ok 2 test failed\n" +
       "ok 3\n"                 +
       "not ok 4\n"             +
-      "1..4\n"
+      "1..4\n"                 +
+      "# Looks like you failed 2 tests of 4.\n"
 
     assert(output.toString === expected)
   }
@@ -48,7 +50,11 @@ class Basic extends FunSuite {
     val builder = new Builder(output)
     builder.doneTesting
 
-    assert(output.toString === "1..0\n")
+    val expected =
+      "1..0\n" +
+      "# No tests run!\n"
+
+    assert(output.toString === expected)
   }
 
   test ("diag") {
@@ -66,7 +72,8 @@ class Basic extends FunSuite {
       "not ok 2 the test passes\n"   +
       "# got false, expected true\n" +
       "ok 3\n"                       +
-      "1..3\n"
+      "1..3\n"                       +
+      "# Looks like you failed 1 test of 3.\n"
 
     assert(output.toString === expected)
   }

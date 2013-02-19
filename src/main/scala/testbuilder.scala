@@ -40,6 +40,18 @@ class Builder (plan: Option[Int], out: OutputStream) {
         println(tap.plan(state.currentTest - 1))
       }
     }
+
+    if (!isPassing) {
+      if (state.currentTest == 1) {
+        diag("No tests run!")
+      }
+      else {
+        val count = state.failCount
+        val fails = count + " test" + (if (count > 1) "s" else "")
+        val total = state.currentTest - 1
+        diag("Looks like you failed " + fails + " of " + total + ".")
+      }
+    }
   }
 
   def isPassing: Boolean =
@@ -51,8 +63,8 @@ class Builder (plan: Option[Int], out: OutputStream) {
     plan.isEmpty
 
   private class TestState {
-    private var passCount = 0
-    private var failCount = 0
+    var passCount = 0
+    var failCount = 0
 
     def ok (cond: Boolean) {
       if (cond) {
