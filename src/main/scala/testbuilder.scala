@@ -21,7 +21,6 @@ class Builder (plan: Option[Int] = None) {
   }
 
   def tap: String = {
-    val noPlan = testSet.getPlan == null
     if (noPlan) {
       testSet.setPlan(new Plan(currentTest - 1))
     }
@@ -38,4 +37,7 @@ class Builder (plan: Option[Int] = None) {
   plan.foreach(p => testSet.setPlan(new Plan(p)))
 
   private var currentTest = 1
+
+  private def noPlan =
+    plan.isEmpty
 }
