@@ -74,4 +74,16 @@ class Basic extends FunSuite {
 
     assert(builder.tap === expected)
   }
+
+  test ("is passing") {
+    val builder = new Builder
+
+    assert(!builder.isPassing)
+    builder.ok(true)
+    assert(builder.isPassing)
+    builder.ok(false)
+    assert(!builder.isPassing)
+    builder.ok(true)
+    assert(!builder.isPassing)
+  }
 }

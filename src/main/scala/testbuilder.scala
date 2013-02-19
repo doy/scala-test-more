@@ -35,6 +35,9 @@ class Builder (plan: Option[Int] = None) {
     tap
   }
 
+  def isPassing: Boolean =
+    currentTest > 1 && !testSet.containsNotOk
+
   private val producer = TapProducerFactory.makeTap13Producer
 
   private val testSet = new TestSet
