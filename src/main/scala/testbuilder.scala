@@ -20,6 +20,10 @@ class Builder (plan: Option[Int] = None) {
     currentTest += 1
   }
 
+  def diag (message: String) {
+    testSet.addComment(new Comment(message))
+  }
+
   def tap: String = {
     if (noPlan) {
       testSet.setPlan(new Plan(currentTest - 1))

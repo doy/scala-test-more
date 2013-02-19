@@ -56,4 +56,22 @@ class Basic extends FunSuite {
 
     assert(builder.tap === "1..0\n")
   }
+
+  test ("diag") {
+    val builder = new Builder
+
+    builder.ok(true, "the test passes")
+    builder.ok(false, "the test passes")
+    builder.diag("got false, expected true")
+    builder.ok(true)
+
+    val expected =
+      "1..3\n"                       +
+      "ok 1 - the test passes\n"     +
+      "not ok 2 - the test passes\n" +
+      "# got false, expected true\n" +
+      "ok 3\n"
+
+    assert(builder.tap === expected)
+  }
 }
