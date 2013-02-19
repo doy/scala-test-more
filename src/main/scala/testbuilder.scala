@@ -25,14 +25,8 @@ class Builder (plan: Option[Int] = None) {
   }
 
   def tap: String = {
-    if (noPlan) {
-      testSet.setPlan(new Plan(currentTest - 1))
-    }
-    val tap = producer.dump(testSet)
-    if (noPlan) {
-      testSet.setPlan(null)
-    }
-    tap
+    finalizeTestSet
+    producer.dump(testSet)
   }
 
   def isPassing: Boolean =
@@ -47,4 +41,10 @@ class Builder (plan: Option[Int] = None) {
 
   private def noPlan =
     plan.isEmpty
+
+  private def finalizeTestSet {
+    if (noPlan) {
+      testSet.setPlan(new Plan(currentTest - 1))
+    }
+  }
 }
