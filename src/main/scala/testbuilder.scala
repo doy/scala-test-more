@@ -3,11 +3,11 @@ package testbuilder
 import java.io.OutputStream
 
 class Builder (plan: Option[Int], out: OutputStream) {
-  plan.foreach(p => {
+  if (plan.isDefined) {
     Console.withOut(out) {
-      println(tap.plan(p))
+      println(tap.plan(plan.get))
     }
-  })
+  }
 
   def this (plan: Int, out: OutputStream = System.out) =
     this(Some(plan), out)
@@ -35,7 +35,7 @@ class Builder (plan: Option[Int], out: OutputStream) {
   }
 
   def doneTesting () {
-    if (noPlan) {
+    if (plan.isEmpty) {
       Console.withOut(out) {
         println(tap.plan(state.currentTest - 1))
       }
@@ -58,9 +58,6 @@ class Builder (plan: Option[Int], out: OutputStream) {
     state.isPassing
 
   private val state = new TestState
-
-  private def noPlan =
-    plan.isEmpty
 
   private class TestState {
     var passCount = 0
