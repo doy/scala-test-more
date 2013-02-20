@@ -7,26 +7,30 @@ object tap {
     result(cond, num, Some(desc))
 
   def result (cond: Boolean, num: Int, desc: Option[String] = None): String =
-    Seq(
-      if (cond) Some("ok") else Some("not ok"),
+    join(
+      (if (!cond) Some("not") else None),
+      Some("ok"),
       Some(num),
       desc
-    ).flatMap(x => x).mkString(" ")
+    )
 
   def comment (message: String): String =
     "# " + message
 
   def plan (plan: Plan): String =
-    Seq(
+    join(
       Some("1.." + plan.plan),
       (if (plan.skipAll || plan.message.isDefined) Some("#") else None),
       (if (plan.skipAll) Some("SKIP") else None),
       plan.message
-    ).flatMap(x => x).mkString(" ")
+    )
 
   def bailOut (message: String): String =
     bailOut(Some(message))
 
   def bailOut (message: Option[String] = None) =
-    Seq(Some("Bail out!"), message).flatMap(x => x).mkString(" ")
+    join(Some("Bail out!"), message)
+
+  private def join (strings: Option[Any]*): String =
+    strings.flatMap(x => x).mkString(" ")
 }
