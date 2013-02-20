@@ -41,6 +41,12 @@ object util {
       case NoMessage     => None
     }
 
+  implicit def optionToMessage (option: Option[String]): Message =
+    option match {
+      case Some(x) => HasMessage(x)
+      case None    => NoMessage
+    }
+
   case class BailOutException (val message: String)
     extends RuntimeException(message)
 }
