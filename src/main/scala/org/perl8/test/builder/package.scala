@@ -1,4 +1,6 @@
-package object testbuilder {
+package org.perl8.test
+
+package object builder {
   import language.implicitConversions
 
   implicit def intToPlan (p: Int): Plan =

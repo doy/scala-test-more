@@ -1,7 +1,7 @@
 import org.scalatest.FunSuite
 import org.scalatest.BeforeAndAfter
 
-import testbuilder._
+import org.perl8.test.builder._
 
 import java.io.ByteArrayOutputStream
 

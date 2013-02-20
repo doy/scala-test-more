@@ -1,4 +1,4 @@
-package testbuilder
+package org.perl8.test.builder
 
 import util._
 
