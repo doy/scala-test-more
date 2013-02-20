@@ -26,7 +26,7 @@ object TAP {
     )
 
   def comment (message: String): String =
-    "# " + message
+    message.split("\n").map(m => "# " + m).mkString("\n")
 
   def plan (plan: Plan): String =
     join(

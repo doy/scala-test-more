@@ -68,6 +68,7 @@ class Basic extends FunSuite with BeforeAndAfter {
     builder.ok(false, "the test passes")
     builder.diag("got false, expected true")
     builder.ok(true)
+    builder.diag("ending\nnow")
     builder.doneTesting
 
     val expected =
@@ -75,6 +76,8 @@ class Basic extends FunSuite with BeforeAndAfter {
       "not ok 2 the test passes\n"   +
       "# got false, expected true\n" +
       "ok 3\n"                       +
+      "# ending\n"                   +
+      "# now\n"                      +
       "1..3\n"                       +
       "# Looks like you failed 1 test of 3.\n"
 
