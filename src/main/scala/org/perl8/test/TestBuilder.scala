@@ -1,16 +1,16 @@
-package org.perl8.test.builder
+package org.perl8.test
 
 import java.io.OutputStream
 
-import util._
+import Utils._
 
-class Builder (
+class TestBuilder (
   plan:   Option[Plan],
   out:    OutputStream,
   indent: Int,
   private val name: Message
 ) {
-  plan.foreach(p => println(tap.plan(p)))
+  plan.foreach(p => println(TAP.plan(p)))
 
   def this (
     plan:   Plan,
@@ -32,33 +32,33 @@ class Builder (
     description: Message = NoMessage,
     todo:        Message = NoMessage
   ) {
-    val line = tap.result(test, state.currentTest, description, todo)
+    val line = TAP.result(test, state.currentTest, description, todo)
     state.ok(test || todo.isDefined)
     println(line)
   }
 
   def skip (reason: Message = NoMessage) {
-    val line = tap.skip(state.currentTest, reason)
+    val line = TAP.skip(state.currentTest, reason)
     state.ok(true)
     println(line)
   }
 
   def diag (message: Message) {
-    message.foreach(m => println(tap.comment(m)))
+    message.foreach(m => println(TAP.comment(m)))
   }
 
-  def subtest (test: Builder, todo: Message = NoMessage) {
+  def subtest (test: TestBuilder, todo: Message = NoMessage) {
     ok(test.isPassing, test.name, todo)
   }
 
   def bailOut (message: Message = NoMessage) {
-    println(tap.bailOut(message))
+    println(TAP.bailOut(message))
     throw new BailOutException(message.getOrElse(""))
   }
 
   def doneTesting () {
     plan match {
-      case None => println(tap.plan(state.currentTest - 1))
+      case None => println(TAP.plan(state.currentTest - 1))
       case _    => ()
     }
 

@@ -1,7 +1,7 @@
 import org.scalatest.FunSuite
 import org.scalatest.BeforeAndAfter
 
-import org.perl8.test.builder._
+import org.perl8.test._
 
 import java.io.ByteArrayOutputStream
 
@@ -13,7 +13,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("ok") {
-    val builder = new Builder(4, output)
+    val builder = new TestBuilder(4, output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
     builder.ok(true)
@@ -32,7 +32,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("no plan") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
     builder.ok(true)
@@ -51,7 +51,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("empty") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
     builder.doneTesting
 
     val expected =
@@ -62,7 +62,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("diag") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     builder.ok(true, "the test passes")
     builder.ok(false, "the test passes")
@@ -82,7 +82,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("is passing") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     assert(!builder.isPassing)
     builder.ok(true)
@@ -94,7 +94,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("bail out") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     builder.ok(true)
     val e = intercept[BailOutException] {
@@ -110,7 +110,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("skip all") {
-    val builder = new Builder(SkipAll(), output)
+    val builder = new TestBuilder(SkipAll(), output)
 
     val expected =
       "1..0 # SKIP\n"
@@ -119,7 +119,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("skip all with reason") {
-    val builder = new Builder(SkipAll("foo bar"), output)
+    val builder = new TestBuilder(SkipAll("foo bar"), output)
 
     val expected =
       "1..0 # SKIP foo bar\n"
@@ -128,7 +128,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("skip") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     builder.ok(false)
     builder.skip("not now")
@@ -146,7 +146,7 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("todo") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     builder.ok(false, "do a thing", todo = "not working yet")
     builder.ok(true, todo = "is it?")
@@ -161,11 +161,11 @@ class Basic extends FunSuite with BeforeAndAfter {
   }
 
   test ("subtests") {
-    val builder = new Builder(output)
+    val builder = new TestBuilder(output)
 
     builder.ok(true)
 
-    val subtest = new Builder(output, indent = 1, name = "foo")
+    val subtest = new TestBuilder(output, indent = 1, name = "foo")
     subtest.ok(true)
     subtest.ok(false, "do a test")
     subtest.diag("did a test")

@@ -1,8 +1,8 @@
-package org.perl8.test.builder
+package org.perl8.test
 
 import language.implicitConversions
 
-object util {
+object Utils {
   trait Plan {
     val plan:    Int
     val skipAll: Boolean

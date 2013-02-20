@@ -1,7 +1,6 @@
 package org.perl8.test
 
-import org.perl8.test.builder._
-import org.perl8.test.builder.util._
+import org.perl8.test.Utils._
 
 import java.io.OutputStream
 
@@ -16,7 +15,7 @@ class TestMore (
     this(None, out)
 
   def delayedInit (body: => Unit) {
-    builder = new Builder(plan, out, 0, NoMessage)
+    builder = new TestBuilder(plan, out, 0, NoMessage)
     testBody = () => body
   }
 
@@ -38,6 +37,6 @@ class TestMore (
     cond
   }
 
-  private var builder: Builder = _
+  private var builder: TestBuilder = _
   private var testBody: () => Unit = _
 }

@@ -1,8 +1,8 @@
-package org.perl8.test.builder
+package org.perl8.test
 
-import util._
+import Utils._
 
-object tap {
+object TAP {
   def result (
     cond: Boolean,
     num:  Int,
