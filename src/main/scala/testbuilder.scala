@@ -4,14 +4,28 @@ import java.io.OutputStream
 
 import util._
 
-class Builder (plan: Option[Plan], out: OutputStream) {
+class Builder (
+  plan:   Option[Plan],
+  out:    OutputStream,
+  indent: Int,
+  private val name: Message
+) {
   plan.foreach(p => println(tap.plan(p)))
 
-  def this (plan: Plan, out: OutputStream = System.out) =
-    this(Some(plan), out)
+  def this (
+    plan:   Plan,
+    out:    OutputStream = System.out,
+    indent: Int          = 0,
+    name:   Message      = NoMessage
+  ) =
+    this(Some(plan), out, indent, name)
 
-  def this (out: OutputStream = System.out) =
-    this(None, out)
+  def this (
+    out:    OutputStream = System.out,
+    indent: Int          = 0,
+    name:   Message      = NoMessage
+  ) =
+    this(None, out, indent, name)
 
   def ok (
     test:        Boolean,
@@ -31,6 +45,10 @@ class Builder (plan: Option[Plan], out: OutputStream) {
 
   def diag (message: Message) {
     message.foreach(m => println(tap.comment(m)))
+  }
+
+  def subtest (test: Builder, todo: Message = NoMessage) {
+    ok(test.isPassing, test.name, todo)
   }
 
   def bailOut (message: Message = NoMessage) {
@@ -64,7 +82,7 @@ class Builder (plan: Option[Plan], out: OutputStream) {
 
   private def println (str: Any) {
     Console.withOut(out) {
-      Console.println(str)
+      Console.println((" " * (indent * 4)) + str)
     }
   }
 
