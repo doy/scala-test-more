@@ -33,6 +33,15 @@ class TestMore (
     cond
   }
 
+  def is[T] (got: T, expected: T, desc: Message = NoMessage): Boolean = {
+    val cond = ok(got == expected, desc)
+    if (!cond) {
+      builder.diag("         got: '" + got + "'")
+      builder.diag("    expected: '" + expected + "'")
+    }
+    cond
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"
