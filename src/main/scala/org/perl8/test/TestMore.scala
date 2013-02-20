@@ -22,7 +22,12 @@ class TestMore (
   }
 
   def run (): Int = {
-    testBody()
+    if (testBody == null) {
+      delayedInit { }
+    }
+    else {
+      testBody()
+    }
     builder.doneTesting
     if (builder.isPassing) {
       0
