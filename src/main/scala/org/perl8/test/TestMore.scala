@@ -28,16 +28,25 @@ class TestMore (
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
     builder.ok(cond, desc.map(d => "- " + d))
     if (!cond) {
-      val caller = Thread.currentThread.getStackTrace()(2)
-      val message = "  Failed test" + (desc match {
-        case HasMessage(m) => " '" + m + "'\n  "
-        case NoMessage     => " "
-      })
-      val trace =
-        "at " + caller.getFileName + " line " + caller.getLineNumber + "."
-      builder.diag(message + trace)
+      failed(desc)
     }
     cond
+  }
+
+  private def failed (desc: Message) {
+    val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
+      frame.getFileName != "TestMore.scala"
+    })
+    val (file, line) = caller match {
+      case Some(frame) => (frame.getFileName, frame.getLineNumber)
+      case None        => ("<unknown file>", "<unknown line>")
+    }
+    val message = "  Failed test" + (desc match {
+      case HasMessage(m) => " '" + m + "'\n  "
+      case NoMessage     => " "
+    })
+    val trace = "at " + file + " line " + line + "."
+    builder.diag(message + trace)
   }
 
   private var builder: TestBuilder = _
