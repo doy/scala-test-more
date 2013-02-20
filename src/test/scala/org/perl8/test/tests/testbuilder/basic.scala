@@ -1,3 +1,5 @@
+package org.perl8.test.tests.testbuilder
+
 import org.scalatest.FunSuite
 import org.scalatest.BeforeAndAfter
 
