@@ -102,6 +102,31 @@ class TestMore (
     }
   }
 
+  def subtest (name: Message, plan: Plan)(body: => Unit): Boolean =
+    subtest(name, Some(plan))(body)
+
+  def subtest (
+    name: Message,
+    plan: Option[Plan] = None
+  )(body: => Unit): Boolean = {
+    val oldBuilder = builder
+    val success = try {
+      builder = new TestBuilder(
+        plan,
+        out,
+        oldBuilder.indent + 1,
+        name.map(n => "- " + n)
+      )
+      body
+      builder.doneTesting
+      builder.isPassing
+    }
+    finally {
+      builder = oldBuilder
+    }
+    ok(success, name)
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"

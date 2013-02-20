@@ -47,10 +47,6 @@ class TestBuilder (
     message.foreach(m => println(TAP.comment(m)))
   }
 
-  def subtest (test: TestBuilder, todo: Message = NoMessage) {
-    ok(test.isPassing, test.name, todo)
-  }
-
   def bailOut (message: Message = NoMessage) {
     println(TAP.bailOut(message))
     throw new BailOutException(message.getOrElse(""))

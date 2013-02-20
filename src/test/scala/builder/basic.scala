@@ -162,35 +162,4 @@ class Basic extends FunSuite with BeforeAndAfter {
 
     assert(output.toString === expected)
   }
-
-  test ("subtests") {
-    val builder = new TestBuilder(output)
-
-    builder.ok(true)
-
-    val subtest = new TestBuilder(output, indent = 1, name = "foo")
-    subtest.ok(true)
-    subtest.ok(false, "do a test")
-    subtest.diag("did a test")
-    subtest.doneTesting
-
-    builder.subtest(subtest)
-
-    builder.ok(false, "something else")
-    builder.doneTesting
-
-    val expected =
-      "ok 1\n"                                     +
-      "    ok 1\n"                                 +
-      "    not ok 2 do a test\n"                   +
-      "    # did a test\n"                         +
-      "    1..2\n"                                 +
-      "    # Looks like you failed 1 test of 2.\n" +
-      "not ok 2 foo\n"                             +
-      "not ok 3 something else\n"                  +
-      "1..3\n"                                     +
-      "# Looks like you failed 2 tests of 3.\n"
-
-    assert(output.toString === expected)
-  }
 }
