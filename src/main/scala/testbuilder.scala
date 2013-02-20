@@ -5,9 +5,7 @@ import java.io.OutputStream
 import util._
 
 class Builder (plan: Option[Plan], out: OutputStream) {
-  Console.withOut(out) {
-    plan.foreach(p => println(tap.plan(p)))
-  }
+  plan.foreach(p => println(tap.plan(p)))
 
   def this (plan: Plan, out: OutputStream = System.out) =
     this(Some(plan), out)
@@ -22,16 +20,11 @@ class Builder (plan: Option[Plan], out: OutputStream) {
   def ok (test: Boolean, description: Option[String] = None) {
     val line = tap.result(test, state.currentTest, description)
     state.ok(test)
-    Console.withOut(out) {
-      println(line)
-    }
+    println(line)
   }
 
   def diag (message: String) {
-    val line = tap.comment(message)
-    Console.withOut(out) {
-      println(line)
-    }
+    println(tap.comment(message))
   }
 
   def bailOut (message: String) {
@@ -39,19 +32,14 @@ class Builder (plan: Option[Plan], out: OutputStream) {
   }
 
   def bailOut (message: Option[String] = None) {
-    val line = tap.bailOut(message)
-    Console.withOut(out) {
-      println(line)
-    }
+    println(tap.bailOut(message))
     throw new BailOutException(message.getOrElse(""))
   }
 
   def doneTesting () {
-    Console.withOut(out) {
-      plan match {
-        case None => println(tap.plan(state.currentTest - 1))
-        case _    => ()
-      }
+    plan match {
+      case None => println(tap.plan(state.currentTest - 1))
+      case _    => ()
     }
 
     if (!isPassing) {
@@ -71,6 +59,12 @@ class Builder (plan: Option[Plan], out: OutputStream) {
     state.isPassing
 
   private val state = new TestState
+
+  private def println (str: Any) {
+    Console.withOut(out) {
+      Console.println(str)
+    }
+  }
 
   private class TestState {
     var passCount = 0
