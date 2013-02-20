@@ -1,12 +1,18 @@
 import org.scalatest.FunSuite
+import org.scalatest.BeforeAndAfter
 
 import testbuilder._
 
 import java.io.ByteArrayOutputStream
 
-class Basic extends FunSuite {
+class Basic extends FunSuite with BeforeAndAfter {
+  private val output = new ByteArrayOutputStream
+
+  before {
+    output.reset
+  }
+
   test ("ok") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(4, output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
@@ -26,7 +32,6 @@ class Basic extends FunSuite {
   }
 
   test ("no plan") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
@@ -46,7 +51,6 @@ class Basic extends FunSuite {
   }
 
   test ("empty") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
     builder.doneTesting
 
@@ -58,7 +62,6 @@ class Basic extends FunSuite {
   }
 
   test ("diag") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
 
     builder.ok(true, "the test passes")
@@ -79,7 +82,6 @@ class Basic extends FunSuite {
   }
 
   test ("is passing") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
 
     assert(!builder.isPassing)
@@ -92,7 +94,6 @@ class Basic extends FunSuite {
   }
 
   test ("bail out") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
 
     builder.ok(true)
@@ -109,7 +110,6 @@ class Basic extends FunSuite {
   }
 
   test ("skip all") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(SkipAll(), output)
 
     val expected =
@@ -119,7 +119,6 @@ class Basic extends FunSuite {
   }
 
   test ("skip all with reason") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(SkipAll("foo bar"), output)
 
     val expected =
@@ -129,7 +128,6 @@ class Basic extends FunSuite {
   }
 
   test ("skip") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
 
     builder.ok(false)
@@ -148,7 +146,6 @@ class Basic extends FunSuite {
   }
 
   test ("todo") {
-    val output = new ByteArrayOutputStream
     val builder = new Builder(output)
 
     builder.ok(false, "do a thing", "not working yet")
