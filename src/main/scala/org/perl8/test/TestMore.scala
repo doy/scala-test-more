@@ -51,6 +51,10 @@ class TestMore (
     cond
   }
 
+  def diag (message: String) {
+    builder.diag(message)
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"
