@@ -3,6 +3,7 @@ package org.perl8.test
 import org.perl8.test.Utils._
 
 import java.io.OutputStream
+import scala.util.matching.Regex
 
 class TestMore (
   plan: Option[Plan],
@@ -47,6 +48,24 @@ class TestMore (
     if (!cond) {
       builder.diag("         got: '" + got + "'")
       builder.diag("    expected: anything else")
+    }
+    cond
+  }
+
+  def like (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
+    val cond = ok(rx.findFirstIn(got).nonEmpty, desc)
+    if (!cond) {
+      builder.diag("                  '" + got + "'")
+      builder.diag("    doesn't match '" + rx + "'")
+    }
+    cond
+  }
+
+  def unlike (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
+    val cond = ok(rx.findFirstIn(got).isEmpty, desc)
+    if (!cond) {
+      builder.diag("                  '" + got + "'")
+      builder.diag("          matches '" + rx + "'")
     }
     cond
   }
