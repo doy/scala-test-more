@@ -1,7 +1,5 @@
 package testbuilder
 
-import language.implicitConversions
-
 import util._
 
 object tap {
@@ -46,10 +44,4 @@ object tap {
 
   private def join (strings: Option[Any]*): String =
     strings.flatMap(x => x).mkString(" ")
-
-  private implicit def messageToOption (message: Message): Option[String] =
-    message match {
-      case HasMessage(x) => Some(x)
-      case NoMessage     => None
-    }
 }

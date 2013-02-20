@@ -1,7 +1,6 @@
 package testbuilder
 
 import java.io.OutputStream
-import language.implicitConversions
 
 import util._
 
@@ -68,12 +67,6 @@ class Builder (plan: Option[Plan], out: OutputStream) {
       Console.println(str)
     }
   }
-
-  private implicit def messageToOption (message: Message): Option[String] =
-    message match {
-      case HasMessage(x) => Some(x)
-      case NoMessage     => None
-    }
 
   private class TestState {
     var passCount = 0
