@@ -28,7 +28,7 @@ class TestMore (
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
     builder.ok(cond, desc.map(d => "- " + d))
     if (!cond) {
-      val caller = Thread.currentThread.getStackTrace()(0)
+      val caller = Thread.currentThread.getStackTrace()(2)
       val message = "  Failed test" + (desc match {
         case HasMessage(m) => " '" + m + "'\n  "
         case NoMessage     => " "
