@@ -34,6 +34,18 @@ class Builder (plan: Option[Int], out: OutputStream) {
     }
   }
 
+  def bailOut (message: String) {
+    bailOut(Some(message))
+  }
+
+  def bailOut (message: Option[String] = None) {
+    val line = tap.bailOut(message)
+    Console.withOut(out) {
+      println(line)
+    }
+    throw new BailOutException(message.getOrElse(""))
+  }
+
   def doneTesting () {
     if (plan.isEmpty) {
       Console.withOut(out) {
@@ -79,3 +91,6 @@ class Builder (plan: Option[Int], out: OutputStream) {
       currentTest > 1 && failCount == 0
   }
 }
+
+case class BailOutException (val message: String)
+  extends RuntimeException(message)

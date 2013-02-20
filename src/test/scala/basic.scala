@@ -90,4 +90,21 @@ class Basic extends FunSuite {
     builder.ok(true)
     assert(!builder.isPassing)
   }
+
+  test ("bail out") {
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
+
+    builder.ok(true)
+    val e = intercept[BailOutException] {
+      builder.bailOut("oh no!")
+    }
+    assert(e.message === "oh no!")
+
+    val expected =
+      "ok 1\n" +
+      "Bail out! oh no!\n"
+
+    assert(output.toString === expected)
+  }
 }

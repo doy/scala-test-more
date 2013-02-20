@@ -16,4 +16,10 @@ object tap {
 
   def plan (num: Int) =
     "1.." + num
+
+  def bailOut (message: String): String =
+    bailOut(Some(message))
+
+  def bailOut (message: Option[String] = None) =
+    Seq(Some("Bail out!"), message).flatMap(x => x).mkString(" ")
 }
