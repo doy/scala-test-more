@@ -127,4 +127,23 @@ class Basic extends FunSuite {
 
     assert(output.toString === expected)
   }
+
+  test ("skip") {
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
+
+    builder.ok(false)
+    builder.skip("not now")
+    builder.skip()
+    builder.doneTesting
+
+    val expected =
+      "not ok 1\n"            +
+      "ok 2 # skip not now\n" +
+      "ok 3 # skip\n"         +
+      "1..3\n"                +
+      "# Looks like you failed 1 test of 3.\n"
+
+    assert(output.toString === expected)
+  }
 }

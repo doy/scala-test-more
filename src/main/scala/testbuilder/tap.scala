@@ -14,6 +14,17 @@ object tap {
       desc
     )
 
+  def skip (num: Int, reason: String): String =
+    skip(num, Some(reason))
+
+  def skip (num: Int, reason: Option[String] = None): String =
+    join(
+      Some("ok"),
+      Some(num),
+      Some("# skip"),
+      reason
+    )
+
   def comment (message: String): String =
     "# " + message
 

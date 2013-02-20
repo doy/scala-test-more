@@ -23,6 +23,16 @@ class Builder (plan: Option[Plan], out: OutputStream) {
     println(line)
   }
 
+  def skip (reason: String) {
+    skip(Some(reason))
+  }
+
+  def skip (reason: Option[String] = None) {
+    val line = tap.skip(state.currentTest, reason)
+    state.ok(true)
+    println(line)
+  }
+
   def diag (message: String) {
     println(tap.comment(message))
   }
