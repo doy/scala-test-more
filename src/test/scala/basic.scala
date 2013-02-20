@@ -148,13 +148,13 @@ class Basic extends FunSuite with BeforeAndAfter {
   test ("todo") {
     val builder = new Builder(output)
 
-    builder.ok(false, "do a thing", "not working yet")
-    builder.ok(true, "some other thing", "is it?")
+    builder.ok(false, "do a thing", todo = "not working yet")
+    builder.ok(true, todo = "is it?")
     builder.doneTesting
 
     val expected =
       "not ok 1 do a thing # TODO not working yet\n" +
-      "ok 2 some other thing # TODO is it?\n"        +
+      "ok 2 # TODO is it?\n"                         +
       "1..2\n"
 
     assert(output.toString === expected)

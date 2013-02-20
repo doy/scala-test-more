@@ -28,5 +28,9 @@ object SkipAll {
   def apply ()               = new SkipAll(None)
 }
 
+trait Message
+case class HasMessage (val contents: String) extends Message
+case object NoMessage extends Message
+
 case class BailOutException (val message: String)
   extends RuntimeException(message)

@@ -1,19 +1,15 @@
 package testbuilder
 
+import language.implicitConversions
+
 import util._
 
 object tap {
-  def result (cond: Boolean, num: Int, desc: String, todo: String): String =
-    result(cond, num, Some(desc), Some(todo))
-
-  def result (cond: Boolean, num: Int, desc: String): String =
-    result(cond, num, Some(desc))
-
   def result (
     cond: Boolean,
     num:  Int,
-    desc: Option[String] = None,
-    todo: Option[String] = None
+    desc: Message = NoMessage,
+    todo: Message = NoMessage
   ): String =
     join(
       (if (!cond) Some("not") else None),
@@ -23,10 +19,7 @@ object tap {
       todo.map(t => "# TODO " + t)
     )
 
-  def skip (num: Int, reason: String): String =
-    skip(num, Some(reason))
-
-  def skip (num: Int, reason: Option[String] = None): String =
+  def skip (num: Int, reason: Message = NoMessage): String =
     join(
       Some("ok"),
       Some(num),
@@ -53,4 +46,10 @@ object tap {
 
   private def join (strings: Option[Any]*): String =
     strings.flatMap(x => x).mkString(" ")
+
+  private implicit def messageToOption (message: Message): Option[String] =
+    message match {
+      case HasMessage(x) => Some(x)
+      case NoMessage     => None
+    }
 }

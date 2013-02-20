@@ -4,6 +4,9 @@ package object testbuilder {
   implicit def intToPlan (p: Int): Plan =
     new NumericPlan(p)
 
+  implicit def stringToMessage (s: String): util.Message =
+    new util.HasMessage(s)
+
   type Plan        = util.Plan
   type NumericPlan = util.NumericPlan
   type SkipAll     = util.SkipAll

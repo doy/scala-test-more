@@ -1,6 +1,7 @@
 package testbuilder
 
 import java.io.OutputStream
+import language.implicitConversions
 
 import util._
 
@@ -13,43 +14,27 @@ class Builder (plan: Option[Plan], out: OutputStream) {
   def this (out: OutputStream = System.out) =
     this(None, out)
 
-  def ok (test: Boolean, description: String, todo: String) {
-    ok(test, Some(description), Some(todo))
-  }
-
-  def ok (test: Boolean, description: String) {
-    ok(test, Some(description))
-  }
-
   def ok (
     test:        Boolean,
-    description: Option[String] = None,
-    todo:        Option[String] = None
+    description: Message = NoMessage,
+    todo:        Message = NoMessage
   ) {
     val line = tap.result(test, state.currentTest, description, todo)
     state.ok(test || todo.isDefined)
     println(line)
   }
 
-  def skip (reason: String) {
-    skip(Some(reason))
-  }
-
-  def skip (reason: Option[String] = None) {
+  def skip (reason: Message = NoMessage) {
     val line = tap.skip(state.currentTest, reason)
     state.ok(true)
     println(line)
   }
 
-  def diag (message: String) {
-    println(tap.comment(message))
+  def diag (message: Message) {
+    message.foreach(m => println(tap.comment(m)))
   }
 
-  def bailOut (message: String) {
-    bailOut(Some(message))
-  }
-
-  def bailOut (message: Option[String] = None) {
+  def bailOut (message: Message = NoMessage) {
     println(tap.bailOut(message))
     throw new BailOutException(message.getOrElse(""))
   }
@@ -83,6 +68,12 @@ class Builder (plan: Option[Plan], out: OutputStream) {
       Console.println(str)
     }
   }
+
+  private implicit def messageToOption (message: Message): Option[String] =
+    message match {
+      case HasMessage(x) => Some(x)
+      case NoMessage     => None
+    }
 
   private class TestState {
     var passCount = 0
