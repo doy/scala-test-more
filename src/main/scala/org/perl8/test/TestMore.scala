@@ -148,7 +148,10 @@ class TestMore (
       case Some(frame) => (frame.getFileName, frame.getLineNumber)
       case None        => ("<unknown file>", "<unknown line>")
     }
-    val message = "  Failed test" + (desc match {
+    val message = "  " + (todo match {
+      case HasMessage(_) => "Failed (TODO) test"
+      case NoMessage     => "Failed test"
+    }) + (desc match {
       case HasMessage(m) => " '" + m + "'\n  "
       case NoMessage     => " "
     })
