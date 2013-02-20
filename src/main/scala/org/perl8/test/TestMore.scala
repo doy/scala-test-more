@@ -16,6 +16,7 @@ class TestMore (
     this(None, out)
 
   def delayedInit (body: => Unit) {
+    todo = NoMessage
     builder = new TestBuilder(plan, out, 0, NoMessage)
     testBody = () => body
   }
@@ -27,7 +28,7 @@ class TestMore (
   }
 
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
-    builder.ok(cond, desc.map(d => "- " + d))
+    builder.ok(cond, desc.map(d => "- " + d), todo)
     if (!cond) {
       failed(desc)
     }
@@ -84,6 +85,17 @@ class TestMore (
     builder.bailOut(desc)
   }
 
+  def todo (reason: Message = NoMessage)(body: => Unit) {
+    val oldTodo = todo
+    try {
+      todo = reason
+      body
+    }
+    finally {
+      todo = oldTodo
+    }
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"
@@ -100,6 +112,7 @@ class TestMore (
     builder.diag(message + trace)
   }
 
+  private var todo: Message        = _
   private var builder: TestBuilder = _
   private var testBody: () => Unit = _
 }
