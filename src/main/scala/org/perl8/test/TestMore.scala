@@ -96,6 +96,12 @@ class TestMore (
     }
   }
 
+  def skip (count: Int, reason: Message = NoMessage)(body: => Unit) {
+    for (i <- 1 to count) {
+      builder.skip(reason)
+    }
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"
