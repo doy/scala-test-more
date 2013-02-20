@@ -80,6 +80,10 @@ class TestMore (
     builder.diag(message)
   }
 
+  def BAIL_OUT (desc: Message = NoMessage) {
+    builder.bailOut(desc)
+  }
+
   private def failed (desc: Message) {
     val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
       frame.getFileName != "TestMore.scala"
