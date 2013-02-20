@@ -70,6 +70,12 @@ class TestMore (
     cond
   }
 
+  def pass (desc: Message = NoMessage): Boolean =
+    ok(true, desc)
+
+  def fail (desc: Message = NoMessage): Boolean =
+    ok(false, desc)
+
   def diag (message: String) {
     builder.diag(message)
   }
