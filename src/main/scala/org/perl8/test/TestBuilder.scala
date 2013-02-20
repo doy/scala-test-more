@@ -5,9 +5,9 @@ import java.io.OutputStream
 import Utils._
 
 class TestBuilder (
-  plan:   Option[Plan],
-  out:    OutputStream,
-  indent: Int,
+  plan:             Option[Plan],
+  out:              OutputStream,
+  val indent:       Int,
   private val name: Message
 ) {
   plan.foreach(p => println(TAP.plan(p)))
@@ -80,9 +80,11 @@ class TestBuilder (
 
   private val state = new TestState
 
-  private def println (str: Any) {
+  private def println (str: String) {
     Console.withOut(out) {
-      Console.println((" " * (indent * 4)) + str)
+      val indented =
+        str.split("\n").map(s => (" " * (indent * 4)) + s).mkString("\n")
+      Console.println(indented)
     }
   }
 
