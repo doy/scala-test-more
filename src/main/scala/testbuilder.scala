@@ -13,13 +13,21 @@ class Builder (plan: Option[Plan], out: OutputStream) {
   def this (out: OutputStream = System.out) =
     this(None, out)
 
+  def ok (test: Boolean, description: String, todo: String) {
+    ok(test, Some(description), Some(todo))
+  }
+
   def ok (test: Boolean, description: String) {
     ok(test, Some(description))
   }
 
-  def ok (test: Boolean, description: Option[String] = None) {
-    val line = tap.result(test, state.currentTest, description)
-    state.ok(test)
+  def ok (
+    test:        Boolean,
+    description: Option[String] = None,
+    todo:        Option[String] = None
+  ) {
+    val line = tap.result(test, state.currentTest, description, todo)
+    state.ok(test || todo.isDefined)
     println(line)
   }
 

@@ -3,15 +3,24 @@ package testbuilder
 import util._
 
 object tap {
+  def result (cond: Boolean, num: Int, desc: String, todo: String): String =
+    result(cond, num, Some(desc), Some(todo))
+
   def result (cond: Boolean, num: Int, desc: String): String =
     result(cond, num, Some(desc))
 
-  def result (cond: Boolean, num: Int, desc: Option[String] = None): String =
+  def result (
+    cond: Boolean,
+    num:  Int,
+    desc: Option[String] = None,
+    todo: Option[String] = None
+  ): String =
     join(
       (if (!cond) Some("not") else None),
       Some("ok"),
       Some(num),
-      desc
+      desc,
+      todo.map(t => "# TODO " + t)
     )
 
   def skip (num: Int, reason: String): String =

@@ -146,4 +146,20 @@ class Basic extends FunSuite {
 
     assert(output.toString === expected)
   }
+
+  test ("todo") {
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(output)
+
+    builder.ok(false, "do a thing", "not working yet")
+    builder.ok(true, "some other thing", "is it?")
+    builder.doneTesting
+
+    val expected =
+      "not ok 1 do a thing # TODO not working yet\n" +
+      "ok 2 some other thing # TODO is it?\n"        +
+      "1..2\n"
+
+    assert(output.toString === expected)
+  }
 }
