@@ -29,10 +29,13 @@ class TestMore (
     builder.ok(cond, desc.map(d => "- " + d))
     if (!cond) {
       val caller = Thread.currentThread.getStackTrace()(0)
-      builder.diag("  Failed test '" + desc + "'")
-      builder.diag(
-        "  at " + caller.getFileName + " line " + caller.getLineNumber + "."
-      )
+      val message = "  Failed test" + (desc match {
+        case HasMessage(m) => " '" + m + "'\n  "
+        case NoMessage     => " "
+      })
+      val trace =
+        "at " + caller.getFileName + " line " + caller.getLineNumber + "."
+      builder.diag(message + trace)
     }
     cond
   }
