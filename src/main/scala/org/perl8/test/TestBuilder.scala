@@ -74,6 +74,9 @@ class TestBuilder (
   def isPassing: Boolean =
     state.isPassing
 
+  def failedTests: Int =
+    state.failCount
+
   private val state = new TestState
 
   private def println (str: String) {

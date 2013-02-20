@@ -24,7 +24,15 @@ class TestMore (
   def run (): Int = {
     testBody()
     builder.doneTesting
-    if (builder.isPassing) 0 else 1
+    if (builder.isPassing) {
+      0
+    }
+    else if (builder.failedTests == 0) {
+      255
+    }
+    else {
+      builder.failedTests
+    }
   }
 
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
