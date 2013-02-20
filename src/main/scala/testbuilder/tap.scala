@@ -1,5 +1,7 @@
 package testbuilder
 
+import util._
+
 object tap {
   def result (cond: Boolean, num: Int, desc: String): String =
     result(cond, num, Some(desc))
@@ -14,8 +16,13 @@ object tap {
   def comment (message: String): String =
     "# " + message
 
-  def plan (num: Int) =
-    "1.." + num
+  def plan (plan: Plan): String =
+    Seq(
+      Some("1.." + plan.plan),
+      (if (plan.skipAll || plan.message.isDefined) Some("#") else None),
+      (if (plan.skipAll) Some("SKIP") else None),
+      plan.message
+    ).flatMap(x => x).mkString(" ")
 
   def bailOut (message: String): String =
     bailOut(Some(message))

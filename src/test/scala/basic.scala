@@ -107,4 +107,24 @@ class Basic extends FunSuite {
 
     assert(output.toString === expected)
   }
+
+  test ("skip all") {
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(SkipAll(), output)
+
+    val expected =
+      "1..0 # SKIP\n"
+
+    assert(output.toString === expected)
+  }
+
+  test ("skip all with reason") {
+    val output = new ByteArrayOutputStream
+    val builder = new Builder(SkipAll("foo bar"), output)
+
+    val expected =
+      "1..0 # SKIP foo bar\n"
+
+    assert(output.toString === expected)
+  }
 }

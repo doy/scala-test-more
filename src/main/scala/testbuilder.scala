@@ -2,14 +2,14 @@ package testbuilder
 
 import java.io.OutputStream
 
-class Builder (plan: Option[Int], out: OutputStream) {
-  if (plan.isDefined) {
-    Console.withOut(out) {
-      println(tap.plan(plan.get))
-    }
+import util._
+
+class Builder (plan: Option[Plan], out: OutputStream) {
+  Console.withOut(out) {
+    plan.foreach(p => println(tap.plan(p)))
   }
 
-  def this (plan: Int, out: OutputStream = System.out) =
+  def this (plan: Plan, out: OutputStream = System.out) =
     this(Some(plan), out)
 
   def this (out: OutputStream = System.out) =
@@ -47,9 +47,10 @@ class Builder (plan: Option[Int], out: OutputStream) {
   }
 
   def doneTesting () {
-    if (plan.isEmpty) {
-      Console.withOut(out) {
-        println(tap.plan(state.currentTest - 1))
+    Console.withOut(out) {
+      plan match {
+        case None => println(tap.plan(state.currentTest - 1))
+        case _    => ()
       }
     }
 
@@ -91,6 +92,3 @@ class Builder (plan: Option[Int], out: OutputStream) {
       currentTest > 1 && failCount == 0
   }
 }
-
-case class BailOutException (val message: String)
-  extends RuntimeException(message)
