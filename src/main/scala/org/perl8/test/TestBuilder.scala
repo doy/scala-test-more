@@ -59,13 +59,25 @@ class TestBuilder (
     }
 
     if (!isPassing) {
+      if (!state.matchesPlan) {
+        val planCount = (plan match {
+          case Some(p) => p.plan
+          case None    => state.currentTest - 1
+        })
+        val planned = planCount + " test" + (if (planCount > 1) "s" else "")
+        val ran = state.currentTest - 1
+        diag("Looks like you planned " + planned + " but ran " + ran + ".")
+      }
+
       if (state.currentTest == 1) {
         diag("No tests run!")
       }
-      else {
+
+      if (state.failCount > 0) {
         val count = state.failCount
         val fails = count + " test" + (if (count > 1) "s" else "")
-        val total = state.currentTest - 1
+        val total =
+          state.currentTest - 1 + (if (state.matchesPlan) "" else " run")
         diag("Looks like you failed " + fails + " of " + total + ".")
       }
     }
@@ -103,7 +115,12 @@ class TestBuilder (
     def currentTest: Int =
       failCount + passCount + 1
 
+    def matchesPlan: Boolean = plan match {
+      case Some(p) => p.plan == failCount + passCount
+      case None    => true
+    }
+
     def isPassing: Boolean =
-      currentTest > 1 && failCount == 0
+      currentTest > 1 && failCount == 0 && matchesPlan
   }
 }
