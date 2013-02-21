@@ -36,10 +36,7 @@ object TAP {
       plan.message
     )
 
-  def bailOut (message: String): String =
-    bailOut(Some(message))
-
-  def bailOut (message: Option[String] = None) =
+  def bailOut (message: Message) =
     join(Some("Bail out!"), message)
 
   private def join (strings: Option[Any]*): String =
