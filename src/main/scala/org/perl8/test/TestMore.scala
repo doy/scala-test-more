@@ -16,8 +16,8 @@ class TestMore (
     this(None, out)
 
   def delayedInit (body: => Unit) {
-    todo = NoMessage
-    builder = new TestBuilder(plan, out, 0, NoMessage)
+    todo     = NoMessage
+    builder  = new TestBuilder(plan, out, 0, NoMessage)
     testBody = () => body
   }
 
@@ -25,9 +25,8 @@ class TestMore (
     if (testBody == null) {
       delayedInit { }
     }
-    else {
-      testBody()
-    }
+
+    testBody()
     builder.doneTesting
     if (builder.isPassing) {
       0
