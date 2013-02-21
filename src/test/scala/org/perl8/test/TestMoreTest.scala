@@ -1,8 +1,6 @@
-package org.perl8.test.tests.testmore
+package org.perl8.test
 
 import org.scalatest.FunSuite
-
-import org.perl8.test.TestMore
 
 import java.io.ByteArrayOutputStream
 
@@ -59,7 +57,7 @@ class MyBasicTest extends TestMore(OutputContainer.output) {
   }
 }
 
-class Basic extends FunSuite {
+class TestMoreTest extends FunSuite {
   test ("basic") {
     assert((new MyBasicTest).run == 9)
 
@@ -68,63 +66,63 @@ class Basic extends FunSuite {
       "ok 1 - it works!\n" +
       "not ok 2 - it doesn't work!\n" +
       "#   Failed test 'it doesn't work!'\n" +
-      "#   at basic.scala line 16.\n" +
+      "#   at TestMoreTest.scala line 14.\n" +
       "ok 3\n" +
       "not ok 4\n" +
-      "#   Failed test at basic.scala line 18.\n" +
+      "#   Failed test at TestMoreTest.scala line 16.\n" +
       "# is\n" +
       "ok 5 - it works!\n" +
       "not ok 6 - it doesn't work!\n" +
       "#   Failed test 'it doesn't work!'\n" +
-      "#   at basic.scala line 22.\n" +
+      "#   at TestMoreTest.scala line 20.\n" +
       "#          got: '1'\n" +
       "#     expected: '0'\n" +
       "ok 7\n" +
       "not ok 8\n" +
-      "#   Failed test at basic.scala line 24.\n" +
+      "#   Failed test at TestMoreTest.scala line 22.\n" +
       "#          got: '1'\n" +
       "#     expected: '0'\n" +
       "# isnt\n" +
       "ok 9 - it works!\n" +
       "not ok 10 - it doesn't work!\n" +
       "#   Failed test 'it doesn't work!'\n" +
-      "#   at basic.scala line 28.\n" +
+      "#   at TestMoreTest.scala line 26.\n" +
       "#          got: '1'\n" +
       "#     expected: anything else\n" +
       "ok 11\n" +
       "not ok 12\n" +
-      "#   Failed test at basic.scala line 30.\n" +
+      "#   Failed test at TestMoreTest.scala line 28.\n" +
       "#          got: '1'\n" +
       "#     expected: anything else\n" +
       "# like\n" +
       "ok 13 - it works!\n" +
       "not ok 14 - it doesn't work!\n" +
       "#   Failed test 'it doesn't work!'\n" +
-      "#   at basic.scala line 34.\n" +
+      "#   at TestMoreTest.scala line 32.\n" +
       "#                   'foo'\n" +
       "#     doesn't match 'bar'\n" +
       "ok 15\n" +
       "not ok 16\n" +
-      "#   Failed test at basic.scala line 36.\n" +
+      "#   Failed test at TestMoreTest.scala line 34.\n" +
       "#                   'foo'\n" +
       "#     doesn't match 'bar'\n" +
       "    # unlike\n" +
       "    ok 1 - it works!\n" +
       "    not ok 2 - it doesn't work!\n" +
       "    #   Failed test 'it doesn't work!'\n" +
-      "    #   at basic.scala line 41.\n" +
+      "    #   at TestMoreTest.scala line 39.\n" +
       "    #                   'foo'\n" +
       "    #           matches 'foo'\n" +
       "    ok 3\n" +
       "    not ok 4\n" +
-      "    #   Failed test at basic.scala line 43.\n" +
+      "    #   Failed test at TestMoreTest.scala line 41.\n" +
       "    #                   'foo'\n" +
       "    #           matches 'foo'\n" +
       "    1..4\n" +
       "    # Looks like you failed 2 tests of 4.\n" +
       "not ok 17 - unlikes\n" +
       "#   Failed test 'unlikes'\n" +
-      "#   at basic.scala line 38.\n" +
+      "#   at TestMoreTest.scala line 36.\n" +
       "# pass\n" +
       "ok 18 - it works!\n" +
       "ok 19\n" +
@@ -133,9 +131,9 @@ class Basic extends FunSuite {
       "# fail\n" +
       "not ok 22 - it doesn't work # TODO not working yet\n" +
       "#   Failed (TODO) test 'it doesn't work'\n" +
-      "#   at basic.scala line 57.\n" +
+      "#   at TestMoreTest.scala line 55.\n" +
       "not ok 23 # TODO not working yet\n" +
-      "#   Failed (TODO) test at basic.scala line 58.\n" +
+      "#   Failed (TODO) test at TestMoreTest.scala line 56.\n" +
       "1..23\n" +
       "# Looks like you failed 9 tests of 23.\n"
 

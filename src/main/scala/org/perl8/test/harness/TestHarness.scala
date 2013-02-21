@@ -1,4 +1,6 @@
-package org.perl8.test
+package org.perl8.test.harness
+
+import org.perl8.test.Test
 
 object TestHarness {
   def main (args: Array[String]) {

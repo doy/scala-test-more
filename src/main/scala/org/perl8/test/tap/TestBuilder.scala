@@ -1,8 +1,8 @@
-package org.perl8.test
+package org.perl8.test.tap
 
 import java.io.OutputStream
 
-import Utils._
+import org.perl8.test.Utils._
 
 class TestBuilder (
   plan:             Option[Plan],
@@ -10,7 +10,7 @@ class TestBuilder (
   val indent:       Int,
   private val name: Message
 ) {
-  plan.foreach(p => println(TAP.plan(p)))
+  plan.foreach(p => println(Producer.plan(p)))
 
   def this (
     plan:   Plan,
@@ -32,29 +32,29 @@ class TestBuilder (
     description: Message = NoMessage,
     todo:        Message = NoMessage
   ) {
-    val line = TAP.result(test, state.currentTest, description, todo)
+    val line = Producer.result(test, state.currentTest, description, todo)
     state.ok(test || todo.isDefined)
     println(line)
   }
 
   def skip (reason: Message = NoMessage) {
-    val line = TAP.skip(state.currentTest, reason)
+    val line = Producer.skip(state.currentTest, reason)
     state.ok(true)
     println(line)
   }
 
   def diag (message: Message) {
-    message.foreach(m => println(TAP.comment(m)))
+    message.foreach(m => println(Producer.comment(m)))
   }
 
   def bailOut (message: Message = NoMessage) {
-    println(TAP.bailOut(message))
+    println(Producer.bailOut(message))
     throw new BailOutException(message.getOrElse(""))
   }
 
   def doneTesting () {
     plan match {
-      case None => println(TAP.plan(state.currentTest - 1))
+      case None => println(Producer.plan(state.currentTest - 1))
       case _    => ()
     }
 

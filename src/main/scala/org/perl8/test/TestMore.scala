@@ -1,5 +1,6 @@
 package org.perl8.test
 
+import org.perl8.test.tap.TestBuilder
 import org.perl8.test.Utils._
 
 import java.io.OutputStream

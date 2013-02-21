@@ -1,8 +1,8 @@
-package org.perl8.test
+package org.perl8.test.tap
 
-import Utils._
+import org.perl8.test.Utils._
 
-object TAP {
+object Producer {
   def result (
     cond: Boolean,
     num:  Int,

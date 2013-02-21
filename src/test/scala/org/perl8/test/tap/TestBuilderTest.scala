@@ -1,13 +1,15 @@
-package org.perl8.test.tests.testbuilder
+package org.perl8.test
 
 import org.scalatest.FunSuite
 import org.scalatest.BeforeAndAfter
 
-import org.perl8.test._
+import org.perl8.test.tap.TestBuilder
+import org.perl8.test.BailOutException
+import org.perl8.test.SkipAll
 
 import java.io.ByteArrayOutputStream
 
-class Basic extends FunSuite with BeforeAndAfter {
+class TestBuilderTest extends FunSuite with BeforeAndAfter {
   private val output = new ByteArrayOutputStream
 
   before {
