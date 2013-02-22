@@ -64,7 +64,7 @@ class SummaryReporter extends MultiTestReporter {
       for (name <- (todoSucceeded ++ testsFailed).keys) {
         val result = resultMap(name)
         println(
-          name + (" " * (maxLength - name.length)) + " " +
+          name + (" " * (maxLength - name.length)) + "               " +
           "(Tests: " + result.results.length + " " +
           "Failed: " + testsFailed.getOrElse(name, Seq()).length + ")"
         )
