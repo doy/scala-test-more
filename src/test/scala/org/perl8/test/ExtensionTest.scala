@@ -21,6 +21,9 @@ trait NumberZeroWrapped extends NumberZero { this: TestMore =>
 }
 
 class ExtensionTest extends TestMore {
+  val lineZero = Thread.currentThread.getStackTrace()(1).getLineNumber + 3
+  def line (offset: Int) = lineZero + offset
+
   private class ExtensionTestTest extends TestMore with NumberZeroWrapped {
     is_zero(0, "it's zero")
     is_zero(1, "it's not zero")
@@ -41,13 +44,13 @@ class ExtensionTest extends TestMore {
     "ok 1 - it's zero\n" +
     "not ok 2 - it's not zero\n" +
     "#   Failed test 'it's not zero'\n" +
-    "#   at ExtensionTest.scala line 26.\n" +
+    "#   at ExtensionTest.scala line " + line(2) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "ok 3 - the number is zero\n" +
     "not ok 4 - the number is zero\n" +
     "#   Failed test 'the number is zero'\n" +
-    "#   at ExtensionTest.scala line 28.\n" +
+    "#   at ExtensionTest.scala line " + line(4) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "1..4\n" +

@@ -9,6 +9,9 @@ class TestMoreTest extends TestMore {
     val output = new ByteArrayOutputStream
   }
 
+  val lineZero = Thread.currentThread.getStackTrace()(1).getLineNumber + 3
+  def line (offset: Int) = lineZero + offset
+
   private class MyBasicTest extends TestMore {
     diag("ok")
     ok(1 == 1, "it works!")
@@ -71,63 +74,63 @@ class TestMoreTest extends TestMore {
     "ok 1 - it works!\n" +
     "not ok 2 - it doesn't work!\n" +
     "#   Failed test 'it doesn't work!'\n" +
-    "#   at TestMoreTest.scala line 15.\n" +
+    "#   at TestMoreTest.scala line " + line(3) + ".\n" +
     "ok 3\n" +
     "not ok 4\n" +
-    "#   Failed test at TestMoreTest.scala line 17.\n" +
+    "#   Failed test at TestMoreTest.scala line " + line(5) + ".\n" +
     "# is\n" +
     "ok 5 - it works!\n" +
     "not ok 6 - it doesn't work!\n" +
     "#   Failed test 'it doesn't work!'\n" +
-    "#   at TestMoreTest.scala line 21.\n" +
+    "#   at TestMoreTest.scala line " + line(9) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "ok 7\n" +
     "not ok 8\n" +
-    "#   Failed test at TestMoreTest.scala line 23.\n" +
+    "#   Failed test at TestMoreTest.scala line " + line(11) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "# isnt\n" +
     "ok 9 - it works!\n" +
     "not ok 10 - it doesn't work!\n" +
     "#   Failed test 'it doesn't work!'\n" +
-    "#   at TestMoreTest.scala line 27.\n" +
+    "#   at TestMoreTest.scala line " + line(15) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: anything else\n" +
     "ok 11\n" +
     "not ok 12\n" +
-    "#   Failed test at TestMoreTest.scala line 29.\n" +
+    "#   Failed test at TestMoreTest.scala line " + line(17) + ".\n" +
     "#          got: '1'\n" +
     "#     expected: anything else\n" +
     "# like\n" +
     "ok 13 - it works!\n" +
     "not ok 14 - it doesn't work!\n" +
     "#   Failed test 'it doesn't work!'\n" +
-    "#   at TestMoreTest.scala line 33.\n" +
+    "#   at TestMoreTest.scala line " + line(21) + ".\n" +
     "#                   'foo'\n" +
     "#     doesn't match 'bar'\n" +
     "ok 15\n" +
     "not ok 16\n" +
-    "#   Failed test at TestMoreTest.scala line 35.\n" +
+    "#   Failed test at TestMoreTest.scala line " + line(23) + ".\n" +
     "#                   'foo'\n" +
     "#     doesn't match 'bar'\n" +
     "    # unlike\n" +
     "    ok 1 - it works!\n" +
     "    not ok 2 - it doesn't work!\n" +
     "    #   Failed test 'it doesn't work!'\n" +
-    "    #   at TestMoreTest.scala line 40.\n" +
+    "    #   at TestMoreTest.scala line " + line(28) + ".\n" +
     "    #                   'foo'\n" +
     "    #           matches 'foo'\n" +
     "    ok 3\n" +
     "    not ok 4\n" +
-    "    #   Failed test at TestMoreTest.scala line 42.\n" +
+    "    #   Failed test at TestMoreTest.scala line " + line(30) + ".\n" +
     "    #                   'foo'\n" +
     "    #           matches 'foo'\n" +
     "    1..4\n" +
     "    # Looks like you failed 2 tests of 4.\n" +
     "not ok 17 - unlikes\n" +
     "#   Failed test 'unlikes'\n" +
-    "#   at TestMoreTest.scala line 37.\n" +
+    "#   at TestMoreTest.scala line " + line(25) + ".\n" +
     "# pass\n" +
     "ok 18 - it works!\n" +
     "ok 19\n" +
@@ -136,9 +139,9 @@ class TestMoreTest extends TestMore {
     "# fail\n" +
     "not ok 22 - it doesn't work # TODO not working yet\n" +
     "#   Failed (TODO) test 'it doesn't work'\n" +
-    "#   at TestMoreTest.scala line 56.\n" +
+    "#   at TestMoreTest.scala line " + line(44) + ".\n" +
     "not ok 23 # TODO not working yet\n" +
-    "#   Failed (TODO) test at TestMoreTest.scala line 57.\n" +
+    "#   Failed (TODO) test at TestMoreTest.scala line " + line(45) + ".\n" +
     "1..23\n" +
     "# Looks like you failed 9 tests of 23.\n"
 
