@@ -10,12 +10,14 @@ class TestBuilderTest extends TestMore {
   subtest ("ok") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder(4)
-      builder.ok(true, "test succeeded")
-      builder.ok(false, "test failed")
-      builder.ok(true)
-      builder.ok(false)
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder(4)
+        builder.ok(true, "test succeeded")
+        builder.ok(false, "test failed")
+        builder.ok(true)
+        builder.ok(false)
+        builder.doneTesting
+      }
     }
 
     val expected =
@@ -32,12 +34,14 @@ class TestBuilderTest extends TestMore {
   subtest ("no plan") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.ok(true, "test succeeded")
-      builder.ok(false, "test failed")
-      builder.ok(true)
-      builder.ok(false)
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.ok(true, "test succeeded")
+        builder.ok(false, "test failed")
+        builder.ok(true)
+        builder.ok(false)
+        builder.doneTesting
+      }
     }
 
     val expected =
@@ -54,8 +58,10 @@ class TestBuilderTest extends TestMore {
   subtest ("empty") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.doneTesting
+      }
     }
 
     val expected =
@@ -68,13 +74,15 @@ class TestBuilderTest extends TestMore {
   subtest ("diag") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.ok(true, "the test passes")
-      builder.ok(false, "the test passes")
-      builder.diag("got false, expected true")
-      builder.ok(true)
-      builder.diag("ending\nnow")
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.ok(true, "the test passes")
+        builder.ok(false, "the test passes")
+        builder.diag("got false, expected true")
+        builder.ok(true)
+        builder.diag("ending\nnow")
+        builder.doneTesting
+      }
     }
 
     val expected =
@@ -93,33 +101,65 @@ class TestBuilderTest extends TestMore {
   subtest ("is passing") {
     val output = new ByteArrayOutputStream
     val oldOut = Console.out
+    val oldErr = Console.err
     Console.withOut(output) {
-      val builder = new TestBuilder
-      Console.withOut(oldOut) { ok(!builder.isPassing) }
-      builder.ok(true)
-      Console.withOut(oldOut) { ok(builder.isPassing)  }
-      builder.ok(false)
-      Console.withOut(oldOut) { ok(!builder.isPassing) }
-      builder.ok(true)
-      Console.withOut(oldOut) { ok(!builder.isPassing) }
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        Console.withOut(oldOut) {
+          Console.withErr(oldErr) {
+            ok(!builder.isPassing)
+          }
+        }
+        builder.ok(true)
+        Console.withOut(oldOut) {
+          Console.withErr(oldErr) {
+            ok(builder.isPassing)
+          }
+        }
+        builder.ok(false)
+        Console.withOut(oldOut) {
+          Console.withErr(oldErr) {
+            ok(!builder.isPassing)
+          }
+        }
+        builder.ok(true)
+        Console.withOut(oldOut) {
+          Console.withErr(oldErr) {
+            ok(!builder.isPassing)
+          }
+        }
+      }
     }
   }
 
   subtest ("bail out") {
     val output = new ByteArrayOutputStream
     val oldOut = Console.out
+    val oldErr = Console.err
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.ok(true)
-      try {
-        builder.bailOut("oh no!")
-        Console.withOut(oldOut) { fail() }
-      }
-      catch {
-        case e: BailOutException => Console.withOut(oldOut) {
-          is(e.message, "oh no!")
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.ok(true)
+        try {
+          builder.bailOut("oh no!")
+          Console.withOut(oldOut) {
+            Console.withErr(oldErr) {
+              fail()
+            }
+          }
         }
-        case _: Throwable => Console.withOut(oldOut) { fail() }
+        catch {
+          case e: BailOutException => Console.withOut(oldOut) {
+            Console.withErr(oldErr) {
+              is(e.message, "oh no!")
+            }
+          }
+          case _: Throwable => Console.withOut(oldOut) {
+            Console.withErr(oldErr) {
+              fail()
+            }
+          }
+        }
       }
     }
 
@@ -133,7 +173,9 @@ class TestBuilderTest extends TestMore {
   subtest ("skip all") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder(SkipAll())
+      Console.withErr(output) {
+        val builder = new TestBuilder(SkipAll())
+      }
     }
 
     val expected =
@@ -145,7 +187,9 @@ class TestBuilderTest extends TestMore {
   subtest ("skip all with reason") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder(SkipAll("foo bar"))
+      Console.withErr(output) {
+        val builder = new TestBuilder(SkipAll("foo bar"))
+      }
     }
 
     val expected =
@@ -157,11 +201,13 @@ class TestBuilderTest extends TestMore {
   subtest ("skip") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.ok(false)
-      builder.skip("not now")
-      builder.skip()
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.ok(false)
+        builder.skip("not now")
+        builder.skip()
+        builder.doneTesting
+      }
     }
 
     val expected =
@@ -177,10 +223,12 @@ class TestBuilderTest extends TestMore {
   subtest ("todo") {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
-      val builder = new TestBuilder
-      builder.ok(false, "do a thing", todo = "not working yet")
-      builder.ok(true, todo = "is it?")
-      builder.doneTesting
+      Console.withErr(output) {
+        val builder = new TestBuilder
+        builder.ok(false, "do a thing", todo = "not working yet")
+        builder.ok(true, todo = "is it?")
+        builder.doneTesting
+      }
     }
 
     val expected =

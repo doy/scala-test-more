@@ -57,7 +57,9 @@ class TestMoreTest extends TestMore {
   }
 
   val exitCode = Console.withOut(OutputContainer.output) {
-    (new MyBasicTest).run
+    Console.withErr(OutputContainer.output) {
+      (new MyBasicTest).run
+    }
   }
 
   is(exitCode, 9, "got the right plan")

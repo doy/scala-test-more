@@ -7,7 +7,7 @@ class TestBuilder (
   val indent:       String,
   private val name: Message
 ) {
-  plan.foreach(p => println(Producer.plan(p)))
+  plan.foreach(p => outLine(Producer.plan(p)))
 
   def this (
     plan:   Plan,
@@ -29,27 +29,31 @@ class TestBuilder (
   ) {
     val line = Producer.result(test, state.currentTest, description, todo)
     state.ok(test || todo.isDefined)
-    println(line)
+    outLine(line)
   }
 
   def skip (reason: Message = NoMessage) {
     val line = Producer.skip(state.currentTest, reason)
     state.ok(true)
-    println(line)
+    outLine(line)
   }
 
   def diag (message: Message) {
-    message.foreach(m => println(Producer.comment(m)))
+    message.foreach(m => errLine(Producer.comment(m)))
+  }
+
+  def note (message: Message) {
+    message.foreach(m => outLine(Producer.comment(m)))
   }
 
   def bailOut (message: Message = NoMessage) {
-    println(Producer.bailOut(message))
+    outLine(Producer.bailOut(message))
     throw new BailOutException(message.getOrElse(""))
   }
 
   def doneTesting () {
     plan match {
-      case None => println(Producer.plan(state.currentTest - 1))
+      case None => outLine(Producer.plan(state.currentTest - 1))
       case _    => ()
     }
 
@@ -86,11 +90,16 @@ class TestBuilder (
 
   private val state = new TestState
 
-  private def println (str: String) {
-    val indented =
-      str.split("\n").map(s => indent + s).mkString("\n")
-    Console.println(indented)
+  private def outLine (str: String) {
+    Console.out.println(withIndent(str))
   }
+
+  private def errLine (str: String) {
+    Console.err.println(withIndent(str))
+  }
+
+  private def withIndent (str: String): String =
+    str.split("\n").map(s => indent + s).mkString("\n")
 
   private class TestState {
     var passCount = 0
