@@ -5,10 +5,6 @@ import java.io.ByteArrayOutputStream
 import org.perl8.test.tap.Consumer
 
 class TestMoreTest extends TestMore {
-  private object OutputContainer {
-    val output = new ByteArrayOutputStream
-  }
-
   val lineZero = Thread.currentThread.getStackTrace()(1).getLineNumber + 3
   def line (offset: Int) = lineZero + offset
 
@@ -61,13 +57,14 @@ class TestMoreTest extends TestMore {
     }
   }
 
-  Console.withOut(OutputContainer.output) {
-    Console.withErr(OutputContainer.output) {
+  val out = new ByteArrayOutputStream
+  Console.withOut(out) {
+    Console.withErr(out) {
       (new MyBasicTest).run
     }
   }
 
-  is(Consumer.parse(OutputContainer.output).exitCode, 9, "got the right plan")
+  is(Consumer.parse(out).exitCode, 9, "got the right plan")
 
   val expected =
     "# ok\n" +
@@ -145,5 +142,5 @@ class TestMoreTest extends TestMore {
     "1..23\n" +
     "# Looks like you failed 9 tests of 23.\n"
 
-  is(OutputContainer.output.toString, expected, "correct tap")
+  is(out.toString, expected, "correct tap")
 }
