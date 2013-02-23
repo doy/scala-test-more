@@ -10,6 +10,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     this(Some(plan))
 
   def delayedInit (body: => Unit) {
+    level    = 0
     todo     = NoMessage
     builder  = new TestBuilder(plan, "", NoMessage)
     testBody = () => body
@@ -133,9 +134,16 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   }
 
   private def failed (desc: Message) {
-    val caller = Thread.currentThread.getStackTrace.drop(1).find(frame => {
-      frame.getFileName != "TestMore.scala"
-    })
+    val stack = Thread.currentThread.getStackTrace.drop(1)
+    def findIdx (level: Int, start: Int): Int = {
+      val idx = stack.indexWhere({ frame =>
+        frame.getFileName != "TestMore.scala"
+      }, start)
+
+      if (level == 0) { idx } else { findIdx(level - 1, idx + 1) }
+    }
+    val idx = findIdx(level, 0)
+    val caller = stack.drop(idx).headOption
     val (file, line) = caller match {
       case Some(frame) => (frame.getFileName, frame.getLineNumber)
       case None        => ("<unknown file>", "<unknown line>")
@@ -151,6 +159,19 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     builder.diag(message + trace)
   }
 
+  def withLevel[T] (newLevel: Int)(body: => T): T = {
+    val oldLevel = level
+    try {
+      // XXX "+4" is something of a hack, not sure how stable it will be
+      level += newLevel + 4
+      body
+    }
+    finally {
+      level = oldLevel
+    }
+  }
+
+  private var level: Int           = _
   private var todo: Message        = _
   private var builder: TestBuilder = _
   private var testBody: () => Unit = _
