@@ -1,20 +1,14 @@
-package org.perl8.test
+package org.perl8.test.tap
 
-import org.scalatest.FunSuite
-import org.scalatest.BeforeAndAfter
+import org.perl8.test.TestMore
 
-import org.perl8.test.tap.TestBuilder
+import java.io.{OutputStream,ByteArrayOutputStream}
 
-import java.io.ByteArrayOutputStream
+import org.perl8.test.Utils._
 
-class TestBuilderTest extends FunSuite with BeforeAndAfter {
-  private val output = new ByteArrayOutputStream
-
-  before {
-    output.reset
-  }
-
-  test ("ok") {
+class TestBuilderTest (out: OutputStream) extends TestMore(out) {
+  subtest ("ok") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(4, output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
@@ -30,10 +24,11 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "not ok 4\n"             +
       "# Looks like you failed 2 tests of 4.\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("no plan") {
+  subtest ("no plan") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
     builder.ok(true, "test succeeded")
     builder.ok(false, "test failed")
@@ -49,10 +44,11 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "1..4\n"                 +
       "# Looks like you failed 2 tests of 4.\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("empty") {
+  subtest ("empty") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
     builder.doneTesting
 
@@ -60,10 +56,11 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "1..0\n" +
       "# No tests run!\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("diag") {
+  subtest ("diag") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
 
     builder.ok(true, "the test passes")
@@ -83,56 +80,67 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "1..3\n"                       +
       "# Looks like you failed 1 test of 3.\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("is passing") {
+  subtest ("is passing") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
 
-    assert(!builder.isPassing)
+    ok(!builder.isPassing)
     builder.ok(true)
-    assert(builder.isPassing)
+    ok(builder.isPassing)
     builder.ok(false)
-    assert(!builder.isPassing)
+    ok(!builder.isPassing)
     builder.ok(true)
-    assert(!builder.isPassing)
+    ok(!builder.isPassing)
   }
 
-  test ("bail out") {
+  subtest ("bail out") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
 
     builder.ok(true)
-    val e = intercept[BailOutException] {
+    try {
       builder.bailOut("oh no!")
+      fail()
     }
-    assert(e.message === "oh no!")
+    catch {
+      case e: BailOutException => {
+        is(e.message, "oh no!")
+      }
+      case _: Throwable => fail()
+    }
 
     val expected =
       "ok 1\n" +
       "Bail out! oh no!\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("skip all") {
+  subtest ("skip all") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(SkipAll(), output)
 
     val expected =
       "1..0 # SKIP\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("skip all with reason") {
+  subtest ("skip all with reason") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(SkipAll("foo bar"), output)
 
     val expected =
       "1..0 # SKIP foo bar\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("skip") {
+  subtest ("skip") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
 
     builder.ok(false)
@@ -147,10 +155,11 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "1..3\n"                +
       "# Looks like you failed 1 test of 3.\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 
-  test ("todo") {
+  subtest ("todo") {
+    val output = new ByteArrayOutputStream
     val builder = new TestBuilder(output)
 
     builder.ok(false, "do a thing", todo = "not working yet")
@@ -162,6 +171,6 @@ class TestBuilderTest extends FunSuite with BeforeAndAfter {
       "ok 2 # TODO is it?\n"                         +
       "1..2\n"
 
-    assert(output.toString === expected)
+    is(output.toString, expected)
   }
 }

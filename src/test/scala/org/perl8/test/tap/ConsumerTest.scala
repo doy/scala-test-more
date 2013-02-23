@@ -1,30 +1,32 @@
 package org.perl8.test.tap
 
-import org.scalatest.FunSuite
+import org.perl8.test.TestMore
+
+import java.io.OutputStream
 
 import org.perl8.test.Utils._
 
-class ConsumerTest extends FunSuite {
-  test ("basic") {
+class ConsumerTest (out: OutputStream) extends TestMore(out) {
+  subtest ("basic") {
     val tap =
       "1..1\n" +
       "ok 1\n"
 
     val result = Consumer.parse(tap)
-    assert(result.plan === NumericPlan(1))
-    assert(result.results.map(_.passed) === Seq(true))
+    is(result.plan, NumericPlan(1), "got the right plan")
+    is(result.results.map(_.passed), Seq(true), "got the right results")
   }
 
-  test ("skip all") {
+  subtest ("skip all") {
     val tap =
       "1..0 # SKIP nope\n"
 
     val result = Consumer.parse(tap)
-    assert(result.plan === SkipAll("nope"))
-    assert(result.results === Seq())
+    is(result.plan, SkipAll("nope"), "got the right plan")
+    is(result.results, Nil, "got the right results")
   }
 
-  test ("more complicated") {
+  subtest ("more complicated") {
     val tap =
       "# starting...\n" +
       "ok 1 - stuff\n" +
@@ -37,19 +39,22 @@ class ConsumerTest extends FunSuite {
       "# Looks like you failed 1 test of 4.\n"
 
     val result = Consumer.parse(tap)
-    assert(result.plan === NumericPlan(4))
-    assert(result.results.map(_.passed) === Seq(true, false, false, true))
-    assert(result.results.map(_.number) === Seq(1, 2, 3, 4))
-    assert(
-      result.results.map(_.description) === Seq(
+    is(result.plan, NumericPlan(4))
+    is(result.results.map(_.passed), Seq(true, false, false, true))
+    is(result.results.map(_.number), Seq(1, 2, 3, 4))
+    is(
+      result.results.map(_.description),
+      Seq(
         "- stuff",
         "- does this work?",
         "- eventually",
         ""
       )
     )
-    assert(
-      result.results.map(_.directive) === Seq(
+
+    is(
+      result.results.map(_.directive),
+      Seq(
         None,
         None,
         Some(TodoDirective(Some("doesn't work yet"))),
@@ -58,7 +63,7 @@ class ConsumerTest extends FunSuite {
     )
   }
 
-  test ("subtests") {
+  subtest ("subtests") {
     val tap =
       "ok 1 - not subtest\n" +
       "    ok 1 - passed\n" +
@@ -74,50 +79,53 @@ class ConsumerTest extends FunSuite {
       "# Looks like you failed 1 test of 2.\n"
 
     val result = Consumer.parse(tap)
-    assert(result.plan === NumericPlan(2))
-    assert(result.results.map(_.passed) === Seq(true, false))
-    assert(result.results.map(_.number) === Seq(1, 2))
-    assert(
-      result.results.map(_.description) === Seq(
+    is(result.plan, NumericPlan(2))
+    is(result.results.map(_.passed), Seq(true, false))
+    is(result.results.map(_.number), Seq(1, 2))
+    is(
+      result.results.map(_.description),
+      Seq(
         "- not subtest",
         "- subtest"
       )
     )
-    assert(result.results.map(_.directive) === Seq(None, None))
+    is(result.results.map(_.directive), Seq(None, None))
 
-    assert(result.results(0).subtest === None)
-    assert(result.results(1).subtest.isDefined)
+    is(result.results(0).subtest, None)
+    ok(result.results(1).subtest.isDefined)
 
     val subtest = result.results(1).subtest.get
-    assert(subtest.plan === NumericPlan(4))
-    assert(subtest.results.map(_.passed) === Seq(true, false, true, true))
-    assert(subtest.results.map(_.number) === Seq(1, 2, 3, 4))
-    assert(
-      subtest.results.map(_.description) === Seq(
+    is(subtest.plan, NumericPlan(4))
+    is(subtest.results.map(_.passed), Seq(true, false, true, true))
+    is(subtest.results.map(_.number), Seq(1, 2, 3, 4))
+    is(
+      subtest.results.map(_.description),
+      Seq(
         "- passed",
         "- failed",
         "- passed again",
         "- nested subtests"
       )
     )
-    assert(subtest.results.map(_.directive) === Seq(None, None, None, None))
+    is(subtest.results.map(_.directive), Seq(None, None, None, None))
 
-    assert(subtest.results(0).subtest === None)
-    assert(subtest.results(1).subtest === None)
-    assert(subtest.results(2).subtest === None)
-    assert(subtest.results(3).subtest.isDefined)
+    is(subtest.results(0).subtest, None)
+    is(subtest.results(1).subtest, None)
+    is(subtest.results(2).subtest, None)
+    ok(subtest.results(3).subtest.isDefined)
 
     val subsubtest = subtest.results(3).subtest.get
-    assert(subsubtest.plan === NumericPlan(1))
-    assert(subsubtest.results.map(_.passed) === Seq(true))
-    assert(subsubtest.results.map(_.number) === Seq(1))
-    assert(
-      subsubtest.results.map(_.description) === Seq(
+    is(subsubtest.plan, NumericPlan(1))
+    is(subsubtest.results.map(_.passed), Seq(true))
+    is(subsubtest.results.map(_.number), Seq(1))
+    is(
+      subsubtest.results.map(_.description),
+      Seq(
         "- sub-sub-test"
       )
     )
-    assert(subsubtest.results.map(_.directive) === Seq(None))
+    is(subsubtest.results.map(_.directive), Seq(None))
 
-    assert(subsubtest.results(0).subtest === None)
+    is(subsubtest.results(0).subtest, None)
   }
 }
