@@ -1,6 +1,6 @@
 package org.perl8.test.harness
 
-import java.io.{OutputStream,ByteArrayOutputStream}
+import java.io.ByteArrayOutputStream
 
 import org.perl8.test.Test
 import org.perl8.test.tap
@@ -22,8 +22,10 @@ class SummaryReporter extends MultiTestReporter {
       print(name + ("." * (maxLength - name.length)) + "... ")
 
       val out = new ByteArrayOutputStream
-      val test = newInstance[Test, OutputStream](name, out)
-      val exitCode = test.run
+      val test = newInstance[Test](name)
+      val exitCode = Console.withOut(out) {
+        test.run
+      }
       val result = tap.Consumer.parse(out)
 
       if (exitCode == 0) {

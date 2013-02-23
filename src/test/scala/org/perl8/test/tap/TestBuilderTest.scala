@@ -2,19 +2,21 @@ package org.perl8.test.tap
 
 import org.perl8.test.TestMore
 
-import java.io.{OutputStream,ByteArrayOutputStream}
+import java.io.ByteArrayOutputStream
 
 import org.perl8.test.Utils._
 
-class TestBuilderTest (out: OutputStream) extends TestMore(out) {
+class TestBuilderTest extends TestMore {
   subtest ("ok") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(4, output)
-    builder.ok(true, "test succeeded")
-    builder.ok(false, "test failed")
-    builder.ok(true)
-    builder.ok(false)
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder(4)
+      builder.ok(true, "test succeeded")
+      builder.ok(false, "test failed")
+      builder.ok(true)
+      builder.ok(false)
+      builder.doneTesting
+    }
 
     val expected =
       "1..4\n"                 +
@@ -29,12 +31,14 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("no plan") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-    builder.ok(true, "test succeeded")
-    builder.ok(false, "test failed")
-    builder.ok(true)
-    builder.ok(false)
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.ok(true, "test succeeded")
+      builder.ok(false, "test failed")
+      builder.ok(true)
+      builder.ok(false)
+      builder.doneTesting
+    }
 
     val expected =
       "ok 1 test succeeded\n"  +
@@ -49,8 +53,10 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("empty") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.doneTesting
+    }
 
     val expected =
       "1..0\n" +
@@ -61,14 +67,15 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("diag") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-
-    builder.ok(true, "the test passes")
-    builder.ok(false, "the test passes")
-    builder.diag("got false, expected true")
-    builder.ok(true)
-    builder.diag("ending\nnow")
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.ok(true, "the test passes")
+      builder.ok(false, "the test passes")
+      builder.diag("got false, expected true")
+      builder.ok(true)
+      builder.diag("ending\nnow")
+      builder.doneTesting
+    }
 
     val expected =
       "ok 1 the test passes\n"       +
@@ -85,31 +92,35 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("is passing") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-
-    ok(!builder.isPassing)
-    builder.ok(true)
-    ok(builder.isPassing)
-    builder.ok(false)
-    ok(!builder.isPassing)
-    builder.ok(true)
-    ok(!builder.isPassing)
+    val oldOut = Console.out
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      Console.withOut(oldOut) { ok(!builder.isPassing) }
+      builder.ok(true)
+      Console.withOut(oldOut) { ok(builder.isPassing)  }
+      builder.ok(false)
+      Console.withOut(oldOut) { ok(!builder.isPassing) }
+      builder.ok(true)
+      Console.withOut(oldOut) { ok(!builder.isPassing) }
+    }
   }
 
   subtest ("bail out") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-
-    builder.ok(true)
-    try {
-      builder.bailOut("oh no!")
-      fail()
-    }
-    catch {
-      case e: BailOutException => {
-        is(e.message, "oh no!")
+    val oldOut = Console.out
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.ok(true)
+      try {
+        builder.bailOut("oh no!")
+        Console.withOut(oldOut) { fail() }
       }
-      case _: Throwable => fail()
+      catch {
+        case e: BailOutException => Console.withOut(oldOut) {
+          is(e.message, "oh no!")
+        }
+        case _: Throwable => Console.withOut(oldOut) { fail() }
+      }
     }
 
     val expected =
@@ -121,7 +132,9 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("skip all") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(SkipAll(), output)
+    Console.withOut(output) {
+      val builder = new TestBuilder(SkipAll())
+    }
 
     val expected =
       "1..0 # SKIP\n"
@@ -131,7 +144,9 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("skip all with reason") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(SkipAll("foo bar"), output)
+    Console.withOut(output) {
+      val builder = new TestBuilder(SkipAll("foo bar"))
+    }
 
     val expected =
       "1..0 # SKIP foo bar\n"
@@ -141,12 +156,13 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("skip") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-
-    builder.ok(false)
-    builder.skip("not now")
-    builder.skip()
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.ok(false)
+      builder.skip("not now")
+      builder.skip()
+      builder.doneTesting
+    }
 
     val expected =
       "not ok 1\n"            +
@@ -160,11 +176,12 @@ class TestBuilderTest (out: OutputStream) extends TestMore(out) {
 
   subtest ("todo") {
     val output = new ByteArrayOutputStream
-    val builder = new TestBuilder(output)
-
-    builder.ok(false, "do a thing", todo = "not working yet")
-    builder.ok(true, todo = "is it?")
-    builder.doneTesting
+    Console.withOut(output) {
+      val builder = new TestBuilder
+      builder.ok(false, "do a thing", todo = "not working yet")
+      builder.ok(true, todo = "is it?")
+      builder.doneTesting
+    }
 
     val expected =
       "not ok 1 do a thing # TODO not working yet\n" +

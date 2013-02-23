@@ -3,22 +3,15 @@ package org.perl8.test
 import org.perl8.test.tap.TestBuilder
 import org.perl8.test.Utils._
 
-import java.io.OutputStream
 import scala.util.matching.Regex
 
-class TestMore (
-  plan: Option[Plan],
-  out:  OutputStream
-) extends Test with DelayedInit {
-  def this (plan: Plan, out: OutputStream = System.out) =
-    this(Some(plan), out)
-
-  def this (out: OutputStream = System.out) =
-    this(None, out)
+class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
+  def this (plan: Plan) =
+    this(Some(plan))
 
   def delayedInit (body: => Unit) {
     todo     = NoMessage
-    builder  = new TestBuilder(plan, out, 0, NoMessage)
+    builder  = new TestBuilder(plan, "", NoMessage)
     testBody = () => body
   }
 
@@ -126,8 +119,7 @@ class TestMore (
     val success = try {
       builder = new TestBuilder(
         plan,
-        out,
-        oldBuilder.indent + 1,
+        oldBuilder.indent + "    ",
         name.map(n => "- " + n)
       )
       body

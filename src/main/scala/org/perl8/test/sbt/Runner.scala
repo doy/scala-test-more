@@ -1,7 +1,6 @@
 package org.perl8.test.sbt
 
 import org.scalatools.testing.{EventHandler,Event,Result}
-import java.io.{OutputStream,ByteArrayOutputStream}
 
 import org.perl8.test.harness.Utils._
 import org.perl8.test.harness.SummaryReporter

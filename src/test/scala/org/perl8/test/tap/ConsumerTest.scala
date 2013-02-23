@@ -2,11 +2,9 @@ package org.perl8.test.tap
 
 import org.perl8.test.TestMore
 
-import java.io.OutputStream
-
 import org.perl8.test.Utils._
 
-class ConsumerTest (out: OutputStream) extends TestMore(out) {
+class ConsumerTest extends TestMore {
   subtest ("basic") {
     val tap =
       "1..1\n" +

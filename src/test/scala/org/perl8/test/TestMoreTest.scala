@@ -1,13 +1,13 @@
 package org.perl8.test
 
-import java.io.{OutputStream,ByteArrayOutputStream}
+import java.io.ByteArrayOutputStream
 
-class TestMoreTest (out: OutputStream) extends TestMore(out) {
+class TestMoreTest extends TestMore {
   private object OutputContainer {
     val output = new ByteArrayOutputStream
   }
 
-  private class MyBasicTest extends TestMore(OutputContainer.output) {
+  private class MyBasicTest extends TestMore {
     diag("ok")
     ok(1 == 1, "it works!")
     ok(0 == 1, "it doesn't work!")
@@ -56,7 +56,11 @@ class TestMoreTest (out: OutputStream) extends TestMore(out) {
     }
   }
 
-  is((new MyBasicTest).run, 9, "got the right plan")
+  val exitCode = Console.withOut(OutputContainer.output) {
+    (new MyBasicTest).run
+  }
+
+  is(exitCode, 9, "got the right plan")
 
   val expected =
     "# ok\n" +

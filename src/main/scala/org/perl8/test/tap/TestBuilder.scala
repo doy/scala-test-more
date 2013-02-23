@@ -1,31 +1,26 @@
 package org.perl8.test.tap
 
-import java.io.OutputStream
-
 import org.perl8.test.Utils._
 
 class TestBuilder (
   plan:             Option[Plan],
-  out:              OutputStream,
-  val indent:       Int,
+  val indent:       String,
   private val name: Message
 ) {
   plan.foreach(p => println(Producer.plan(p)))
 
   def this (
     plan:   Plan,
-    out:    OutputStream = System.out,
-    indent: Int          = 0,
+    indent: String       = "",
     name:   Message      = NoMessage
   ) =
-    this(Some(plan), out, indent, name)
+    this(Some(plan), indent, name)
 
   def this (
-    out:    OutputStream = System.out,
-    indent: Int          = 0,
+    indent: String       = "",
     name:   Message      = NoMessage
   ) =
-    this(None, out, indent, name)
+    this(None, indent, name)
 
   def ok (
     test:        Boolean,
@@ -92,11 +87,9 @@ class TestBuilder (
   private val state = new TestState
 
   private def println (str: String) {
-    Console.withOut(out) {
-      val indented =
-        str.split("\n").map(s => (" " * (indent * 4)) + s).mkString("\n")
-      Console.println(indented)
-    }
+    val indented =
+      str.split("\n").map(s => indent + s).mkString("\n")
+    Console.println(indented)
   }
 
   private class TestState {
