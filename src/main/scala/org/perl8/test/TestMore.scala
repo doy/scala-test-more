@@ -1,8 +1,8 @@
 package org.perl8.test
 
-import org.perl8.test.tap.TestBuilder
-
 import scala.util.matching.Regex
+
+import org.perl8.test.tap.TestBuilder
 
 class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   def this (plan: Plan) =
