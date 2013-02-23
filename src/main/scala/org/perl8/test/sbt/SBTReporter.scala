@@ -31,11 +31,9 @@ class SBTReporter (
             Result.Success
           }
           else if (r.directive.isDefined) {
-            logDebug("Skipped test " + r.description)
             Result.Skipped
           }
           else {
-            logError("Failed test " + r.description)
             Result.Failure
           }
         val error: Throwable = null
