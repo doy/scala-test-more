@@ -23,12 +23,12 @@ object TestHarness {
     }
 
     val exitCode = if (multi) {
-      val testNames = args
+      val testNames = args.drop(idx)
       val reporter = newInstance[MultiTestReporter](reporterName)
       reporter.run(testNames)
     }
     else {
-      val testName = args(0)
+      val testName = args(idx)
       val reporter = newInstance[Reporter](reporterName)
       reporter.run(testName)
     }
