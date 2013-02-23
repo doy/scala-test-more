@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream
 import org.perl8.test.Test
 import org.perl8.test.tap
 import org.perl8.test.tap.{TAPResult,TodoDirective}
-import Utils._
 
 class SummaryReporter extends MultiTestReporter {
   def run (testNames: Seq[String]): Int = {

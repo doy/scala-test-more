@@ -1,8 +1,6 @@
 package org.perl8.test.tap
 
-import org.perl8.test.TestMore
-
-import org.perl8.test.Utils._
+import org.perl8.test.{TestMore,SkipAll,NumericPlan}
 
 class ConsumerTest extends TestMore {
   subtest ("basic") {

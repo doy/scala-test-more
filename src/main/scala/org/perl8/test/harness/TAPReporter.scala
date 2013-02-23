@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream
 
 import org.perl8.test.tap
 import org.perl8.test.Test
-import Utils._
 
 class TAPReporter extends Reporter {
   def run (testName: String): Int = {

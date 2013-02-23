@@ -1,6 +1,6 @@
 package org.perl8.test.tap
 
-import org.perl8.test.Utils._
+import org.perl8.test._
 
 class TestBuilder (
   plan:             Option[Plan],

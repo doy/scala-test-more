@@ -2,7 +2,6 @@ package org.perl8.test.sbt
 
 import org.scalatools.testing.{EventHandler,Logger}
 
-import org.perl8.test.harness.Utils._
 import org.perl8.test.harness.SummaryReporter
 import org.perl8.test.Test
 

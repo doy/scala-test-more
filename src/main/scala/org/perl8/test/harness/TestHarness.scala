@@ -1,9 +1,8 @@
 package org.perl8.test.harness
 
-import org.perl8.test.Test
-import Utils._
-
 object TestHarness {
+  import org.perl8.test.Test
+
   def main (args: Array[String]) {
     val (reporterName, idx, multi) = if (args.length >= 2 && args(0) == "-r") {
       (args(1), 2, false)

@@ -1,11 +1,11 @@
 package org.perl8.test.tap
 
-import org.perl8.test.Utils._
-
-import scala.util.parsing.combinator._
-import java.io.OutputStream
+import org.perl8.test._
 
 object Consumer {
+  import scala.util.parsing.combinator._
+  import java.io.OutputStream
+
   def parse (input: String): TAPResult = {
     import TAPParser.{parseAll,tap,Success,NoSuccess}
 

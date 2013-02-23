@@ -1,8 +1,8 @@
-package org.perl8.test.harness
+package org.perl8.test
 
-import scala.reflect.{ClassTag,classTag}
+package object harness {
+  import scala.reflect.{ClassTag,classTag}
 
-object Utils {
   def loadClass[T: ClassTag] (className: String): Class[_] =
     classTag[T].runtimeClass.getClassLoader.loadClass(className)
 

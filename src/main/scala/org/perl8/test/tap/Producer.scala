@@ -1,8 +1,8 @@
 package org.perl8.test.tap
 
-import org.perl8.test.Utils._
-
 object Producer {
+  import org.perl8.test._
+
   def result (
     cond: Boolean,
     num:  Int,
