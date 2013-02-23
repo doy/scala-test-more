@@ -17,7 +17,7 @@ object Utils {
   }
 
   case class SkipAll (
-    override val message: Option[String]
+    override val message: Option[String] = None
   ) extends Plan {
     override val plan    = 0
     override val skipAll = true
@@ -25,7 +25,6 @@ object Utils {
 
   object SkipAll {
     def apply (reason: String) = new SkipAll(Some(reason))
-    def apply ()               = new SkipAll(None)
   }
 
   trait Message

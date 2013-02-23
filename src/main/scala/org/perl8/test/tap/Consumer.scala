@@ -37,8 +37,8 @@ object Consumer {
 
     def plan: Parser[Plan] =
       (planValue <~ ws) ~ opt(planDirective) ^^ {
-        case planValue ~ Some(SkipDirective(d)) => new SkipAll(d)
-        case planValue ~ None                   => new NumericPlan(planValue)
+        case planValue ~ Some(SkipDirective(d)) => SkipAll(d)
+        case planValue ~ None                   => NumericPlan(planValue)
       }
 
     def result (indent: String): Parser[TestResult] =
