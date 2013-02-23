@@ -116,9 +116,8 @@ class TestBuilder (
     def currentTest: Int =
       failCount + passCount + 1
 
-    def matchesPlan: Boolean = plan match {
-      case Some(p) => p.plan == failCount + passCount
-      case None    => true
+    def matchesPlan: Boolean = plan.forall { p =>
+      p.plan == failCount + passCount
     }
 
     def isPassing: Boolean =
