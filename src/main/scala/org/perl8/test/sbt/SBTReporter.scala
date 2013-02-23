@@ -41,13 +41,13 @@ class SBTReporter (
       eventHandler.handle(event)
     }
 
-    if (result.results.exists { r => !r.passed && !r.directive.isDefined }) {
-      logError(testName + " failed.")
-      1
-    }
-    else {
+    if (result.success) {
       logInfo(testName + " succeeded.")
       0
+    }
+    else {
+      logError(testName + " failed.")
+      1
     }
   }
 

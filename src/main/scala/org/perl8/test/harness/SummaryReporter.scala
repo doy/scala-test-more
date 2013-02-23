@@ -10,12 +10,12 @@ import Utils._
 class SummaryReporter extends MultiTestReporter {
   def run (testNames: Seq[String]): Int = {
     val results = runTests(testNames)
-    val success = results.values.map(_._1).forall(_ == 0)
+    val success = results.values.forall(_.success)
     printTestSummary(success, results)
     if (success) 0 else 1
   }
 
-  def runTests (testNames: Seq[String]): Map[String, (Int, TAPResult)] = {
+  def runTests (testNames: Seq[String]): Map[String, TAPResult] = {
     val maxLength = testNames.map(_.length).max
 
     testNames.map { name =>
@@ -23,12 +23,12 @@ class SummaryReporter extends MultiTestReporter {
 
       val out = new ByteArrayOutputStream
       val test = newInstance[Test](name)
-      val exitCode = Console.withOut(out) {
+      Console.withOut(out) {
         test.run
       }
       val result = tap.Consumer.parse(out)
 
-      if (exitCode == 0) {
+      if (result.success) {
         println("ok")
       }
       else {
@@ -37,17 +37,17 @@ class SummaryReporter extends MultiTestReporter {
           !t.passed && !t.directive.isDefined
         }
 
-        println("Dubious, test returned " + exitCode)
+        println("Dubious, test returned " + result.exitCode)
         println("Failed " + failed + "/" + results + " subtests")
       }
 
-      name -> (exitCode, result)
+      name -> result
     }.toMap
   }
 
   def printTestSummary (
     success: Boolean,
-    results: Map[String, (Int, TAPResult)]
+    results: Map[String, TAPResult]
   ) {
     printSuccess(success)
     printShortSummary(results)
@@ -61,16 +61,14 @@ class SummaryReporter extends MultiTestReporter {
     }
   }
 
-  private def printShortSummary (results: Map[String, (Int, TAPResult)]) {
+  private def printShortSummary (results: Map[String, TAPResult]) {
     val files = results.size
-    val tests = results.values.map(_._2.results.length).sum
+    val tests = results.values.map(_.results.length).sum
     println("Files=" + files + ", Tests=" + tests)
   }
 
-  private def printLongSummary (results: Map[String, (Int, TAPResult)]) {
-    val resultMap = results.map { case (s, r) => s -> r._2 }
-
-    val todoSucceeded = resultMap.mapValues { r =>
+  private def printLongSummary (results: Map[String, TAPResult]) {
+    val todoSucceeded = results.mapValues { r =>
       r.results.filter { t =>
         t.directive match {
           case Some(TodoDirective(_)) => t.passed
@@ -79,7 +77,7 @@ class SummaryReporter extends MultiTestReporter {
       }
     }.filter(_._2.length > 0)
 
-    val testsFailed = resultMap.mapValues { r =>
+    val testsFailed = results.mapValues { r =>
       r.results.filter { t =>
         t.directive match {
           case None => !t.passed
@@ -98,7 +96,7 @@ class SummaryReporter extends MultiTestReporter {
       val maxLength = testNames.map(_.length).max
 
       for (name <- testNames) {
-        val result = resultMap(name)
+        val result = results(name)
 
         println(
           name + (" " * (maxLength - name.length)) + "               " +
@@ -122,7 +120,7 @@ class SummaryReporter extends MultiTestReporter {
           )
         }
 
-        val exitCode = results(name)._1
+        val exitCode = results(name).exitCode
         if (exitCode != 0) {
           println("  Non-zero exit status: " + exitCode)
         }
@@ -132,7 +130,7 @@ class SummaryReporter extends MultiTestReporter {
 
   private def printPassFail (
     success: Boolean,
-    results: Map[String, (Int, TAPResult)]
+    results: Map[String, TAPResult]
   ) {
     if (success) {
       println("Result: PASS")
@@ -140,7 +138,7 @@ class SummaryReporter extends MultiTestReporter {
     else {
       println("Result: FAIL")
 
-      val testResults = results.values.map(_._2)
+      val testResults = results.values
 
       val testsFailed = testResults.map { r =>
         r.results.count { t =>

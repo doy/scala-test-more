@@ -2,6 +2,8 @@ package org.perl8.test
 
 import java.io.ByteArrayOutputStream
 
+import org.perl8.test.tap.Consumer
+
 trait NumberZero { this: TestMore =>
   def is_zero (i: Int, desc: String): Boolean = {
     withLevel(1) {
@@ -27,25 +29,25 @@ class ExtensionTest extends TestMore {
   }
 
   val out = new ByteArrayOutputStream
-  val exitCode = Console.withOut(out) {
+  Console.withOut(out) {
     Console.withErr(out) {
       (new ExtensionTestTest).run
     }
   }
 
-  is(exitCode, 2)
+  is(Consumer.parse(out).exitCode, 2)
 
   val tap =
     "ok 1 - it's zero\n" +
     "not ok 2 - it's not zero\n" +
     "#   Failed test 'it's not zero'\n" +
-    "#   at ExtensionTest.scala line 24.\n" +
+    "#   at ExtensionTest.scala line 26.\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "ok 3 - the number is zero\n" +
     "not ok 4 - the number is zero\n" +
     "#   Failed test 'the number is zero'\n" +
-    "#   at ExtensionTest.scala line 26.\n" +
+    "#   at ExtensionTest.scala line 28.\n" +
     "#          got: '1'\n" +
     "#     expected: '0'\n" +
     "1..4\n" +

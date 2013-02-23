@@ -135,7 +135,32 @@ case class TestResult (
   val subtest:     Option[TAPResult]
 )
 
-class TAPResult (val plan: Plan, val results: Seq[TestResult])
+class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
+  val correctPlan = plan match {
+    case NumericPlan(n) => results.length == n
+    case SkipAll(_)     => results.length == 0
+  }
+
+  val fails = results.count { r =>
+    !r.passed && !r.directive.isDefined
+  }
+
+  val testsPassed = fails == 0
+
+  val success =
+    correctPlan && testsPassed
+
+  val exitCode =
+    if (success) {
+      0
+    }
+    else if (!correctPlan) {
+      255
+    }
+    else {
+      fails
+    }
+}
 
 case class ParseException (
   val message: String

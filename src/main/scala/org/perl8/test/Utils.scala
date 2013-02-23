@@ -10,13 +10,10 @@ object Utils {
   }
 
   case class NumericPlan (
-    override val plan: Int,
-    override val message: Option[String] = None
+    override val plan: Int
   ) extends Plan {
     override val skipAll = false
-
-    def this (plan: Int, message: String) =
-      this(plan, Some(message))
+    override val message = None
   }
 
   case class SkipAll (

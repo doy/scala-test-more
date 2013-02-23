@@ -102,34 +102,52 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     val oldOut = Console.out
     val oldErr = Console.err
-    Console.withOut(output) {
-      Console.withErr(output) {
-        val builder = new TestBuilder
-        Console.withOut(oldOut) {
-          Console.withErr(oldErr) {
-            ok(!builder.isPassing)
-          }
+
+    is(
+      Console.withOut(output) {
+        Console.withErr(output) {
+          val builder = new TestBuilder
+          builder.doneTesting
         }
-        builder.ok(true)
-        Console.withOut(oldOut) {
-          Console.withErr(oldErr) {
-            ok(builder.isPassing)
-          }
+      },
+      false
+    )
+
+    is(
+      Console.withOut(output) {
+        Console.withErr(output) {
+          val builder = new TestBuilder
+          builder.ok(true)
+          builder.doneTesting
         }
-        builder.ok(false)
-        Console.withOut(oldOut) {
-          Console.withErr(oldErr) {
-            ok(!builder.isPassing)
-          }
+      },
+      true
+    )
+
+    is(
+      Console.withOut(output) {
+        Console.withErr(output) {
+          val builder = new TestBuilder
+          builder.ok(true)
+          builder.ok(false)
+          builder.doneTesting
         }
-        builder.ok(true)
-        Console.withOut(oldOut) {
-          Console.withErr(oldErr) {
-            ok(!builder.isPassing)
-          }
+      },
+      false
+    )
+
+    is(
+      Console.withOut(output) {
+        Console.withErr(output) {
+          val builder = new TestBuilder
+          builder.ok(true)
+          builder.ok(false)
+          builder.ok(true)
+          builder.doneTesting
         }
-      }
-    }
+      },
+      false
+    )
   }
 
   subtest ("bail out") {

@@ -51,13 +51,13 @@ class TestBuilder (
     throw new BailOutException(message.getOrElse(""))
   }
 
-  def doneTesting () {
+  def doneTesting (): Boolean = {
     plan match {
       case None => outLine(Producer.plan(state.currentTest - 1))
       case _    => ()
     }
 
-    if (!isPassing) {
+    if (!state.isPassing) {
       if (!state.matchesPlan) {
         val planCount = (plan match {
           case Some(p) => p.plan
@@ -80,10 +80,9 @@ class TestBuilder (
         diag("Looks like you failed " + fails + " of " + total + ".")
       }
     }
-  }
 
-  def isPassing: Boolean =
     state.isPassing
+  }
 
   def failedTests: Int =
     state.failCount

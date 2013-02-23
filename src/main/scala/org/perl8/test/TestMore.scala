@@ -16,22 +16,13 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     testBody = () => body
   }
 
-  def run (): Int = {
+  def run () {
     if (testBody == null) {
       delayedInit { }
     }
 
     testBody()
     builder.doneTesting
-    if (builder.isPassing) {
-      0
-    }
-    else if (builder.failedTests == 0) {
-      255
-    }
-    else {
-      builder.failedTests
-    }
   }
 
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
@@ -125,7 +116,6 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
       )
       body
       builder.doneTesting
-      builder.isPassing
     }
     finally {
       builder = oldBuilder
