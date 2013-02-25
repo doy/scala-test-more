@@ -5,18 +5,14 @@ import java.io.ByteArrayOutputStream
 import org.perl8.test.tap.Consumer
 
 trait NumberZero { this: TestMore =>
-  def is_zero (i: Int, desc: String): Boolean = {
-    withLevel(1) {
-      is(i, 0, desc)
-    }
+  def is_zero (i: Int, desc: String): Boolean = hideTestMethod {
+    is(i, 0, desc)
   }
 }
 
 trait NumberZeroWrapped extends NumberZero { this: TestMore =>
-  def isZero (i: Int): Boolean = {
-    withLevel(1) {
-      is_zero(i, "the number is zero")
-    }
+  def isZero (i: Int): Boolean = hideTestMethod {
+    is_zero(i, "the number is zero")
   }
 }
 

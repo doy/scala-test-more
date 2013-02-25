@@ -9,7 +9,6 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     this(Some(plan))
 
   def delayedInit (body: => Unit) {
-    level    = 0
     todo     = NoMessage
     builder  = new TestBuilder(plan, "", NoMessage)
     testBody = () => body
@@ -123,17 +122,38 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     ok(success, name)
   }
 
-  private def failed (desc: Message) {
-    val stack = Thread.currentThread.getStackTrace.drop(1)
-    def findIdx (level: Int, start: Int): Int = {
-      val idx = stack.indexWhere({ frame =>
-        frame.getFileName != "TestMore.scala"
-      }, start)
+  protected def ignoreFrame (frame: StackTraceElement): Boolean = {
+    val className = frame.getClassName
+    val methodName = frame.getMethodName
 
-      if (level == 0) { idx } else { findIdx(level - 1, idx + 1) }
+    // ignore everything in this class, except the hideTestMethod call which we
+    // use as a stack trace marker
+    (className == "org.perl8.test.TestMore" &&
+      methodName != "hideTestMethod") ||
+    // when you call a method in a class when the method is defined in a
+    // trait, it calls a stub which calls the real definition in the trait.
+    // the trait is represented under the hood as a class with the same name
+    // as the trait, except with $class appended. this is a gross reliance on
+    // implementation details that could change at any moment, but i don't
+    // really see any better options.
+    """\$class$""".r.findFirstIn(className).nonEmpty
+  }
+
+  private def failed (desc: Message) {
+    val stack = Thread.currentThread.getStackTrace.drop(1).filter { frame =>
+      !ignoreFrame(frame)
     }
-    val idx = findIdx(level, 0)
-    val caller = stack.drop(idx).headOption
+    val idx = stack.lastIndexWhere { frame =>
+      frame.getClassName == "org.perl8.test.TestMore" &&
+      frame.getMethodName == "hideTestMethod"
+    }
+    val caller = idx match {
+      case -1 => stack.headOption
+      // one level to jump out of hideTestMethod and one level to jump out of
+      // the method that called hideTestMethod
+      case i  => stack.drop(i + 2).headOption
+
+    }
     val (file, line) = caller match {
       case Some(frame) => (frame.getFileName, frame.getLineNumber)
       case None        => ("<unknown file>", "<unknown line>")
@@ -149,20 +169,13 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     builder.diag(message + trace)
   }
 
-  def withLevel[T] (newLevel: Int)(body: => T): T = {
-    val oldLevel = level
-    try {
-      // XXX "+4" is something of a hack, not sure how stable it will be
-      level += newLevel + 4
-      body
-    }
-    finally {
-      level = oldLevel
-    }
+  // this just adds a method call with a known name to the stack trace, so
+  // that we can detect it later
+  def hideTestMethod[T] (body: => T): T = {
+    body
   }
 
-  private var level: Int           = _
-  private var todo: Message        = _
-  private var builder: TestBuilder = _
-  private var testBody: () => Unit = _
+  private var todo: Message                    = _
+  private var builder: TestBuilder             = _
+  private var testBody: () => Unit             = _
 }
