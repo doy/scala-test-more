@@ -51,7 +51,7 @@ class TestBuilder (
     throw new BailOutException(message.getOrElse(""))
   }
 
-  def doneTesting (): Boolean = {
+  def doneTesting: Boolean = {
     plan match {
       case None => outLine(Producer.plan(state.currentTest - 1))
       case _    => ()

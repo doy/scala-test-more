@@ -15,7 +15,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     testBody = () => body
   }
 
-  def run (): Int = {
+  def run: Int = {
     if (testBody == null) {
       delayedInit { }
     }

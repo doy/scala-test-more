@@ -100,7 +100,7 @@ class SummaryReporter extends MultiTestReporter {
         println(
           name + (" " * (maxLength - name.length)) + "               " +
           "(Tests: " + result.results.length + " " +
-          "Failed: " + testsFailed.getOrElse(name, Seq()).length + ")"
+          "Failed: " + testsFailed.getOrElse(name, Nil).length + ")"
         )
 
         if (testsFailed.isDefinedAt(name)) {
