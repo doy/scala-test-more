@@ -87,6 +87,17 @@ class TestBuilder (
   def failedTests: Int =
     state.failCount
 
+  def exitCode: Int =
+    if (state.isPassing) {
+      0
+    }
+    else if (!state.matchesPlan) {
+      255
+    }
+    else {
+      state.failCount
+    }
+
   private val state = new TestState
 
   private def outLine (str: String) {

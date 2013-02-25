@@ -15,13 +15,14 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     testBody = () => body
   }
 
-  def run () {
+  def run (): Int = {
     if (testBody == null) {
       delayedInit { }
     }
 
     testBody()
     builder.doneTesting
+    builder.exitCode
   }
 
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {

@@ -35,7 +35,8 @@ class ExternalTest (cmdLine: Seq[String]) extends Test {
       }
     }
 
-    process.waitFor
+    val exitCode = process.waitFor
     Await.ready(Future.sequence(listeners), Duration.Inf)
+    exitCode
   }
 }
