@@ -7,7 +7,7 @@ import scala.concurrent.Future
 import scala.concurrent.Future._
 import scala.annotation.tailrec
 
-class ExternalTest (cmdLine: Seq[String]) extends Test {
+class ExternalTest (cmdLine: String*) extends Test {
   def run: Int = {
     val processBuilder = new ProcessBuilder(cmdLine: _*)
 
