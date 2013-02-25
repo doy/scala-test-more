@@ -8,8 +8,14 @@ import scala.concurrent.Future._
 import scala.annotation.tailrec
 
 class ExternalTest (cmdLine: Seq[String]) extends Test {
-  def run {
+  def run: Int = {
     val processBuilder = new ProcessBuilder(cmdLine: _*)
+    if (Console.out eq System.out) {
+      processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+    }
+    if (Console.err eq System.err) {
+      processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT)
+    }
     val process = processBuilder.start
 
     val streams = Seq(
