@@ -9,7 +9,7 @@ package object test {
   implicit def stringToMessage (s: String): Message =
     new HasMessage(s)
 
-  trait Plan {
+  sealed trait Plan {
     val plan:    Int
     val skipAll: Boolean
     val message: Option[String]
@@ -33,7 +33,7 @@ package object test {
     def apply (reason: String) = new SkipAll(Some(reason))
   }
 
-  trait Message
+  sealed trait Message
   case class HasMessage (val contents: String) extends Message
   case object NoMessage extends Message
 

@@ -391,7 +391,7 @@ class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
     }
 }
 
-trait TAPEvent
+sealed trait TAPEvent
 case class ResultEvent (result: TestResult) extends TAPEvent
 case class PlanEvent (plan: Plan) extends TAPEvent
 case object SubtestStartEvent extends TAPEvent
