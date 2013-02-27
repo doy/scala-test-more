@@ -281,11 +281,12 @@ class Consumer (cb: TAPEvent => Unit) {
         case "" => ""
         case s  => s + " "
       }
-      val directive = result.directive match {
-        case Some(TodoDirective(m)) => "# TODO " + m
-        case Some(SkipDirective(m)) => "# skip " + m
-        case None                   => ""
-      }
+      val directive = result.directive.map { d =>
+        d match {
+          case TodoDirective(m) => "# TODO " + m
+          case SkipDirective(m) => "# skip " + m
+        }
+      }.getOrElse("")
       indent + success + number + description + directive
     }
   }
