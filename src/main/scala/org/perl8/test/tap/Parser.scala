@@ -141,11 +141,11 @@ class Parser private (
   }
 
   private class LineReader (
-    in:      Stream[Char],
+    in:      Iterator[Char],
     lineNum: Int
   ) extends Reader[Line] {
     def this (in: InputStream) =
-      this(Source.fromInputStream(in).toStream, 1)
+      this(Source.fromInputStream(in), 1)
 
     def atEnd: Boolean =
       nextLine.isEmpty
@@ -162,27 +162,27 @@ class Parser private (
     private def nextLine: Option[Line] =
       state._1
 
-    private def remainingStream: Stream[Char] =
+    private def remainingStream: Iterator[Char] =
       state._2
 
-    private lazy val state: (Option[Line], Stream[Char]) =
+    private lazy val state: (Option[Line], Iterator[Char]) =
       readNextLine(in)
 
     @tailrec
     private def readNextLine (
-      stream: Stream[Char]
-    ): (Option[Line], Stream[Char]) = {
-      stream match {
-        case Stream.Empty => (None, in)
-        case s            => {
-          val (line, rest) = s.span(_ != '\n') match {
-            case (l, r) => (parseLine(l.mkString), r.tail)
-          }
-          line match {
-            case _: CommentLine => readNextLine(rest)
-            case other          => (Some(other), rest)
-          }
+      stream: Iterator[Char]
+    ): (Option[Line], Iterator[Char]) = {
+      if (stream.hasNext) {
+        val (line, rest) = stream.span(_ != '\n') match {
+          case (l, r) => (parseLine(l.mkString), r.drop(1))
         }
+        line match {
+          case _: CommentLine => readNextLine(rest)
+          case other          => (Some(other), rest)
+        }
+      }
+      else {
+        (None, in)
       }
     }
   }
