@@ -21,11 +21,16 @@ class Parser private (
   private def this (indent: String) =
     this(e => (), indent)
 
-  def parse (input: InputStream): TAPResult =
+  def parse (input: InputStream): TAPResult = {
+    cb(StartEvent)
     tap(new LineReader(input)) match {
-      case Success(result, _) => result
+      case Success(result, _) => {
+        cb(EndEvent(result))
+        result
+      }
       case failure: NoSuccess => throw new ParseException(failure.msg)
     }
+  }
 
   def parse (input: String): TAPResult =
     parse(new ByteArrayInputStream(input.getBytes))
@@ -191,6 +196,8 @@ class Parser private (
 }
 
 sealed trait TAPEvent
+case object StartEvent extends TAPEvent
+case class EndEvent (result: TAPResult) extends TAPEvent
 case class ResultEvent (result: TestResult) extends TAPEvent
 case class PlanEvent (plan: Plan) extends TAPEvent
 case object SubtestStartEvent extends TAPEvent
