@@ -9,11 +9,17 @@ import scala.util.parsing.input.{Position,Reader}
 import org.perl8.test.Plan
 import org.perl8.test.tap.Consumer._
 
-class Parser (cb: TAPEvent => Unit) extends Parsers {
+class Parser (
+  cb:     TAPEvent => Unit,
+  indent: String
+) extends Parsers {
   type Elem = Line
 
-  def this () =
-    this(e => ())
+  def this (cb: TAPEvent => Unit = e => ()) =
+    this(cb, "")
+
+  def this (indent: String) =
+    this(e => (), indent)
 
   def parse (input: InputStream): TAPResult =
     tap(new LineReader(input)) match {
@@ -60,22 +66,23 @@ class Parser (cb: TAPEvent => Unit) extends Parsers {
       )
     }
 
-  private def subtest: Parser[TAPResult] = LineParser("subtest") { in =>
-    val oldIndent = expectedIndent
-    val newIndent = in.first.indent
-
-    try {
-      expectedIndent = newIndent
-      tap(in)
+  private def subtest: Parser[TAPResult] =
+    LineParser("subtest") { in =>
+      // can't just return the result directly, because it's of a different
+      // type (the path dependent type associated with the new Parser instance
+      // we create here, rather than the path dependent type associated with
+      // this)
+      val subParser = new org.perl8.test.tap.Parser(cb, in.first.indent)
+      subParser.tap(in) match {
+        case subParser.Success(p, rest) => Success(p, rest)
+        case subParser.Failure(m, rest) => Failure(m, rest)
+        case subParser.Error(m, rest)   => Error(m, rest)
+      }
     }
-    finally {
-      expectedIndent = oldIndent
-    }
-  }
 
   private def planLine: Parser[PlanLine] = LineParser("plan") { in =>
     val line = in.first
-    if (line.indent == expectedIndent) {
+    if (line.indent == indent) {
       line match {
         case p: PlanLine =>
           Success(p, in.rest)
@@ -94,7 +101,7 @@ class Parser (cb: TAPEvent => Unit) extends Parsers {
 
   private def resultLine: Parser[ResultLine] = LineParser("result") { in =>
     val line = in.first
-    if (line.indent == expectedIndent) {
+    if (line.indent == indent) {
       line match {
         case p: ResultLine =>
           Success(p, in.rest)
@@ -175,8 +182,6 @@ class Parser (cb: TAPEvent => Unit) extends Parsers {
   ) extends Position {
     def column: Int = 1
   }
-
-  private var expectedIndent = ""
 }
 
 sealed trait TAPEvent
