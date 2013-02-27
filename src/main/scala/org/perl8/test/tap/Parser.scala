@@ -111,20 +111,14 @@ class Parser (cb: TAPEvent => Unit) extends Parsers {
     }
   }
 
-  private def LineParser[T] (
-    lineType: String
-  )(
+  private def LineParser[T] (lineType: String)(
     body: Input => ParseResult[T]
-  ): Parser[T] = {
-    new Parser[T] {
-      def apply (in: Input): ParseResult[T] = {
-        if (in.atEnd) {
-          Failure(lineType + " line expected, but end of input found", in)
-        }
-        else {
-          body(in)
-        }
-      }
+  ): Parser[T] = Parser { in =>
+    if (in.atEnd) {
+      Failure(lineType + " line expected, but end of input found", in)
+    }
+    else {
+      body(in)
     }
   }
 
