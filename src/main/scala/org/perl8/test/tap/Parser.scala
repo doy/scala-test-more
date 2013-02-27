@@ -9,7 +9,7 @@ import scala.util.parsing.input.{Position,Reader}
 import org.perl8.test.Plan
 import org.perl8.test.tap.Consumer._
 
-class Parser (
+class Parser private (
   cb:     TAPEvent => Unit,
   indent: String
 ) extends Parsers {
@@ -18,7 +18,7 @@ class Parser (
   def this (cb: TAPEvent => Unit = e => ()) =
     this(cb, "")
 
-  def this (indent: String) =
+  private def this (indent: String) =
     this(e => (), indent)
 
   def parse (input: InputStream): TAPResult =
