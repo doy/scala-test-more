@@ -268,7 +268,7 @@ class Consumer (cb: TAPEvent => Unit) {
     lazy val pos =
       new LinePosition(lineNum, nextLine.map(_.toString).getOrElse(""))
 
-    def rest: Reader[Line] =
+    lazy val rest: Reader[Line] =
       new LineReader(remainingStream, lineNum + 1)
 
     private def nextLine: Option[Line] =
