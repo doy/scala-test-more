@@ -78,68 +78,70 @@ class Consumer (cb: TAPEvent => Unit) {
         )
       }
 
-    private def subtest: Parser[TAPResult] = Parser { in =>
-      if (in.atEnd) {
-        Failure("Subtest expected, but end of input found", in)
-      }
-      else {
-        val oldIndent = expectedIndent
-        val newIndent = in.first.indent
+    private def subtest: Parser[TAPResult] = LineParser("subtest") { in =>
+      val oldIndent = expectedIndent
+      val newIndent = in.first.indent
 
-        try {
-          expectedIndent = newIndent
-          tap(in)
-        }
-        finally {
-          expectedIndent = oldIndent
-        }
+      try {
+        expectedIndent = newIndent
+        tap(in)
+      }
+      finally {
+        expectedIndent = oldIndent
       }
     }
 
-    private def planLine: Parser[PlanLine] = Parser { in =>
-      if (in.atEnd) {
-        Failure("Plan line expected, but end of input found", in)
+    private def planLine: Parser[PlanLine] = LineParser("plan") { in =>
+      val line = in.first
+      if (line.indent == expectedIndent) {
+        line match {
+          case p: PlanLine =>
+            Success(p, in.rest)
+          case _ =>
+            Failure("Plan line expected, but '" + line + "' found", in)
+        }
       }
       else {
-        val line = in.first
-        if (line.indent == expectedIndent) {
-          line match {
-            case p: PlanLine =>
-              Success(p, in.rest)
-            case _ =>
-              Failure("Plan line expected, but '" + line + "' found", in)
-          }
-        }
-        else {
-          Failure(
-            "Plan line expected, but " +
-              "'" + line + "' has incorrect indentation",
-            in
-          )
-        }
+        Failure(
+          "Plan line expected, but " +
+            "'" + line + "' has incorrect indentation",
+          in
+        )
       }
     }
 
-    private def resultLine: Parser[ResultLine] = Parser { in =>
-      if (in.atEnd) {
-        Failure("Result line expected, but end of input found", in)
+    private def resultLine: Parser[ResultLine] = LineParser("result") { in =>
+      val line = in.first
+      if (line.indent == expectedIndent) {
+        line match {
+          case p: ResultLine =>
+            Success(p, in.rest)
+          case _ =>
+            Failure("Result line expected, but '" + line + "' found", in)
+        }
       }
       else {
-        val line = in.first
-        if (line.indent == expectedIndent) {
-          line match {
-            case p: ResultLine =>
-              Success(p, in.rest)
-            case _ =>
-              Failure("Result line expected, but '" + line + "' found", in)
+        Failure(
+          "Result line expected, but " +
+            "'" + line + "' has incorrect indentation",
+          in
+        )
+      }
+    }
+
+    private def LineParser[T] (
+      lineType: String
+    )(
+      body: Input => ParseResult[T]
+    ): Parser[T] = {
+      new Parser[T] {
+        def apply (in: Input): ParseResult[T] = {
+          if (in.atEnd) {
+            Failure(lineType + " line expected, but end of input found", in)
           }
-        }
-        else {
-          Failure(
-            "Result line expected, but " +
-              "'" + line + "' has incorrect indentation",
-            in
-          )
+          else {
+            body(in)
+          }
         }
       }
     }
