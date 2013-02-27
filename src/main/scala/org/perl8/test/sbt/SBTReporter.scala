@@ -20,7 +20,7 @@ class SBTReporter (
       test.run
     }
 
-    val result = tap.Consumer.parse(out)
+    val result = (new tap.Parser).parse(out)
 
     result.results.foreach { r =>
       val event = new Event {

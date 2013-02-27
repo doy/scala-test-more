@@ -2,7 +2,7 @@ package org.perl8.test
 
 import java.io.ByteArrayOutputStream
 
-import org.perl8.test.tap.Consumer
+import org.perl8.test.tap.Parser
 
 trait NumberZero { this: TestMore =>
   def is_zero (i: Int, desc: String): Boolean = hideTestMethod {
@@ -34,7 +34,7 @@ class ExtensionTest extends TestMore {
     }
   }
 
-  is(Consumer.parse(out).exitCode, 2)
+  is((new Parser).parse(out).exitCode, 2)
 
   val tap =
     "ok 1 - it's zero\n" +

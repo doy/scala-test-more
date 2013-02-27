@@ -1,14 +1,15 @@
 package org.perl8.test.tap
 
 import org.perl8.test.{TestMore,SkipAll,NumericPlan}
+import org.perl8.test.tap.Consumer.{SkipDirective,TodoDirective}
 
-class ConsumerTest extends TestMore {
+class ParserTest extends TestMore {
   subtest ("basic") {
     val tap =
       "1..1\n" +
       "ok 1\n"
 
-    val result = Consumer.parse(tap)
+    val result = (new Parser).parse(tap)
     is(result.plan, NumericPlan(1), "got the right plan")
     is(result.results.map(_.passed), Seq(true), "got the right results")
   }
@@ -17,7 +18,7 @@ class ConsumerTest extends TestMore {
     val tap =
       "1..0 # SKIP nope\n"
 
-    val result = Consumer.parse(tap)
+    val result = (new Parser).parse(tap)
     is(result.plan, SkipAll("nope"), "got the right plan")
     is(result.results, Nil, "got the right results")
   }
@@ -34,7 +35,7 @@ class ConsumerTest extends TestMore {
       "1..4\n" +
       "# Looks like you failed 1 test of 4.\n"
 
-    val result = Consumer.parse(tap)
+    val result = (new Parser).parse(tap)
     is(result.plan, NumericPlan(4))
     is(result.results.map(_.passed), Seq(true, false, false, true))
     is(result.results.map(_.number), Seq(1, 2, 3, 4))
@@ -74,7 +75,7 @@ class ConsumerTest extends TestMore {
       "1..2\n" +
       "# Looks like you failed 1 test of 2.\n"
 
-    val result = Consumer.parse(tap)
+    val result = (new Parser).parse(tap)
     is(result.plan, NumericPlan(2))
     is(result.results.map(_.passed), Seq(true, false))
     is(result.results.map(_.number), Seq(1, 2))

@@ -2,7 +2,7 @@ package org.perl8.test
 
 import java.io.ByteArrayOutputStream
 
-import org.perl8.test.tap.Consumer
+import org.perl8.test.tap.Parser
 
 class TestMoreTest extends TestMore {
   val lineZero = Thread.currentThread.getStackTrace()(1).getLineNumber + 3
@@ -64,7 +64,7 @@ class TestMoreTest extends TestMore {
     }
   }
 
-  is(Consumer.parse(out).exitCode, 9, "got the right plan")
+  is((new Parser).parse(out).exitCode, 9, "got the right plan")
 
   val expected =
     "# ok\n" +

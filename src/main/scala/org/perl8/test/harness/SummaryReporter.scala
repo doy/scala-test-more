@@ -3,7 +3,7 @@ package org.perl8.test.harness
 import java.io.ByteArrayOutputStream
 
 import org.perl8.test.tap
-import org.perl8.test.tap.{TAPResult,TodoDirective}
+import org.perl8.test.tap.Consumer.{TAPResult,TodoDirective}
 import org.perl8.test.Test
 
 class SummaryReporter extends MultiTestReporter {
@@ -25,7 +25,7 @@ class SummaryReporter extends MultiTestReporter {
       Console.withOut(out) {
         test.run
       }
-      val result = tap.Consumer.parse(out)
+      val result = (new tap.Parser).parse(out)
 
       if (result.success) {
         println("ok")
