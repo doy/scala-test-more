@@ -47,13 +47,19 @@ class Parser private (
     }
 
   private def plan: Parser[Plan] =
-    planLine ^^ { _.plan }
+    planLine ^^ { p =>
+      cb(PlanEvent(p.plan))
+      p.plan
+    }
 
   private def result: Parser[TestResult] =
     simpleResult | subtestResult
 
   private def simpleResult: Parser[TestResult] =
-    resultLine ^^ { _.result }
+    resultLine ^^ { r =>
+      cb(ResultEvent(r.result))
+      r.result
+    }
 
   private def subtestResult: Parser[TestResult] =
     subtest ~ simpleResult ^^ { case subtest ~ simpleResult =>
@@ -72,7 +78,7 @@ class Parser private (
       // type (the path dependent type associated with the new Parser instance
       // we create here, rather than the path dependent type associated with
       // this)
-      val subParser = new org.perl8.test.tap.Parser(cb, in.first.indent)
+      val subParser = new org.perl8.test.tap.Parser(e => (), in.first.indent)
       subParser.tap(in) match {
         case subParser.Success(p, rest) => Success(p, rest)
         case subParser.Failure(m, rest) => Failure(m, rest)
