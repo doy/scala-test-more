@@ -49,8 +49,8 @@ class SummaryReporter extends MultiTestReporter {
     results: Map[String, TAPResult]
   ) {
     printSuccess(success)
-    printShortSummary(results)
     printLongSummary(results)
+    printShortSummary(results)
     printPassFail(success, results)
   }
 
