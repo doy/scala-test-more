@@ -2,6 +2,7 @@ package org.perl8.test.tap
 
 import java.io.{ByteArrayInputStream,InputStream,OutputStream}
 import scala.annotation.tailrec
+import scala.io.Source
 import scala.util.parsing.combinator._
 import scala.util.parsing.input.{Position,Reader}
 
@@ -290,9 +291,12 @@ class Consumer (cb: TAPEvent => Unit) {
   }
 
   private class LineReader (
-    in:      InputStream,
-    lineNum: Int = 1
+    in:      Stream[Char],
+    lineNum: Int
   ) extends Reader[Line] {
+    def this (in: InputStream) =
+      this(Source.fromInputStream(in).toStream, 1)
+
     def atEnd: Boolean =
       nextLine.isEmpty
 
@@ -303,46 +307,41 @@ class Consumer (cb: TAPEvent => Unit) {
       new LinePosition(lineNum, nextLine.map(_.toString).getOrElse(""))
 
     def rest: Reader[Line] =
-      new LineReader(in, lineNum + 1)
+      new LineReader(remainingStream, lineNum + 1)
 
-    private lazy val nextLine: Option[Line] =
-      readNextLine
+    private def nextLine: Option[Line] =
+      state._1
 
-    private def readNextLine: Option[Line] = {
-      val buf = new StringBuilder
+    private def remainingStream: Stream[Char] =
+      state._2
 
-      @tailrec
-      def read {
-        val byte = in.read
-        if (byte != -1) {
-          buf += byte.toChar
-          if (byte != '\n') {
-            read
+    private lazy val state: (Option[Line], Stream[Char]) =
+      readNextLine(in)
+
+    @tailrec
+    private def readNextLine (
+      stream: Stream[Char]
+    ): (Option[Line], Stream[Char]) = {
+      stream match {
+        case Stream.Empty => (None, in)
+        case s            => {
+          val (line, rest) = s.span(_ != '\n') match {
+            case (l, r) => (Line(l.mkString), r.tail)
+          }
+          line match {
+            case _: CommentLine => readNextLine(rest)
+            case other          => (Some(other), rest)
           }
         }
       }
-
-      read
-
-      val line = buf.toString match {
-        case "" => None
-        case s  => Some(Line(s.init))
-      }
-
-      line.flatMap { l =>
-        l match {
-          case CommentLine(_, _) => readNextLine
-          case other             => Some(other)
-        }
-      }
     }
+  }
 
-    class LinePosition (
-      override val line: Int,
-      override val lineContents: String
-    ) extends Position {
-      def column: Int = 1
-    }
+  private case class LinePosition (
+    override val line: Int,
+    override val lineContents: String
+  ) extends Position {
+    def column: Int = 1
   }
 }
 
