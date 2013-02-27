@@ -10,7 +10,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
 
   def delayedInit (body: => Unit) {
     todo     = NoMessage
-    builder  = new TestBuilder(plan, "", NoMessage)
+    builder  = new TestBuilder(plan, "")
     testBody = () => body
   }
 
@@ -108,11 +108,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   )(body: => Unit): Boolean = {
     val oldBuilder = builder
     val success = try {
-      builder = new TestBuilder(
-        plan,
-        oldBuilder.indent + "    ",
-        name.map(n => "- " + n)
-      )
+      builder = new TestBuilder(plan, oldBuilder.indent + "    ")
       body
       builder.doneTesting
     }

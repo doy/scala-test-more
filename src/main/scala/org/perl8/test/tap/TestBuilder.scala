@@ -2,25 +2,14 @@ package org.perl8.test.tap
 
 import org.perl8.test._
 
-class TestBuilder (
-  plan:             Option[Plan],
-  val indent:       String,
-  private val name: Message
-) {
+class TestBuilder (plan: Option[Plan], val indent: String) {
   plan.foreach(p => outLine(Producer.plan(p)))
 
-  def this (
-    plan:   Plan,
-    indent: String       = "",
-    name:   Message      = NoMessage
-  ) =
-    this(Some(plan), indent, name)
+  def this (plan: Plan, indent: String = "") =
+    this(Some(plan), indent)
 
-  def this (
-    indent: String       = "",
-    name:   Message      = NoMessage
-  ) =
-    this(None, indent, name)
+  def this (indent: String = "") =
+    this(None, indent)
 
   def ok (
     test:        Boolean,
