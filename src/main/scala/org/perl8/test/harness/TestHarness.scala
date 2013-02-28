@@ -5,25 +5,32 @@ object TestHarness {
 
   def main (args: Array[String]) {
     val opts = parseOpts(args.toList)
-    val multi = !opts("prefer-single").asInstanceOf[Boolean]
+    val single = opts("prefer-single").asInstanceOf[Boolean]
 
-    val exitCode = if (multi) {
-      val reporterName = opts("multi-reporter").asInstanceOf[String]
-      val testNames = opts("test-classes").asInstanceOf[List[String]]
-      val reporter = newInstance[MultiTestReporter](reporterName)
-      reporter.run(testNames)
-    }
-    else {
+    val exitCode = if (single) {
       val reporterName = opts("single-reporter").asInstanceOf[String]
       val testName = opts("test-classes").asInstanceOf[List[String]].apply(0)
       val reporter = newInstance[Reporter](reporterName)
       reporter.run(testName)
+    }
+    else {
+      val reporterName = opts("multi-reporter").asInstanceOf[String]
+      val testNames = opts("test-classes").asInstanceOf[List[String]]
+      val reporter = newInstance[MultiTestReporter](reporterName)
+      reporter.run(testNames)
     }
 
     sys.exit(exitCode)
   }
 
   def parseOpts (args: List[String]): Map[String, Any] = args match {
+    case Nil => Map(
+      "single-reporter" -> "org.perl8.test.harness.TAPReporter",
+      "multi-reporter"  -> "org.perl8.test.harness.SummaryReporter",
+      "prefer-single"   -> true,
+      "test-classes"    -> Nil
+    )
+
     case "-r" :: singleReporter :: rest =>
       parseOpts(rest) + ("single-reporter" -> singleReporter)
 
@@ -36,14 +43,7 @@ object TestHarness {
     case "--help" :: rest =>
       usage(0)
 
-    case Nil => Map(
-      "single-reporter" -> "org.perl8.test.harness.TAPReporter",
-      "multi-reporter"  -> "org.perl8.test.harness.SummaryReporter",
-      "prefer-single"   -> true,
-      "test-classes"    -> Nil
-    )
-
-    case `unknownOption` =>
+    case `unknownOption` :: rest =>
       usage(1)
 
     case testClass :: rest => {
