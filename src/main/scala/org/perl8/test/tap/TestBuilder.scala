@@ -2,14 +2,18 @@ package org.perl8.test.tap
 
 import org.perl8.test._
 
-class TestBuilder (plan: Option[Plan], val indent: String, val raw: Boolean) {
+class TestBuilder (
+  plan:              Option[Plan],
+  val indent:        String,
+  val terminalInUse: Boolean
+) {
   plan.foreach(p => outLine(Producer.plan(p)))
 
-  def this (plan: Plan, indent: String = "", raw: Boolean = true) =
-    this(Some(plan), indent, raw)
+  def this (plan: Plan, indent: String = "", terminalInUse: Boolean = false) =
+    this(Some(plan), indent, terminalInUse)
 
-  def this (indent: String = "", raw: Boolean = true) =
-    this(None, indent, raw)
+  def this (indent: String = "", terminalInUse: Boolean = false) =
+    this(None, indent, terminalInUse)
 
   def ok (
     test:        Boolean,
@@ -29,9 +33,6 @@ class TestBuilder (plan: Option[Plan], val indent: String, val raw: Boolean) {
 
   def diag (message: Message) {
     message.foreach { m =>
-      if (!raw) {
-        Console.err.print("\n")
-      }
       errLine(Producer.comment(m))
     }
   }
@@ -99,6 +100,9 @@ class TestBuilder (plan: Option[Plan], val indent: String, val raw: Boolean) {
   }
 
   private def errLine (str: String) {
+    if (terminalInUse) {
+      Console.err.print("\n")
+    }
     Console.err.println(withIndent(str))
   }
 

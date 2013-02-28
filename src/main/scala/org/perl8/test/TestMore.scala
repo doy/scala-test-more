@@ -9,19 +9,19 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     this(Some(plan))
 
   def delayedInit (body: => Unit) {
-    testBody = { raw =>
+    testBody = { terminalInUse =>
       todo    = NoMessage
-      builder = new TestBuilder(plan, "", raw)
+      builder = new TestBuilder(plan, "", terminalInUse)
       body
     }
   }
 
-  def runTests (raw: Boolean): Int = {
+  def runTests (terminalInUse: Boolean): Int = {
     if (testBody == null) {
       delayedInit { }
     }
 
-    testBody(raw)
+    testBody(terminalInUse)
     builder.doneTesting
     builder.exitCode
   }
@@ -125,7 +125,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
       builder = new TestBuilder(
         plan,
         oldBuilder.indent + "    ",
-        oldBuilder.raw
+        oldBuilder.terminalInUse
       )
       body
       builder.doneTesting

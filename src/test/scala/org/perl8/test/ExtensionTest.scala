@@ -30,7 +30,7 @@ class ExtensionTest extends TestMore {
   val out = new ByteArrayOutputStream
   val exitCode = Console.withOut(out) {
     Console.withErr(out) {
-      (new ExtensionTestTest).runRaw
+      (new ExtensionTestTest).run
     }
   }
 

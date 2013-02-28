@@ -17,7 +17,7 @@ class SBTReporter (
 
     val out = new ByteArrayOutputStream
     Console.withOut(out) {
-      test.run
+      test.runInHarness
     }
 
     val result = (new tap.Parser).parse(out)

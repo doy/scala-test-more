@@ -9,8 +9,8 @@ trait Test {
   def run: Int =
     runTests(false)
 
-  def runRaw: Int =
+  def runInHarness: Int =
     runTests(true)
 
-  protected def runTests (raw: Boolean): Int
+  protected def runTests (terminalInUse: Boolean): Int
 }

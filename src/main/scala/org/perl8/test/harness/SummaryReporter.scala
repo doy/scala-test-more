@@ -29,7 +29,7 @@ class SummaryReporter extends MultiTestReporter {
 
       val testFuture = Future {
         Console.withOut(out) {
-          test.run
+          test.runInHarness
         }
         out.close
       }
