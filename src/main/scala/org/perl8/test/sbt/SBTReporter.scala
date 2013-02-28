@@ -42,11 +42,11 @@ class SBTReporter (
     }
 
     if (result.success) {
-      logInfo(testName + " succeeded.")
+      logInfo("PASS " + testName)
       0
     }
     else {
-      logError(testName + " failed.")
+      logError("FAIL " + testName)
       1
     }
   }
