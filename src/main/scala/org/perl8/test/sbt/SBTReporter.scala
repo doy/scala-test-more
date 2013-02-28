@@ -1,7 +1,7 @@
 package org.perl8.test.sbt
 
 import java.io.ByteArrayOutputStream
-import org.scalatools.testing.{EventHandler,Event,Result,Logger}
+import org.scalatools.testing
 
 import org.perl8.test.harness._
 import org.perl8.test.tap
@@ -9,8 +9,8 @@ import org.perl8.test.Test
 
 class SBTReporter (
   loader:       ClassLoader,
-  loggers:      Array[Logger],
-  eventHandler: EventHandler
+  loggers:      Array[testing.Logger],
+  eventHandler: testing.EventHandler
 ) extends Reporter {
   def run (testName: String): Int = {
     val test = loader.loadClass(testName).newInstance.asInstanceOf[Test]
@@ -23,18 +23,18 @@ class SBTReporter (
     val result = (new tap.Parser).parse(out)
 
     result.results.foreach { r =>
-      val event = new Event {
+      val event = new testing.Event {
         val testName:    String = r.description
         val description: String = r.description
-        val result:      Result =
+        val result:      testing.Result =
           if (r.passed) {
-            Result.Success
+            testing.Result.Success
           }
           else if (r.directive.isDefined) {
-            Result.Skipped
+            testing.Result.Skipped
           }
           else {
-            Result.Failure
+            testing.Result.Failure
           }
         val error: Throwable = null
       }
