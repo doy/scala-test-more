@@ -1,16 +1,10 @@
 package org.perl8.test.harness
 
-import java.io.{PipedInputStream,PipedOutputStream}
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-
 import org.perl8.test.tap.Consumer.{TAPResult,TodoDirective}
 import org.perl8.test.tap._
 import org.perl8.test.Test
 
-class SummaryReporter extends MultiTestReporter {
+class SummaryReporter extends MultiTestReporter with SummarizedTests {
   def run (testNames: Seq[String]): Int = {
     val results = runTests(testNames)
     val success = results.values.forall(_.success)
@@ -22,53 +16,39 @@ class SummaryReporter extends MultiTestReporter {
     val maxLength = testNames.map(_.length).max
 
     testNames.map { name =>
-      val out = new PipedOutputStream
-      val in  = new PipedInputStream(out)
-
-      val test = newInstance[Test](name)
-
-      val testFuture = Future {
-        Console.withOut(out) {
-          test.runInHarness
-        }
-        out.close
-      }
-
       val callbackGenerator: () => TAPEvent => Unit = () => {
-        var prevWidth         = 0
+        var width             = 0
         var tests             = 0
         var plan: Option[Int] = None
-        var failed            = false
 
-        def printStatus {
-          print("\r")
-          // print(("\b" * prevWidth) + (" " * prevWidth) + ("\b" * prevWidth))
-          print(name + " " + ("." * (maxLength - name.length)) + ".. ")
-          val display = tests + "/" + plan.getOrElse("?")
-          prevWidth = display.length
-          print(display)
+        def status = {
+          tests + "/" + plan.getOrElse("?")
+        }
+
+        def printStatus (st: String) {
+          print("\r" + (" " * width) + "\r")
+          val line =
+            name + " " + ("." * (maxLength - name.length)) + ".. " + st
+          width = line.length
+          print(line)
           Console.out.flush
         }
 
         (e: TAPEvent) => e match {
           case StartEvent => {
-            print(name + " " + ("." * (maxLength - name.length)) + ".. ")
-            Console.out.flush
+            printStatus("")
           }
           case PlanEvent(p) => {
             plan = Some(p.plan)
-            printStatus
+            printStatus(status)
           }
           case ResultEvent(r) => {
             tests += 1
-            if (!r.passed) {
-              failed = true
-            }
-            printStatus
+            printStatus(status)
           }
           case EndEvent(result) => {
-            print(("\b" * prevWidth) + (" " * prevWidth) + ("\b" * prevWidth))
             if (result.success) {
+              printStatus("")
               println("ok")
             }
             else {
@@ -77,6 +57,7 @@ class SummaryReporter extends MultiTestReporter {
                 !t.passed && !t.directive.isDefined
               }
 
+              printStatus("")
               println("Dubious, test returned " + result.exitCode)
               println("Failed " + failed + "/" + results + " subtests")
             }
@@ -85,12 +66,7 @@ class SummaryReporter extends MultiTestReporter {
         }
       }
 
-      val parser = new Parser(callbackGenerator())
-      val result = parser.parse(in)
-      in.close
-      Await.ready(testFuture, Duration.Inf)
-
-      name -> result
+      name -> runOneTest(newInstance[Test](name), callbackGenerator())
     }.toMap
   }
 
