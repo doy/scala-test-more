@@ -7,5 +7,5 @@ import org.perl8.test.Test
 
 class TAPReporter extends Reporter {
   def run (testName: String): Int =
-    newInstance[Test](testName).run
+    newInstance[Test](testName).runRaw
 }

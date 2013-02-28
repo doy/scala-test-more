@@ -60,7 +60,7 @@ class TestMoreTest extends TestMore {
   val out = new ByteArrayOutputStream
   Console.withOut(out) {
     Console.withErr(out) {
-      (new MyBasicTest).run
+      (new MyBasicTest).runRaw
     }
   }
 

@@ -8,7 +8,7 @@ import scala.concurrent.Future._
 import scala.annotation.tailrec
 
 class ExternalTest (cmdLine: String*) extends Test {
-  def run: Int = {
+  def runTests (raw: Boolean): Int = {
     val processBuilder = new ProcessBuilder(cmdLine: _*)
 
     // Ensure that if stdout and stderr are both pointing to the same place (a

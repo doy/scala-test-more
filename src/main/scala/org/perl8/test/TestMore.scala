@@ -9,23 +9,25 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     this(Some(plan))
 
   def delayedInit (body: => Unit) {
-    todo     = NoMessage
-    builder  = new TestBuilder(plan, "")
-    testBody = () => body
+    testBody = { raw =>
+      todo    = NoMessage
+      builder = new TestBuilder(plan, "", raw)
+      body
+    }
   }
 
-  def run: Int = {
+  def runTests (raw: Boolean): Int = {
     if (testBody == null) {
       delayedInit { }
     }
 
-    testBody()
+    testBody(raw)
     builder.doneTesting
     builder.exitCode
   }
 
   def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
-    builder.ok(cond, desc.map(d => "- " + d), todo)
+    builderOk(cond, desc)
     if (!cond) {
       failed(desc)
     }
@@ -33,37 +35,49 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   }
 
   def is[T] (got: T, expected: T, desc: Message = NoMessage): Boolean = {
-    val cond = ok(got == expected, desc)
+    val cond = got == expected
+    builderOk(cond, desc)
     if (!cond) {
-      builder.diag("         got: '" + got + "'")
-      builder.diag("    expected: '" + expected + "'")
+      val reason =
+        "         got: '" + got + "'\n" +
+        "    expected: '" + expected + "'\n"
+      failed(desc, reason)
     }
     cond
   }
 
   def isnt[T] (got: T, expected: T, desc: Message = NoMessage): Boolean = {
-    val cond = ok(got != expected, desc)
+    val cond = got != expected
+    builderOk(cond, desc)
     if (!cond) {
-      builder.diag("         got: '" + got + "'")
-      builder.diag("    expected: anything else")
+      val reason =
+        "         got: '" + got + "'\n" +
+        "    expected: anything else\n"
+      failed(desc, reason)
     }
     cond
   }
 
   def like (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
-    val cond = ok(rx.findFirstIn(got).nonEmpty, desc)
+    val cond = rx.findFirstIn(got).nonEmpty
+    builderOk(cond, desc)
     if (!cond) {
-      builder.diag("                  '" + got + "'")
-      builder.diag("    doesn't match '" + rx + "'")
+      val reason =
+        "                  '" + got + "'\n" +
+        "    doesn't match '" + rx + "'\n"
+      failed(desc, reason)
     }
     cond
   }
 
   def unlike (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
-    val cond = ok(rx.findFirstIn(got).isEmpty, desc)
+    val cond = rx.findFirstIn(got).isEmpty
+    builderOk(cond, desc)
     if (!cond) {
-      builder.diag("                  '" + got + "'")
-      builder.diag("          matches '" + rx + "'")
+      val reason =
+        "                  '" + got + "'\n" +
+        "          matches '" + rx + "'\n"
+      failed(desc, reason)
     }
     cond
   }
@@ -108,7 +122,11 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   )(body: => Unit): Boolean = {
     val oldBuilder = builder
     val success = try {
-      builder = new TestBuilder(plan, oldBuilder.indent + "    ")
+      builder = new TestBuilder(
+        plan,
+        oldBuilder.indent + "    ",
+        oldBuilder.raw
+      )
       body
       builder.doneTesting
     }
@@ -135,7 +153,15 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     """\$class$""".r.findFirstIn(className).nonEmpty
   }
 
-  private def failed (desc: Message) {
+  private def builderOk (cond: Boolean, desc: Message) {
+    builder.ok(cond, desc.map(d => "- " + d), todo)
+  }
+
+  private def failed (desc: Message, reason: String) {
+    failed(desc, Some(reason))
+  }
+
+  private def failed (desc: Message, reason: Option[String] = None) {
     val stack = Thread.currentThread.getStackTrace.drop(1).filter { frame =>
       !ignoreFrame(frame)
     }
@@ -162,7 +188,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
       case NoMessage     => " "
     })
     val trace = "at " + file + " line " + line + "."
-    builder.diag(message + trace)
+    builder.diag(message + trace + reason.map("\n" + _).getOrElse(""))
   }
 
   // this just adds a method call with a known name to the stack trace, so
@@ -171,7 +197,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     body
   }
 
-  private var todo: Message                    = _
-  private var builder: TestBuilder             = _
-  private var testBody: () => Unit             = _
+  private var todo: Message             = _
+  private var builder: TestBuilder      = _
+  private var testBody: Boolean => Unit = _
 }
