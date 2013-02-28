@@ -1,9 +1,13 @@
 package org.perl8.test.harness
 
-import java.io.ByteArrayOutputStream
+import java.io.{PipedInputStream,PipedOutputStream}
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-import org.perl8.test.tap
 import org.perl8.test.tap.Consumer.{TAPResult,TodoDirective}
+import org.perl8.test.tap._
 import org.perl8.test.Test
 
 class SummaryReporter extends MultiTestReporter {
@@ -18,27 +22,73 @@ class SummaryReporter extends MultiTestReporter {
     val maxLength = testNames.map(_.length).max
 
     testNames.map { name =>
-      print(name + ("." * (maxLength - name.length)) + "... ")
+      val out = new PipedOutputStream
+      val in  = new PipedInputStream(out)
 
-      val out = new ByteArrayOutputStream
       val test = newInstance[Test](name)
-      Console.withOut(out) {
-        test.run
-      }
-      val result = (new tap.Parser).parse(out)
 
-      if (result.success) {
-        println("ok")
+      val testFuture = Future {
+        Console.withOut(out) {
+          test.run
+        }
+        out.close
       }
-      else {
-        val results = result.results.length
-        val failed = result.results.count { t =>
-          !t.passed && !t.directive.isDefined
+
+      val callbackGenerator: () => TAPEvent => Unit = () => {
+        var prevWidth         = 0
+        var tests             = 0
+        var plan: Option[Int] = None
+        var failed            = false
+
+        def printStatus {
+          print("\r")
+          // print(("\b" * prevWidth) + (" " * prevWidth) + ("\b" * prevWidth))
+          print(name + " " + ("." * (maxLength - name.length)) + ".. ")
+          val display = tests + "/" + plan.getOrElse("?")
+          prevWidth = display.length
+          print(display)
+          Console.out.flush
         }
 
-        println("Dubious, test returned " + result.exitCode)
-        println("Failed " + failed + "/" + results + " subtests")
+        (e: TAPEvent) => e match {
+          case StartEvent => {
+            print(name + " " + ("." * (maxLength - name.length)) + ".. ")
+            Console.out.flush
+          }
+          case PlanEvent(p) => {
+            plan = Some(p.plan)
+            printStatus
+          }
+          case ResultEvent(r) => {
+            tests += 1
+            if (!r.passed) {
+              failed = true
+            }
+            printStatus
+          }
+          case EndEvent(result) => {
+            print(("\b" * prevWidth) + (" " * prevWidth) + ("\b" * prevWidth))
+            if (result.success) {
+              println("ok")
+            }
+            else {
+              val results = result.results.length
+              val failed = result.results.count { t =>
+                !t.passed && !t.directive.isDefined
+              }
+
+              println("Dubious, test returned " + result.exitCode)
+              println("Failed " + failed + "/" + results + " subtests")
+            }
+          }
+          case _ => ()
+        }
       }
+
+      val parser = new Parser(callbackGenerator())
+      val result = parser.parse(in)
+      in.close
+      Await.ready(testFuture, Duration.Inf)
 
       name -> result
     }.toMap
