@@ -58,13 +58,14 @@ class TestMoreTest extends TestMore {
   }
 
   val out = new ByteArrayOutputStream
-  Console.withOut(out) {
+  val exitCode = Console.withOut(out) {
     Console.withErr(out) {
       (new MyBasicTest).runRaw
     }
   }
 
   is((new Parser).parse(out).exitCode, 9, "got the right plan")
+  is(exitCode, 9, "got the right plan")
 
   val expected =
     "# ok\n" +

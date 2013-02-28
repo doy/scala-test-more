@@ -28,13 +28,14 @@ class ExtensionTest extends TestMore {
   }
 
   val out = new ByteArrayOutputStream
-  Console.withOut(out) {
+  val exitCode = Console.withOut(out) {
     Console.withErr(out) {
       (new ExtensionTestTest).runRaw
     }
   }
 
   is((new Parser).parse(out).exitCode, 2)
+  is(exitCode, 2)
 
   val tap =
     "ok 1 - it's zero\n" +
