@@ -3,8 +3,8 @@ package org.perl8.test.sbt
 import java.io.ByteArrayOutputStream
 import org.scalatools.testing
 
-import org.perl8.test.harness._
-import org.perl8.test.tap
+import org.perl8.test.harness.Reporter
+import org.perl8.test.tap.Parser
 import org.perl8.test.Test
 
 class SBTReporter (
@@ -20,7 +20,7 @@ class SBTReporter (
       test.runInHarness
     }
 
-    val result = (new tap.Parser).parse(out)
+    val result = (new Parser).parse(out)
 
     result.results.foreach { r =>
       val event = new testing.Event {
