@@ -43,7 +43,7 @@ package object test {
   }
 
   sealed trait Message
-  case class HasMessage (val contents: String) extends Message
+  case class HasMessage (contents: String) extends Message
   case object NoMessage extends Message
 
   implicit def messageToOption (message: Message): Option[String] =
@@ -58,6 +58,6 @@ package object test {
       case None    => NoMessage
     }
 
-  case class BailOutException (val message: String)
+  case class BailOutException (message: String)
     extends RuntimeException(message)
 }

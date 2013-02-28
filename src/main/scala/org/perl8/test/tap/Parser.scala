@@ -188,8 +188,8 @@ class Parser private (
   }
 
   private case class LinePosition (
-    override val line: Int,
-    override val lineContents: String
+    line: Int,
+    lineContents: String
   ) extends Position {
     def column: Int = 1
   }

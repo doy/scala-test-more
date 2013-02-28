@@ -57,17 +57,11 @@ object Consumer {
       indent + contents
   }
 
-  case class CommentLine (
-    val text:            String,
-    override val indent: String
-  ) extends Line {
+  case class CommentLine (text: String, indent: String) extends Line {
     def contents = "# " + text
   }
 
-  case class PlanLine (
-    val plan:            Plan,
-    override val indent: String
-  ) extends Line {
+  case class PlanLine (plan: Plan, indent: String) extends Line {
     def contents = {
       val count = plan.plan
       val comment = plan match {
@@ -78,11 +72,8 @@ object Consumer {
     }
   }
 
-  case class ResultLine(
-    val result:          TestResult,
-    override val indent: String
-  ) extends Line {
-    def contents =  {
+  case class ResultLine (result: TestResult, indent: String) extends Line {
+    def contents = {
       val success = (if (result.passed) "ok" else "not ok") + " "
       val number = result.number + " "
       val description = result.description match {
@@ -107,14 +98,10 @@ object Consumer {
   sealed trait Directive {
     val message: Option[String]
   }
-  case class SkipDirective (
-    override val message: Option[String]
-  ) extends Directive
-  case class TodoDirective (
-    override val message: Option[String]
-  ) extends Directive
+  case class SkipDirective (message: Option[String]) extends Directive
+  case class TodoDirective (message: Option[String]) extends Directive
 
-  case class TestResult (
+  class TestResult (
     val passed:      Boolean,
     val number:      Int,
     val description: String,
@@ -149,7 +136,5 @@ object Consumer {
       }
   }
 
-  case class ParseException (
-    val message: String
-  ) extends RuntimeException(message)
+  case class ParseException (message: String) extends RuntimeException(message)
 }
