@@ -9,7 +9,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder(4)
+        val builder = new TestBuilder(Some(4))
         builder.ok(true, "test succeeded")
         builder.ok(false, "test failed")
         builder.ok(true)
@@ -33,7 +33,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.ok(true, "test succeeded")
         builder.ok(false, "test failed")
         builder.ok(true)
@@ -57,7 +57,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.doneTesting
       }
     }
@@ -73,7 +73,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.ok(true, "the test passes")
         builder.ok(false, "the test passes")
         builder.diag("got false, expected true")
@@ -104,7 +104,7 @@ class TestBuilderTest extends TestMore {
     is(
       Console.withOut(output) {
         Console.withErr(output) {
-          val builder = new TestBuilder
+          val builder = new TestBuilder(None)
           builder.doneTesting
         }
       },
@@ -114,7 +114,7 @@ class TestBuilderTest extends TestMore {
     is(
       Console.withOut(output) {
         Console.withErr(output) {
-          val builder = new TestBuilder
+          val builder = new TestBuilder(None)
           builder.ok(true)
           builder.doneTesting
         }
@@ -125,7 +125,7 @@ class TestBuilderTest extends TestMore {
     is(
       Console.withOut(output) {
         Console.withErr(output) {
-          val builder = new TestBuilder
+          val builder = new TestBuilder(None)
           builder.ok(true)
           builder.ok(false)
           builder.doneTesting
@@ -137,7 +137,7 @@ class TestBuilderTest extends TestMore {
     is(
       Console.withOut(output) {
         Console.withErr(output) {
-          val builder = new TestBuilder
+          val builder = new TestBuilder(None)
           builder.ok(true)
           builder.ok(false)
           builder.ok(true)
@@ -154,7 +154,7 @@ class TestBuilderTest extends TestMore {
     val oldErr = Console.err
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.ok(true)
         try {
           builder.bailOut("oh no!")
@@ -190,7 +190,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder(SkipAll())
+        val builder = new TestBuilder(Some(SkipAll()))
       }
     }
 
@@ -204,7 +204,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder(SkipAll("foo bar"))
+        val builder = new TestBuilder(Some(SkipAll("foo bar")))
       }
     }
 
@@ -218,7 +218,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.ok(false)
         builder.skip("not now")
         builder.skip()
@@ -240,7 +240,7 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder
+        val builder = new TestBuilder(None)
         builder.ok(false, "do a thing", todo = "not working yet")
         builder.ok(true, todo = "is it?")
         builder.doneTesting

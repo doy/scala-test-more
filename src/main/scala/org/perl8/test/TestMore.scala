@@ -11,7 +11,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   def delayedInit (body: => Unit) {
     testBody = { terminalInUse =>
       todo    = NoMessage
-      builder = new TestBuilder(plan, "", terminalInUse)
+      builder = new TestBuilder(plan, terminalInUse)
       body
     }
   }
@@ -122,11 +122,7 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
   )(body: => Unit): Boolean = {
     val oldBuilder = builder
     val success = try {
-      builder = new TestBuilder(
-        plan,
-        oldBuilder.indent + "    ",
-        oldBuilder.terminalInUse
-      )
+      builder = oldBuilder.cloneForSubtest(plan)
       body
       builder.doneTesting
     }
