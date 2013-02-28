@@ -3,42 +3,39 @@ package org.perl8.test.tap
 object Producer {
   import org.perl8.test._
 
-  def result (
-    cond: Boolean,
-    num:  Int,
-    desc: Message = NoMessage,
-    todo: Message = NoMessage
-  ): String =
-    join(
-      (if (!cond) Some("not") else None),
-      Some("ok"),
-      Some(num),
-      desc,
-      todo.map(t => "# TODO " + t)
-    )
+  def result (cond: Boolean, num: Int): String =
+    (if (cond) "ok " else "not ok ") + num
 
-  def skip (num: Int, reason: Message = NoMessage): String =
-    join(
-      Some("ok"),
-      Some(num),
-      Some("# skip"),
-      reason
-    )
+  def result (cond: Boolean, num: Int, desc: String): String =
+    result(cond, num) + " " + desc
+
+  def todoResult (cond: Boolean, num: Int, todo: String): String =
+    result(cond, num) + " # TODO " + todo
+
+  def todoResult (cond: Boolean, num: Int, desc: String, todo: String): String =
+    result(cond, num, desc) + " # TODO " + todo
+
+  def skip (num: Int): String =
+    "ok " + num + " # skip"
+
+  def skip (num: Int, reason: String): String =
+    skip(num) + " " + reason
 
   def comment (message: String): String =
     message.split("\n").map(m => "# " + m).mkString("\n")
 
   def plan (plan: Plan): String =
-    join(
-      Some("1.." + plan.plan),
-      (if (plan.skipAll || plan.message.isDefined) Some("#") else None),
-      (if (plan.skipAll) Some("SKIP") else None),
-      plan.message
-    )
+    if (plan.skipAll) {
+      val skip = "1..0 # SKIP"
+      plan.message.map(m => skip + " " + m).getOrElse(skip)
+    }
+    else {
+      "1.." + plan.plan
+    }
 
-  def bailOut (message: Message = NoMessage) =
-    join(Some("Bail out!"), message)
+  def bailOut: String =
+    "Bail out!"
 
-  private def join (strings: Option[Any]*): String =
-    strings.flatMap(x => x).mkString(" ")
+  def bailOut (message: String): String =
+    "Bail out!  " + message
 }

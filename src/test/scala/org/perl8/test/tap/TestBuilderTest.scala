@@ -160,19 +160,19 @@ class TestBuilderTest extends TestMore {
           builder.bailOut("oh no!")
           Console.withOut(oldOut) {
             Console.withErr(oldErr) {
-              fail()
+              fail
             }
           }
         }
         catch {
           case e: BailOutException => Console.withOut(oldOut) {
             Console.withErr(oldErr) {
-              is(e.message, "oh no!")
+              is(e.message, "Bail out!  oh no!")
             }
           }
           case _: Throwable => Console.withOut(oldOut) {
             Console.withErr(oldErr) {
-              fail()
+              fail
             }
           }
         }
@@ -181,7 +181,7 @@ class TestBuilderTest extends TestMore {
 
     val expected =
       "ok 1\n" +
-      "Bail out! oh no!\n"
+      "Bail out!  oh no!\n"
 
     is(output.toString, expected)
   }
@@ -221,7 +221,7 @@ class TestBuilderTest extends TestMore {
         val builder = new TestBuilder
         builder.ok(false)
         builder.skip("not now")
-        builder.skip()
+        builder.skip
         builder.doneTesting
       }
     }
@@ -241,8 +241,8 @@ class TestBuilderTest extends TestMore {
     Console.withOut(output) {
       Console.withErr(output) {
         val builder = new TestBuilder
-        builder.ok(false, "do a thing", todo = "not working yet")
-        builder.ok(true, todo = "is it?")
+        builder.okTodo(false, "do a thing", todo = "not working yet")
+        builder.okTodo(true, todo = "is it?")
         builder.doneTesting
       }
     }

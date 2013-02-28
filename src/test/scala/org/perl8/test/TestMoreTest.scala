@@ -43,17 +43,17 @@ class TestMoreTest extends TestMore {
 
     diag("pass")
     pass("it works!")
-    pass()
+    pass
 
     skip(2, "don't do this yet") {
       pass("skipped")
-      pass()
+      pass
     }
 
     todo("not working yet") {
       diag("fail")
       fail("it doesn't work")
-      fail()
+      fail
     }
   }
 

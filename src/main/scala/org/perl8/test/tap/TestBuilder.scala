@@ -18,55 +18,74 @@ class TestBuilder private (
   def cloneForSubtest (newPlan: Plan): TestBuilder =
     new TestBuilder(newPlan, indent + "    ", terminalInUse)
 
-  def ok (
-    test:        Boolean,
-    description: Message = NoMessage,
-    todo:        Message = NoMessage
-  ) {
-    val line = Producer.result(test, state.currentTest, description, todo)
-    state.ok(test || todo.isDefined)
-    outLine(line)
+  def ok (test: Boolean) {
+    state.ok(test)
+    outLine(Producer.result(test, state.currentTest))
   }
 
-  def skip (reason: Message = NoMessage) {
-    val line = Producer.skip(state.currentTest, reason)
+  def ok (test: Boolean, description: String) {
+    state.ok(test)
+    outLine(Producer.result(test, state.currentTest, description))
+  }
+
+  def okTodo (test: Boolean, todo: String) {
     state.ok(true)
-    outLine(line)
+    outLine(Producer.todoResult(test, state.currentTest, todo))
   }
 
-  def diag (message: Message) {
-    message.foreach { m =>
-      errLine(Producer.comment(m))
-    }
+  def okTodo (test: Boolean, description: String, todo: String) {
+    state.ok(true)
+    outLine(Producer.todoResult(test, state.currentTest, description, todo))
   }
 
-  def note (message: Message) {
-    message.foreach(m => outLine(Producer.comment(m)))
+  def skip {
+    state.ok(true)
+    outLine(Producer.skip(state.currentTest))
   }
 
-  def bailOut (message: Message = NoMessage) {
-    outLine(Producer.bailOut(message))
-    throw new BailOutException(message.getOrElse(""))
+  def skip (reason: String) {
+    state.ok(true)
+    outLine(Producer.skip(state.currentTest, reason))
+  }
+
+  def diag (message: String) {
+    errLine(Producer.comment(message))
+  }
+
+  def note (message: String) {
+    outLine(Producer.comment(message))
+  }
+
+  def bailOut {
+    val bailOutMessage = Producer.bailOut
+    outLine(bailOutMessage)
+    throw new BailOutException(bailOutMessage)
+  }
+
+  def bailOut (message: String) {
+    val bailOutMessage = Producer.bailOut(message)
+    outLine(bailOutMessage)
+    throw new BailOutException(bailOutMessage)
   }
 
   def doneTesting: Boolean = {
     plan match {
-      case NoPlan => outLine(Producer.plan(state.currentTest - 1))
+      case NoPlan => outLine(Producer.plan(state.currentTest))
       case _      => ()
     }
 
     if (!state.isPassing) {
       if (!state.matchesPlan) {
         val planCount = (plan match {
-          case NoPlan  => state.currentTest - 1
+          case NoPlan  => state.currentTest
           case p       => p.plan
         })
         val planned = planCount + " test" + (if (planCount > 1) "s" else "")
-        val ran = state.currentTest - 1
+        val ran = state.currentTest
         diag("Looks like you planned " + planned + " but ran " + ran + ".")
       }
 
-      if (state.currentTest == 1) {
+      if (state.currentTest == 0) {
         diag("No tests run!")
       }
 
@@ -74,7 +93,7 @@ class TestBuilder private (
         val count = state.failCount
         val fails = count + " test" + (if (count > 1) "s" else "")
         val total =
-          state.currentTest - 1 + (if (state.matchesPlan) "" else " run")
+          state.currentTest + (if (state.matchesPlan) "" else " run")
         diag("Looks like you failed " + fails + " of " + total + ".")
       }
     }
@@ -126,14 +145,14 @@ class TestBuilder private (
     }
 
     def currentTest: Int =
-      failCount + passCount + 1
+      failCount + passCount
 
     def matchesPlan: Boolean = plan match {
-      case NumericPlan(p) => p.plan == failCount + passCount
+      case NumericPlan(p) => p.plan == currentTest
       case _              => true
     }
 
     def isPassing: Boolean =
-      currentTest > 1 && failCount == 0 && matchesPlan
+      currentTest > 0 && failCount == 0 && matchesPlan
   }
 }

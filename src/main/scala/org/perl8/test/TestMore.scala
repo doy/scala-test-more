@@ -7,7 +7,7 @@ import org.perl8.test.tap.TestBuilder
 class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
   def delayedInit (body: => Unit) {
     testBody = { terminalInUse =>
-      todo    = NoMessage
+      todo    = None
       builder = new TestBuilder(plan, terminalInUse)
       body
     }
@@ -23,80 +23,64 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     builder.exitCode
   }
 
-  def ok (cond: Boolean, desc: Message = NoMessage): Boolean = {
-    builderOk(cond, desc)
-    if (!cond) {
-      failed(desc)
-    }
-    cond
-  }
+  def ok (cond: Boolean): Boolean =
+    test(cond)
 
-  def is[T] (got: T, expected: T, desc: Message = NoMessage): Boolean = {
-    val cond = got == expected
-    builderOk(cond, desc)
-    if (!cond) {
-      val reason =
-        "         got: '" + got + "'\n" +
-        "    expected: '" + expected + "'\n"
-      failed(desc, reason)
-    }
-    cond
-  }
+  def ok (cond: Boolean, desc: String): Boolean =
+    testWithDesc(cond, desc)
 
-  def isnt[T] (got: T, expected: T, desc: Message = NoMessage): Boolean = {
-    val cond = got != expected
-    builderOk(cond, desc)
-    if (!cond) {
-      val reason =
-        "         got: '" + got + "'\n" +
-        "    expected: anything else\n"
-      failed(desc, reason)
-    }
-    cond
-  }
+  def is[T] (got: T, expected: T): Boolean =
+    test(got == expected, isMessage(got, expected))
 
-  def like (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
-    val cond = rx.findFirstIn(got).nonEmpty
-    builderOk(cond, desc)
-    if (!cond) {
-      val reason =
-        "                  '" + got + "'\n" +
-        "    doesn't match '" + rx + "'\n"
-      failed(desc, reason)
-    }
-    cond
-  }
+  def is[T] (got: T, expected: T, desc: String): Boolean =
+    testWithDesc(got == expected, desc, isMessage(got, expected))
 
-  def unlike (got: String, rx: Regex, desc: Message = NoMessage): Boolean = {
-    val cond = rx.findFirstIn(got).isEmpty
-    builderOk(cond, desc)
-    if (!cond) {
-      val reason =
-        "                  '" + got + "'\n" +
-        "          matches '" + rx + "'\n"
-      failed(desc, reason)
-    }
-    cond
-  }
+  def isnt[T] (got: T, expected: T): Boolean =
+    test(got != expected, isntMessage(got))
 
-  def pass (desc: Message = NoMessage): Boolean =
+  def isnt[T] (got: T, expected: T, desc: String): Boolean =
+    testWithDesc(got != expected, desc, isntMessage(got))
+
+  def like (got: String, rx: Regex): Boolean =
+    test(rx.findFirstIn(got).nonEmpty, likeMessage(got, rx))
+
+  def like (got: String, rx: Regex, desc: String): Boolean =
+    testWithDesc(rx.findFirstIn(got).nonEmpty, desc, likeMessage(got, rx))
+
+  def unlike (got: String, rx: Regex): Boolean =
+    test(rx.findFirstIn(got).isEmpty, unlikeMessage(got, rx))
+
+  def unlike (got: String, rx: Regex, desc: String): Boolean =
+    testWithDesc(rx.findFirstIn(got).isEmpty, desc, unlikeMessage(got, rx))
+
+  def pass: Boolean =
+    ok(true)
+
+  def pass (desc: String): Boolean =
     ok(true, desc)
 
-  def fail (desc: Message = NoMessage): Boolean =
+  def fail: Boolean =
+    ok(false)
+
+  def fail (desc: String): Boolean =
     ok(false, desc)
 
   def diag (message: String) {
     builder.diag(message)
   }
 
-  def BAIL_OUT (desc: Message = NoMessage) {
+  def BAIL_OUT {
+    builder.bailOut
+  }
+
+  def BAIL_OUT (desc: String) {
     builder.bailOut(desc)
   }
 
-  def todo (reason: Message = NoMessage)(body: => Unit) {
+  def todo (reason: String)(body: => Unit) {
     val oldTodo = todo
     try {
-      todo = reason
+      todo = Some(reason)
       body
     }
     finally {
@@ -104,14 +88,20 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     }
   }
 
-  def skip (count: Int, reason: Message = NoMessage)(body: => Unit) {
+  def skip (count: Int)(body: => Unit) {
+    for (i <- 1 to count) {
+      builder.skip
+    }
+  }
+
+  def skip (count: Int, reason: String)(body: => Unit) {
     for (i <- 1 to count) {
       builder.skip(reason)
     }
   }
 
   def subtest (
-    name: Message,
+    name: String,
     plan: Plan = NoPlan
   )(body: => Unit): Boolean = {
     val oldBuilder = builder
@@ -126,32 +116,74 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     ok(success, name)
   }
 
-  protected def ignoreFrame (frame: StackTraceElement): Boolean = {
-    val className = frame.getClassName
-    val methodName = frame.getMethodName
+  private def isMessage[T] (got: T, expected: T): String =
+    "         got: '" + got + "'\n" +
+    "    expected: '" + expected + "'\n"
 
-    // ignore everything in this class, except the hideTestMethod call which we
-    // use as a stack trace marker
-    (className == "org.perl8.test.TestMore" &&
-      methodName != "hideTestMethod") ||
-    // when you call a method in a class when the method is defined in a
-    // trait, it calls a stub which calls the real definition in the trait.
-    // the trait is represented under the hood as a class with the same name
-    // as the trait, except with $class appended. this is a gross reliance on
-    // implementation details that could change at any moment, but i don't
-    // really see any better options.
-    """\$class$""".r.findFirstIn(className).nonEmpty
+  private def isntMessage[T] (got: T): String =
+    "         got: '" + got + "'\n" +
+    "    expected: anything else\n"
+
+  private def likeMessage (got: String, rx: Regex): String =
+    "                  '" + got + "'\n" +
+    "    doesn't match '" + rx + "'\n"
+
+  private def unlikeMessage (got: String, rx: Regex): String =
+    "                  '" + got + "'\n" +
+    "          matches '" + rx + "'\n"
+
+  private def testWithDesc (
+    cond:   Boolean,
+    desc:   String
+  ): Boolean = {
+    todo match {
+      case Some(t) => builder.okTodo(cond, "- " + desc, t)
+      case None    => builder.ok(cond, "- " + desc)
+    }
+    if (!cond) {
+      failed(Some(desc), None)
+    }
+    cond
   }
 
-  private def builderOk (cond: Boolean, desc: Message) {
-    builder.ok(cond, desc.map(d => "- " + d), todo)
+  private def testWithDesc (
+    cond:   Boolean,
+    desc:   String,
+    reason: => String
+  ): Boolean = {
+    todo match {
+      case Some(t) => builder.okTodo(cond, "- " + desc, t)
+      case None    => builder.ok(cond, "- " + desc)
+    }
+    if (!cond) {
+      failed(Some(desc), Some(reason))
+    }
+    cond
   }
 
-  private def failed (desc: Message, reason: String) {
-    failed(desc, Some(reason))
+  private def test (cond: Boolean): Boolean = {
+    todo match {
+      case Some(t) => builder.okTodo(cond, t)
+      case None    => builder.ok(cond)
+    }
+    if (!cond) {
+      failed(None, None)
+    }
+    cond
   }
 
-  private def failed (desc: Message, reason: Option[String] = None) {
+  private def test (cond: Boolean, reason: => String): Boolean = {
+    todo match {
+      case Some(t) => builder.okTodo(cond, t)
+      case None    => builder.ok(cond)
+    }
+    if (!cond) {
+      failed(None, Some(reason))
+    }
+    cond
+  }
+
+  private def failed (desc: Option[String], reason: Option[String]) {
     val stack = Thread.currentThread.getStackTrace.drop(1).filter { frame =>
       !ignoreFrame(frame)
     }
@@ -171,11 +203,11 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
       case None        => ("<unknown file>", "<unknown line>")
     }
     val message = "  " + (todo match {
-      case HasMessage(_) => "Failed (TODO) test"
-      case NoMessage     => "Failed test"
+      case Some(_) => "Failed (TODO) test"
+      case None    => "Failed test"
     }) + (desc match {
-      case HasMessage(m) => " '" + m + "'\n  "
-      case NoMessage     => " "
+      case Some(m) => " '" + m + "'\n  "
+      case None    => " "
     })
     val trace = "at " + file + " line " + line + "."
     builder.diag(message + trace + reason.map("\n" + _).getOrElse(""))
@@ -187,7 +219,24 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     body
   }
 
-  private var todo: Message             = _
-  private var builder: TestBuilder      = _
+  protected def ignoreFrame (frame: StackTraceElement): Boolean = {
+    val className = frame.getClassName
+    val methodName = frame.getMethodName
+
+    // ignore everything in this class, except the hideTestMethod call which we
+    // use as a stack trace marker
+    (className == "org.perl8.test.TestMore" &&
+      methodName != "hideTestMethod") ||
+    // when you call a method in a class when the method is defined in a
+    // trait, it calls a stub which calls the real definition in the trait.
+    // the trait is represented under the hood as a class with the same name
+    // as the trait, except with $class appended. this is a gross reliance on
+    // implementation details that could change at any moment, but i don't
+    // really see any better options.
+    """\$class$""".r.findFirstIn(className).nonEmpty
+  }
+
+  private var todo:     Option[String]  = _
+  private var builder:  TestBuilder     = _
   private var testBody: Boolean => Unit = _
 }

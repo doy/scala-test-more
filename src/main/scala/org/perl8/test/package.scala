@@ -6,9 +6,6 @@ package object test {
   implicit def intToPlan (p: Int): Plan =
     NumericPlan(p)
 
-  implicit def stringToMessage (s: String): Message =
-    new HasMessage(s)
-
   sealed trait Plan {
     val plan:    Int
     val skipAll: Boolean
@@ -42,22 +39,7 @@ package object test {
     def apply () = SkipAllNoMessage
   }
 
-  sealed trait Message
-  case class HasMessage (contents: String) extends Message
-  case object NoMessage extends Message
-
-  implicit def messageToOption (message: Message): Option[String] =
-    message match {
-      case HasMessage(x) => Some(x)
-      case NoMessage     => None
-    }
-
-  implicit def optionToMessage (option: Option[String]): Message =
-    option match {
-      case Some(x) => HasMessage(x)
-      case None    => NoMessage
-    }
-
-  case class BailOutException (message: String)
-    extends RuntimeException(message)
+  case class BailOutException (
+    message: String
+  ) extends RuntimeException(message)
 }
