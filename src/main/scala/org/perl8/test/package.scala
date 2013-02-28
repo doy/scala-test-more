@@ -8,35 +8,21 @@ package object test {
 
   sealed trait Plan {
     val plan:    Int
-    val skipAll: Boolean
-    val message: Option[String]
+    val skipAll: Option[String]
   }
 
   case class NumericPlan (plan: Int) extends Plan {
-    val skipAll = false
-    val message = None
+    val skipAll = None
   }
 
   case object NoPlan extends Plan {
     val plan    = 0
-    val skipAll = false
-    val message = None
+    val skipAll = None
   }
 
-  case class SkipAll (msg: String) extends Plan {
+  case class SkipAll (message: String) extends Plan {
     val plan    = 0
-    val skipAll = true
-    val message = Some(msg)
-  }
-
-  case object SkipAllNoMessage extends Plan {
-    val plan    = 0
-    val skipAll = true
-    val message = None
-  }
-
-  object SkipAll {
-    def apply () = SkipAllNoMessage
+    val skipAll = Some(message)
   }
 
   case class BailOutException (

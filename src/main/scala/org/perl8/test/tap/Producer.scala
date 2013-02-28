@@ -25,13 +25,7 @@ object Producer {
     message.split("\n").map(m => "# " + m).mkString("\n")
 
   def plan (plan: Plan): String =
-    if (plan.skipAll) {
-      val skip = "1..0 # SKIP"
-      plan.message.map(m => skip + " " + m).getOrElse(skip)
-    }
-    else {
-      "1.." + plan.plan
-    }
+    plan.skipAll.map(m => "1..0 # SKIP " + m).getOrElse("1.." + plan.plan)
 
   def bailOut: String =
     "Bail out!"

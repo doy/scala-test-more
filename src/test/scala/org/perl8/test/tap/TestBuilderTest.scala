@@ -190,20 +190,6 @@ class TestBuilderTest extends TestMore {
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
-        val builder = new TestBuilder(SkipAll())
-      }
-    }
-
-    val expected =
-      "1..0 # SKIP\n"
-
-    is(output.toString, expected)
-  }
-
-  subtest ("skip all with reason") {
-    val output = new ByteArrayOutputStream
-    Console.withOut(output) {
-      Console.withErr(output) {
         val builder = new TestBuilder(SkipAll("foo bar"))
       }
     }
