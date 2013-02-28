@@ -3,19 +3,19 @@ package org.perl8.test.tap
 import org.perl8.test._
 
 class TestBuilder private (
-  plan:          Option[Plan],
+  plan:          Plan,
   indent:        String,
   terminalInUse: Boolean
 ) {
-  plan.foreach(p => outLine(Producer.plan(p)))
+  plan match {
+    case NoPlan => ()
+    case p      => outLine(Producer.plan(p))
+  }
 
-  def this (plan: Option[Plan], terminalInUse: Boolean) =
+  def this (plan: Plan = NoPlan, terminalInUse: Boolean = false) =
     this(plan, "", terminalInUse)
 
-  def this (plan: Option[Plan]) =
-    this(plan, "", false)
-
-  def cloneForSubtest (newPlan: Option[Plan]): TestBuilder =
+  def cloneForSubtest (newPlan: Plan): TestBuilder =
     new TestBuilder(newPlan, indent + "    ", terminalInUse)
 
   def ok (
@@ -51,15 +51,15 @@ class TestBuilder private (
 
   def doneTesting: Boolean = {
     plan match {
-      case None => outLine(Producer.plan(state.currentTest - 1))
-      case _    => ()
+      case NoPlan => outLine(Producer.plan(state.currentTest - 1))
+      case _      => ()
     }
 
     if (!state.isPassing) {
       if (!state.matchesPlan) {
         val planCount = (plan match {
-          case Some(p) => p.plan
-          case None    => state.currentTest - 1
+          case NoPlan  => state.currentTest - 1
+          case p       => p.plan
         })
         val planned = planCount + " test" + (if (planCount > 1) "s" else "")
         val ran = state.currentTest - 1
@@ -128,8 +128,9 @@ class TestBuilder private (
     def currentTest: Int =
       failCount + passCount + 1
 
-    def matchesPlan: Boolean = plan.forall { p =>
-      p.plan == failCount + passCount
+    def matchesPlan: Boolean = plan match {
+      case NumericPlan(p) => p.plan == failCount + passCount
+      case _              => true
     }
 
     def isPassing: Boolean =

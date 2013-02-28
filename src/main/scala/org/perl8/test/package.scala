@@ -15,22 +15,31 @@ package object test {
     val message: Option[String]
   }
 
-  case class NumericPlan (
-    override val plan: Int
-  ) extends Plan {
-    override val skipAll = false
-    override val message = None
+  case class NumericPlan (plan: Int) extends Plan {
+    val skipAll = false
+    val message = None
   }
 
-  case class SkipAll (
-    override val message: Option[String] = None
-  ) extends Plan {
-    override val plan    = 0
-    override val skipAll = true
+  case object NoPlan extends Plan {
+    val plan    = 0
+    val skipAll = false
+    val message = None
+  }
+
+  case class SkipAll (msg: String) extends Plan {
+    val plan    = 0
+    val skipAll = true
+    val message = Some(msg)
+  }
+
+  case object SkipAllNoMessage extends Plan {
+    val plan    = 0
+    val skipAll = true
+    val message = None
   }
 
   object SkipAll {
-    def apply (reason: String) = new SkipAll(Some(reason))
+    def apply () = SkipAllNoMessage
   }
 
   sealed trait Message

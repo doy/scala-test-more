@@ -125,7 +125,7 @@ object Consumer {
   class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
     val correctPlan = plan match {
       case NumericPlan(n) => results.length == n
-      case SkipAll(_)     => results.length == 0
+      case _              => results.length == 0
     }
 
     val fails = results.count { r =>

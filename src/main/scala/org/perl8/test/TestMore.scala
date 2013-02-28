@@ -4,10 +4,7 @@ import scala.util.matching.Regex
 
 import org.perl8.test.tap.TestBuilder
 
-class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
-  def this (plan: Plan) =
-    this(Some(plan))
-
+class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
   def delayedInit (body: => Unit) {
     testBody = { terminalInUse =>
       todo    = NoMessage
@@ -113,12 +110,9 @@ class TestMore (plan: Option[Plan] = None) extends Test with DelayedInit {
     }
   }
 
-  def subtest (name: Message, plan: Plan)(body: => Unit): Boolean =
-    subtest(name, Some(plan))(body)
-
   def subtest (
     name: Message,
-    plan: Option[Plan] = None
+    plan: Plan = NoPlan
   )(body: => Unit): Boolean = {
     val oldBuilder = builder
     val success = try {
