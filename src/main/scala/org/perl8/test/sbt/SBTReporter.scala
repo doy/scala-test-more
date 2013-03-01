@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream
 import org.scalatools.testing
 
 import org.perl8.test.harness.{Reporter,SummarizedTests}
-import org.perl8.test.tap._
+import org.perl8.test.tap.{TAPEvent,ResultEvent,EndEvent}
 import org.perl8.test.Test
 
 class SBTReporter (

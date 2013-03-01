@@ -1,7 +1,7 @@
 package org.perl8.test.harness
 
 import org.perl8.test.tap.Consumer.{TAPResult,TodoDirective}
-import org.perl8.test.tap._
+import org.perl8.test.tap.{TAPEvent,StartEvent,ResultEvent,PlanEvent,EndEvent}
 import org.perl8.test.Test
 
 class SummaryReporter extends MultiTestReporter with SummarizedTests {

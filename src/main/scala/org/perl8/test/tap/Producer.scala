@@ -1,7 +1,7 @@
 package org.perl8.test.tap
 
 object Producer {
-  import org.perl8.test._
+  import org.perl8.test.Plan
 
   def result (cond: Boolean, num: Int): String =
     (if (cond) "ok " else "not ok ") + num
