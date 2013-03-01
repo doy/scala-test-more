@@ -52,7 +52,8 @@ object Consumer {
 
   sealed trait Line {
     def contents: String
-    def indent: String
+    def indent:   String
+
     override def toString: String =
       indent + contents
   }
