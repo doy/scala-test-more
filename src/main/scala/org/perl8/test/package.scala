@@ -3,7 +3,9 @@ package org.perl8
 package object test {
   import language.implicitConversions
 
-  /** Converts an [[scala.Int Int]] to a [[NumericPlan]].
+  /** Converts an
+    * [[http://www.scala-lang.org/api/current/index.html#scala.Int Int]] to a
+    * [[NumericPlan]].
     */
   implicit def intToPlan (p: Int): Plan =
     NumericPlan(p)
