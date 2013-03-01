@@ -122,7 +122,7 @@ object Consumer {
     val testsPassed = fails == 0
 
     val success =
-      matchesPlan && testsPassed
+      results.length > 0 && fails == 0 && matchesPlan
 
     val exitCode =
       if (!matchesPlan || results.length == 0) {

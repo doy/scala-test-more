@@ -32,7 +32,23 @@ class SBTReporter (
         eventHandler.handle(event)
       }
       case EndEvent(result) => {
-        if (result.success) {
+        val testsPassed = result.success
+        val correctCode = result.exitCode == 0
+        val event = new testing.Event {
+          val testName:    String = "exit code is 0"
+          val description: String = "exit code is 0"
+          val result:      testing.Result =
+            if (correctCode) {
+              testing.Result.Success
+            }
+            else {
+              testing.Result.Failure
+            }
+          val error: Throwable = null
+        }
+        eventHandler.handle(event)
+
+        if (testsPassed && correctCode) {
           logInfo("PASS " + testName)
         }
         else {
@@ -41,10 +57,18 @@ class SBTReporter (
             !t.passed && !t.directive.isDefined
           }
 
-          logError(
-            "FAIL " + testName + " " +
-            "(failed " + failed + "/" + results + ")"
-          )
+          val errors = Seq(
+            (if (testsPassed)
+              None
+            else
+              Some("failed " + failed + "/" + results)),
+            (if (correctCode)
+              None
+            else
+              Some("non-zero exit code: " + result.exitCode))
+          ).flatten.mkString("(", ", ", ")")
+
+          logError("FAIL " + testName + " " + errors)
         }
       }
       case _ => ()
