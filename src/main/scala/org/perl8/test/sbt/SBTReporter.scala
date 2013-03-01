@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream
 import org.scalatools.testing
 
 import org.perl8.test.harness.{Reporter,SummarizedTests}
+import org.perl8.test.tap._
 import org.perl8.test.Test
 
 class SBTReporter (
@@ -12,36 +13,48 @@ class SBTReporter (
   eventHandler: testing.EventHandler
 ) extends Reporter with SummarizedTests {
   def run (testName: String): Int = {
-    val test = loader.loadClass(testName).newInstance.asInstanceOf[Test]
-    val result = runOneTest(test, e => ())
-
-    result.results.foreach { r =>
-      val event = new testing.Event {
-        val testName:    String = r.description
-        val description: String = r.description
-        val result:      testing.Result =
-          if (r.passed) {
-            testing.Result.Success
-          }
-          else if (r.directive.isDefined) {
-            testing.Result.Skipped
-          }
-          else {
-            testing.Result.Failure
-          }
-        val error: Throwable = null
+    val cb = (e: TAPEvent) => e match {
+      case ResultEvent(r) => {
+        val event = new testing.Event {
+          val testName:    String = r.description
+          val description: String = r.description
+          val result:      testing.Result =
+            if (r.passed) {
+              testing.Result.Success
+            }
+            else if (r.directive.isDefined) {
+              testing.Result.Skipped
+            }
+            else {
+              testing.Result.Failure
+            }
+          val error: Throwable = null
+        }
+        eventHandler.handle(event)
       }
-      eventHandler.handle(event)
+      case EndEvent(result) => {
+        if (result.success) {
+          logInfo("PASS " + testName)
+        }
+        else {
+          val results = result.results.length
+          val failed = result.results.count { t =>
+            !t.passed && !t.directive.isDefined
+          }
+
+          logError(
+            "FAIL " + testName + " " +
+            "(failed " + failed + "/" + results + ")"
+          )
+        }
+      }
+      case _ => ()
     }
 
-    if (result.success) {
-      logInfo("PASS " + testName)
-      0
-    }
-    else {
-      logError("FAIL " + testName)
-      1
-    }
+    runOneTest(
+      loader.loadClass(testName).newInstance.asInstanceOf[Test],
+      cb
+    ).exitCode
   }
 
   private def logDebug (msg: String) {
