@@ -210,7 +210,13 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
       case None    => " "
     })
     val trace = "at " + file + " line " + line + "."
-    builder.diag(message + trace + reason.map("\n" + _).getOrElse(""))
+    val explanation = message + trace + reason.map("\n" + _).getOrElse("")
+    if (todo.isDefined) {
+      builder.note(explanation)
+    }
+    else {
+      builder.diag(explanation)
+    }
   }
 
   // this just adds a method call with a known name to the stack trace, so
