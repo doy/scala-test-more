@@ -1,6 +1,5 @@
 package org.perl8.test.sbt
 
-import java.io.ByteArrayOutputStream
 import org.scalatools.testing
 
 import org.perl8.test.harness.{Reporter,SummarizedTests}
