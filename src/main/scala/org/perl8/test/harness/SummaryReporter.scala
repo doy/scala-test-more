@@ -4,6 +4,10 @@ import org.perl8.test.tap.{TAPEvent,StartEvent,ResultEvent,PlanEvent,EndEvent}
 import org.perl8.test.tap.{TAPResult,TodoDirective}
 import org.perl8.test.Test
 
+/** Runs a series of tests. The TAP output from these tests is parsed, and
+  * output is produced which is similar in style to Perl's
+  * [[https://metacpan.org/module/Test::Harness Test::Harness]].
+  */
 class SummaryReporter extends MultiTestReporter with SummarizedTests {
   def run (testNames: Seq[String]): Int = {
     val results = runTests(testNames)
@@ -12,7 +16,7 @@ class SummaryReporter extends MultiTestReporter with SummarizedTests {
     if (success) 0 else 1
   }
 
-  def runTests (testNames: Seq[String]): Map[String, TAPResult] = {
+  protected def runTests (testNames: Seq[String]): Map[String, TAPResult] = {
     val maxLength = testNames.map(_.length).max
 
     testNames.map { name =>
@@ -70,7 +74,7 @@ class SummaryReporter extends MultiTestReporter with SummarizedTests {
     }.toMap
   }
 
-  def printTestSummary (
+  protected def printTestSummary (
     success: Boolean,
     results: Map[String, TAPResult]
   ) {
