@@ -1,7 +1,6 @@
 package org.perl8.test
 
-/** Classes for TAP generation and parsing.
-  */
+/** Classes for TAP generation and parsing. */
 package object tap {
   /** Exception representing an error during parsing. It is thrown when a TAP
     * line isn't recognized.

@@ -14,8 +14,7 @@ package object test {
     * will be run.
     */
   sealed trait Plan {
-    /** How many tests will be run.
-      */
+    /** How many tests will be run. */
     val plan:    Int
     /** Whether this test was skipped. It should contain `Some(message)` if
       * the test is skipped, and `None` otherwise.
@@ -23,8 +22,7 @@ package object test {
     val skipAll: Option[String]
   }
 
-  /** An explicit plan number. Corresponds to `1..5` in TAP.
-    */
+  /** An explicit plan number. Corresponds to `1..5` in TAP. */
   case class NumericPlan (plan: Int) extends Plan {
     /** @inheritdoc
       *
@@ -33,8 +31,7 @@ package object test {
     val skipAll = None
   }
 
-  /** A test which did not declare a plan yet.
-    */
+  /** A test which did not declare a plan yet. */
   case object NoPlan extends Plan {
     /** @inheritdoc
       *

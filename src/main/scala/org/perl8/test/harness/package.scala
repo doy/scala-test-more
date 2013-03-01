@@ -1,12 +1,11 @@
 package org.perl8.test
 
-/** Classes to handle running test instances and providing output.
-  */
+/** Classes to handle running test instances and providing output. */
 package object harness {
   import scala.reflect.{ClassTag,classTag}
 
   /** Loads `className`, returning the
-    * [[http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html java.lang.Class]]
+    * [[http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html Class]]
     * instance.
     */
   def loadClass[T: ClassTag] (className: String): Class[_] =

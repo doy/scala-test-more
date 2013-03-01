@@ -3,7 +3,7 @@ package org.perl8.test.harness
 /** Classes that implement `Reporter` are capable of running a test class,
   * given its name.
   *
-  * See also: [[org.perl8.test.harness.MultiTestReporter]].
+  * @see [[org.perl8.test.harness.MultiTestReporter MultiTestReporter]].
   */
 trait Reporter {
   /** Runs the test class identifed by the fully qualified class name

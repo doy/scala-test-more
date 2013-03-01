@@ -4,7 +4,7 @@ package org.perl8.test.harness
   * of test classes, given their names. This typically involves some sort of
   * summarization.
   *
-  * See also: [[org.perl8.test.harness.MultiTestReporter]].
+  * @see [[org.perl8.test.harness.Reporter Reporter]].
   */
 trait MultiTestReporter {
   /** Runs the test classes identifed by the list of fully qualified class

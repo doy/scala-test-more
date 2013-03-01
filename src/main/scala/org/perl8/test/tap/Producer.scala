@@ -1,7 +1,6 @@
 package org.perl8.test.tap
 
-/** Contains functions for producing individual lines of TAP.
-  */
+/** Contains functions for producing individual lines of TAP. */
 object Producer {
   import org.perl8.test.Plan
 

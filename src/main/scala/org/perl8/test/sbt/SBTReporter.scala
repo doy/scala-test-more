@@ -6,8 +6,7 @@ import org.perl8.test.harness.{Reporter,SummarizedTests}
 import org.perl8.test.tap.{TAPEvent,ResultEvent,EndEvent}
 import org.perl8.test.Test
 
-/** Runs a single test under the SBT test harness.
-  */
+/** Runs a single test under the SBT test harness. */
 class SBTReporter (
   loader:       ClassLoader,
   loggers:      Array[testing.Logger],
