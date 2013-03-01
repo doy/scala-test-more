@@ -110,7 +110,7 @@ object Consumer {
   )
 
   class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
-    val correctPlan = plan match {
+    val matchesPlan = plan match {
       case NumericPlan(n) => results.length == n
       case _              => results.length == 0
     }
@@ -122,13 +122,10 @@ object Consumer {
     val testsPassed = fails == 0
 
     val success =
-      correctPlan && testsPassed
+      matchesPlan && testsPassed
 
     val exitCode =
-      if (success) {
-        0
-      }
-      else if (!correctPlan) {
+      if (!matchesPlan || results.length == 0) {
         255
       }
       else {

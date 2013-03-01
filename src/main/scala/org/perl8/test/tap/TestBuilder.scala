@@ -103,10 +103,7 @@ class TestBuilder private (
     state.failCount
 
   def exitCode: Int =
-    if (state.isPassing) {
-      0
-    }
-    else if (!state.matchesPlan) {
+    if (!state.matchesPlan || state.currentTest == 0) {
       255
     }
     else {
