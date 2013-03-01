@@ -70,10 +70,17 @@ class TestBuilder private (
 
   def doneTesting: Boolean = {
     plan match {
-      case NoPlan => outLine(Producer.plan(state.currentTest))
-      case _      => ()
+      case NumericPlan(_) => printErrors
+      case SkipAll(_)     => ()
+      case NoPlan         => {
+        outLine(Producer.plan(state.currentTest))
+        printErrors
+      }
     }
+    state.isPassing
+  }
 
+  private def printErrors {
     if (!state.matchesPlan) {
       val planCount = (plan match {
         case NoPlan  => state.currentTest
@@ -95,12 +102,13 @@ class TestBuilder private (
         state.currentTest + (if (state.matchesPlan) "" else " run")
       diag("Looks like you failed " + fails + " of " + total + ".")
     }
-
-    state.isPassing
   }
 
   def exitCode: Int =
-    if (!state.matchesPlan || state.currentTest == 0) {
+    if (state.isPassing) {
+      0
+    }
+    else if (!state.matchesPlan || state.currentTest == 0) {
       255
     }
     else {
@@ -144,7 +152,9 @@ class TestBuilder private (
       case _              => true
     }
 
-    def isPassing: Boolean =
-      currentTest > 0 && failCount == 0 && matchesPlan
+    def isPassing: Boolean = plan match {
+      case SkipAll(_) => true
+      case _          => currentTest > 0 && failCount == 0 && matchesPlan
+    }
   }
 }

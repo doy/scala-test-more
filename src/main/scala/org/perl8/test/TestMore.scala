@@ -9,7 +9,10 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     testBody = { terminalInUse =>
       todo    = None
       builder = new TestBuilder(plan, terminalInUse)
-      body
+      plan match {
+        case SkipAll(_) => ()
+        case _          => body
+      }
     }
   }
 
