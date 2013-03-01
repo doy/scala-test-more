@@ -1,7 +1,6 @@
 package org.perl8.test.tap
 
 import org.perl8.test.{TestMore,SkipAll,NumericPlan}
-import org.perl8.test.tap.Consumer.{SkipDirective,TodoDirective}
 
 class ParserTest extends TestMore {
   subtest ("basic") {

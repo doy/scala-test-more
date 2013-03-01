@@ -6,8 +6,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-import org.perl8.test.tap.Consumer.{TAPResult,TodoDirective}
-import org.perl8.test.tap.{Parser,TAPEvent}
+import org.perl8.test.tap.{Parser,TAPEvent,TAPResult,TodoDirective}
 import org.perl8.test.Test
 
 trait SummarizedTests {
