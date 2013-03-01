@@ -74,28 +74,26 @@ class TestBuilder private (
       case _      => ()
     }
 
-    if (!state.isPassing) {
-      if (!state.matchesPlan) {
-        val planCount = (plan match {
-          case NoPlan  => state.currentTest
-          case p       => p.plan
-        })
-        val planned = planCount + " test" + (if (planCount > 1) "s" else "")
-        val ran = state.currentTest
-        diag("Looks like you planned " + planned + " but ran " + ran + ".")
-      }
+    if (!state.matchesPlan) {
+      val planCount = (plan match {
+        case NoPlan  => state.currentTest
+        case p       => p.plan
+      })
+      val planned = planCount + " test" + (if (planCount > 1) "s" else "")
+      val ran = state.currentTest
+      diag("Looks like you planned " + planned + " but ran " + ran + ".")
+    }
 
-      if (state.currentTest == 0) {
-        diag("No tests run!")
-      }
+    if (state.currentTest == 0) {
+      diag("No tests run!")
+    }
 
-      if (state.failCount > 0) {
-        val count = state.failCount
-        val fails = count + " test" + (if (count > 1) "s" else "")
-        val total =
-          state.currentTest + (if (state.matchesPlan) "" else " run")
-        diag("Looks like you failed " + fails + " of " + total + ".")
-      }
+    if (state.failCount > 0) {
+      val count = state.failCount
+      val fails = count + " test" + (if (count > 1) "s" else "")
+      val total =
+        state.currentTest + (if (state.matchesPlan) "" else " run")
+      diag("Looks like you failed " + fails + " of " + total + ".")
     }
 
     state.isPassing
