@@ -2,3 +2,4 @@
 - Full sbt plugin, with a test-harness task to run the SummaryReporter
 - parallel testing with SummaryReporter
 - Colors in the output of SummaryReporter and SBTReporter
+- builder.{ok,okTodo} and Producer.{result,todoResult} is ugly
