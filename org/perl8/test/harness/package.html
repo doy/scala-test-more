@@ -44,7 +44,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Classes to handle running test instances and providing output.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -98,7 +99,8 @@
         <a href="MultiTestReporter.html"><span class="name">MultiTestReporter</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Classes that implement <code>MultiTestReporter</code> are capable of running a group
+of test classes, given their names.</p>
     </li><li name="org.perl8.test.harness.Reporter" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReporterextendsObject"></a>
       <a id="Reporter:Reporter"></a>
@@ -111,7 +113,8 @@
         <a href="Reporter.html"><span class="name">Reporter</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Classes that implement <code>Reporter</code> are capable of running a test class,
+given its name.</p>
     </li><li name="org.perl8.test.harness.SummarizedTests" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="SummarizedTestsextendsObject"></a>
       <a id="SummarizedTests:SummarizedTests"></a>
@@ -124,7 +127,7 @@
         <a href="SummarizedTests.html"><span class="name">SummarizedTests</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">This is a trait for classes that run tests and summarize the results.</p>
     </li><li name="org.perl8.test.harness.SummaryReporter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SummaryReporterextendsMultiTestReporterwithSummarizedTests"></a>
       <a id="SummaryReporter:SummaryReporter"></a>
@@ -137,7 +140,7 @@
         <a href="SummaryReporter.html"><span class="name">SummaryReporter</span></a><span class="result"> extends <a href="MultiTestReporter.html" class="extype" name="org.perl8.test.harness.MultiTestReporter">MultiTestReporter</a> with <a href="SummarizedTests.html" class="extype" name="org.perl8.test.harness.SummarizedTests">SummarizedTests</a></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Runs a series of tests.</p>
     </li><li name="org.perl8.test.harness.TAPReporter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TAPReporterextendsReporter"></a>
       <a id="TAPReporter:TAPReporter"></a>
@@ -150,7 +153,7 @@
         <a href="TAPReporter.html"><span class="name">TAPReporter</span></a><span class="result"> extends <a href="Reporter.html" class="extype" name="org.perl8.test.harness.Reporter">Reporter</a></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Runs a single test.</p>
     </li></ol>
             </div>
 
@@ -183,8 +186,10 @@
         <span class="name">loadClass</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="className">className: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="org.perl8.test.harness.loadClass.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Class">Class</span>[_]</span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.harness.package#newInstance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Loads <code>className</code>, returning the
+<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html" target="_blank">java.lang.Class</a>
+instance.</p>
+    </li><li name="org.perl8.test.harness.package#newInstance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="newInstance[T,U&lt;:AnyRef](className:String,arg:U)(implicitevidence$3:scala.reflect.ClassTag[T],implicitevidence$4:scala.reflect.ClassTag[U]):T"></a>
       <a id="newInstance[T,U&lt;:AnyRef](String,U)(ClassTag[T],ClassTag[U]):T"></a>
       <h4 class="signature">
@@ -196,7 +201,11 @@
         <span class="name">newInstance</span><span class="tparams">[<span name="T">T</span>, <span name="U">U &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="className">className: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="arg">arg: <span class="extype" name="org.perl8.test.harness.newInstance.U">U</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="org.perl8.test.harness.newInstance.T">T</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="org.perl8.test.harness.newInstance.U">U</span>]</span>)</span><span class="result">: <span class="extype" name="org.perl8.test.harness.newInstance.T">T</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Loads <code>className</code> and creates a new instance of it, using a
+one-argument constructor.</p><div class="fullcomment"><div class="comment cmt"><p>Loads <code>className</code> and creates a new instance of it, using a
+one-argument constructor. Passes <code>arg</code> as the argument to the
+constructor.
+</p></div></div>
     </li><li name="org.perl8.test.harness.package#newInstance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="newInstance[T](className:String)(implicitevidence$2:scala.reflect.ClassTag[T]):T"></a>
       <a id="newInstance[T](String)(ClassTag[T]):T"></a>
@@ -209,7 +218,8 @@
         <span class="name">newInstance</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="className">className: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="org.perl8.test.harness.newInstance.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.perl8.test.harness.newInstance.T">T</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Loads <code>className</code> and creates a new instance of it, using the
+no-argument constructor.</p>
     </li></ol>
             </div>
 

@@ -44,7 +44,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Classes that implement <code>Reporter</code> are capable of running a test class,
+given its name.</p><p>See also: <a href="MultiTestReporter.html" class="extype" name="org.perl8.test.harness.MultiTestReporter">org.perl8.test.harness.MultiTestReporter</a>.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
@@ -91,7 +93,7 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="org.perl8.test.harness.Reporter#run" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+              <ol><li name="org.perl8.test.harness.Reporter#run" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="run(testName:String):Int"></a>
       <a id="run(String):Int"></a>
       <h4 class="signature">
@@ -103,7 +105,11 @@
         <span class="name">run</span><span class="params">(<span name="testName">testName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Runs the test class identifed by the fully qualified class name
+<code>testName</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Runs the test class identifed by the fully qualified class name
+<code>testName</code>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The exit code for the harness to use. Will be 0 on success.
+</p></dd></dl></div>
     </li></ol>
             </div>
 

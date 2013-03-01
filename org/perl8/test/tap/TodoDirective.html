@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>TAPResult - org.perl8.test.tap.Consumer.TAPResult</title>
-          <meta name="description" content="TAPResult - org.perl8.test.tap.Consumer.TAPResult" />
-          <meta name="keywords" content="TAPResult org.perl8.test.tap.Consumer.TAPResult" />
+          <title>TodoDirective - org.perl8.test.tap.TodoDirective</title>
+          <meta name="description" content="TodoDirective - org.perl8.test.tap.TodoDirective" />
+          <meta name="keywords" content="TodoDirective org.perl8.test.tap.TodoDirective" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -17,7 +17,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'org.perl8.test.tap.Consumer$$TAPResult';
+            var hash = 'org.perl8.test.tap.TodoDirective';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -30,23 +30,23 @@
         <body class="type">
       <div id="definition">
         <img src="../../../../lib/class_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="org">org</a>.<a href="../../package.html" class="extype" name="org.perl8">perl8</a>.<a href="../package.html" class="extype" name="org.perl8.test">test</a>.<a href="package.html" class="extype" name="org.perl8.test.tap">tap</a>.<a href="Consumer$.html" class="extype" name="org.perl8.test.tap.Consumer">Consumer</a></p>
-        <h1>TAPResult</h1>
+        <p id="owner"><a href="../../../package.html" class="extype" name="org">org</a>.<a href="../../package.html" class="extype" name="org.perl8">perl8</a>.<a href="../package.html" class="extype" name="org.perl8.test">test</a>.<a href="package.html" class="extype" name="org.perl8.test.tap">tap</a></p>
+        <h1>TodoDirective</h1>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">TAPResult</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">TodoDirective</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -64,7 +64,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="org.perl8.test.tap.Consumer.TAPResult"><span>TAPResult</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="org.perl8.test.tap.TodoDirective"><span>TodoDirective</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="org.perl8.test.tap.Directive"><span>Directive</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -84,16 +84,16 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="org.perl8.test.tap.Consumer.TAPResult#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(plan:org.perl8.test.Plan,results:Seq[org.perl8.test.tap.Consumer.TestResult]):org.perl8.test.tap.Consumer.TAPResult"></a>
-      <a id="&lt;init&gt;:TAPResult"></a>
+              <ol><li name="org.perl8.test.tap.TodoDirective#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(message:Option[String]):org.perl8.test.tap.TodoDirective"></a>
+      <a id="&lt;init&gt;:TodoDirective"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">TAPResult</span><span class="params">(<span name="plan">plan: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>, <span name="results">results: <span class="extype" name="scala.Seq">Seq</span>[<a href="Consumer$$TestResult.html" class="extype" name="org.perl8.test.tap.Consumer.TestResult">TestResult</a>]</span>)</span>
+        <span class="name">TodoDirective</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span>
       </span>
       </h4>
       
@@ -213,45 +213,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#exitCode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="exitCode:Int"></a>
-      <a id="exitCode:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">exitCode</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#fails" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fails:Int"></a>
-      <a id="fails:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fails</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -281,19 +242,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -307,19 +255,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#matchesPlan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="matchesPlan:Boolean"></a>
-      <a id="matchesPlan:Boolean"></a>
+    </li><li name="org.perl8.test.tap.TodoDirective#message" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="message:Option[String]"></a>
+      <a id="message:Option[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">matchesPlan</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">message</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.tap.TodoDirective">TodoDirective</a> → <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -359,45 +307,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#plan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="plan:org.perl8.test.Plan"></a>
-      <a id="plan:Plan"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">plan</span><span class="result">: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>
-      </span>
-      </h4>
-      
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#results" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="results:Seq[org.perl8.test.tap.Consumer.TestResult]"></a>
-      <a id="results:Seq[TestResult]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">results</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="Consumer$$TestResult.html" class="extype" name="org.perl8.test.tap.Consumer.TestResult">TestResult</a>]</span>
-      </span>
-      </h4>
-      
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#success" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="success:Boolean"></a>
-      <a id="success:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">success</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -411,32 +320,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Consumer.TAPResult#testsPassed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="testsPassed:Boolean"></a>
-      <a id="testsPassed:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">testsPassed</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -494,7 +377,17 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="org.perl8.test.tap.Directive">
+              <h3>Inherited from <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

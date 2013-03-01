@@ -334,7 +334,12 @@
       </h4>
       <p class="shortcomment cmt">Runs the test.</p><div class="fullcomment"><div class="comment cmt"><p>Runs the test. The TAP stream will be written to Console.out and
 Console.err, so you can swap these out as required in order to parse it.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The exit code that the test produced. Success is indicated by 0,
+        failure to run the correct number of tests by 255, and any other
+        failure by the number of tests that failed. This should be used
+        by reporters which run a single test, which can call
+        <code>sys.exit(exitCode)</code>
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
     </li><li name="org.perl8.test.Test#runInHarness" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="runInHarness:Int"></a>
       <a id="runInHarness:Int"></a>
@@ -347,7 +352,14 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">runInHarness</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
+      <p class="shortcomment cmt">Runs the test just like <a href="#run:Int" class="extmbr" name="org.perl8.test.ExternalTest#run">run</a>, but in a way that makes sense when test
+ results are being summarized rather than directly displayed.</p><div class="fullcomment"><div class="comment cmt"><p>Runs the test just like <a href="#run:Int" class="extmbr" name="org.perl8.test.ExternalTest#run">run</a>, but in a way that makes sense when test
+ results are being summarized rather than directly displayed.</p><p> Summarizing test reporters tend to repeatedly update the same line on
+ the terminal, so this method makes calls to
+ <a href="tap/TestBuilder.html#diag(message:String):Unit" class="extmbr" name="org.perl8.test.tap.TestBuilder#diag">diag</a> (which sends messages to
+ stderr, where they are typically displayed as-is) prefix the message
+ with a newline, to ensure that the output starts on its own line.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
     </li><li name="org.perl8.test.ExternalTest#runTests" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="runTests(raw:Boolean):Int"></a>
       <a id="runTests(Boolean):Int"></a>

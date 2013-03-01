@@ -44,13 +44,37 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"></div>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Classes for TAP generation and parsing.
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
         
 
       <div id="mbrsel">
         <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
-        
-        
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="org.perl8.test.tap"><span>tap</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
             <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
@@ -76,6 +100,19 @@
       </span>
       </h4>
       
+    </li><li name="org.perl8.test.tap.Directive" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DirectiveextendsObject"></a>
+      <a id="Directive:Directive"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Directive.html"><span class="name">Directive</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
     </li><li name="org.perl8.test.tap.EndEvent" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="EndEventextendsTAPEventwithProductwithSerializable"></a>
       <a id="EndEvent:EndEvent"></a>
@@ -85,10 +122,23 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="EndEvent.html"><span class="name">EndEvent</span></a><span class="params">(<span name="result">result: <a href="Consumer$$TAPResult.html" class="extype" name="org.perl8.test.tap.Consumer.TAPResult">TAPResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="EndEvent.html"><span class="name">EndEvent</span></a><span class="params">(<span name="result">result: <a href="TAPResult.html" class="extype" name="org.perl8.test.tap.TAPResult">TAPResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
+    </li><li name="org.perl8.test.tap.ParseException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ParseExceptionextendsRuntimeExceptionwithProductwithSerializable"></a>
+      <a id="ParseException:ParseException"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$ParseException.html"><span class="name">ParseException</span></a><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="java.lang.RuntimeException">RuntimeException</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Exception representing an error during parsing.</p>
     </li><li name="org.perl8.test.tap.Parser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ParserextendsParsers"></a>
       <a id="Parser:Parser"></a>
@@ -124,7 +174,20 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="ResultEvent.html"><span class="name">ResultEvent</span></a><span class="params">(<span name="result">result: <a href="Consumer$$TestResult.html" class="extype" name="org.perl8.test.tap.Consumer.TestResult">TestResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="ResultEvent.html"><span class="name">ResultEvent</span></a><span class="params">(<span name="result">result: <a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="org.perl8.test.tap.SkipDirective" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SkipDirectiveextendsDirectivewithProductwithSerializable"></a>
+      <a id="SkipDirective:SkipDirective"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="SkipDirective.html"><span class="name">SkipDirective</span></a><span class="params">(<span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -137,7 +200,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="SubtestEndEvent.html"><span class="name">SubtestEndEvent</span></a><span class="params">(<span name="result">result: <a href="Consumer$$TestResult.html" class="extype" name="org.perl8.test.tap.Consumer.TestResult">TestResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="SubtestEndEvent.html"><span class="name">SubtestEndEvent</span></a><span class="params">(<span name="result">result: <a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResult</a></span>)</span><span class="result"> extends <a href="TAPEvent.html" class="extype" name="org.perl8.test.tap.TAPEvent">TAPEvent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -154,6 +217,19 @@
       </span>
       </h4>
       
+    </li><li name="org.perl8.test.tap.TAPResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TAPResultextendsObject"></a>
+      <a id="TAPResult:TAPResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TAPResult.html"><span class="name">TAPResult</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
     </li><li name="org.perl8.test.tap.TestBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TestBuilderextendsObject"></a>
       <a id="TestBuilder:TestBuilder"></a>
@@ -164,6 +240,32 @@
       </span>
       <span class="symbol">
         <a href="TestBuilder.html"><span class="name">TestBuilder</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="org.perl8.test.tap.TestResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TestResultextendsObject"></a>
+      <a id="TestResult:TestResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TestResult.html"><span class="name">TestResult</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="org.perl8.test.tap.TodoDirective" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TodoDirectiveextendsDirectivewithProductwithSerializable"></a>
+      <a id="TodoDirective:TodoDirective"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TodoDirective.html"><span class="name">TodoDirective</span></a><span class="params">(<span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -235,7 +337,11 @@
         </div>
 
         <div id="inheritedMembers">
-        
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
         
         </div>
 
