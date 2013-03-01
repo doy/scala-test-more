@@ -2,7 +2,13 @@ package org.perl8.test.tap
 
 import org.perl8.test.{Plan,NumericPlan,SkipAll}
 
+/** Contains a method to parse an individual line of TAP. */
 object Consumer {
+  /** Parses a line of TAP.
+    *
+    * @return A [[org.perl8.test.tap.Consumer.Line Line]] object corresponding
+    *         to the parsed line.
+    */
   def parseLine (line: String): Line = {
     commentRx.findFirstMatchIn(line).map { m =>
       m.subgroups match {
@@ -50,19 +56,37 @@ object Consumer {
     }
   }
 
+  /** The representation of a parsed line of TAP. */
   sealed trait Line {
+    /** The meaningful portion of the TAP line. */
     def contents: String
+    /** The indentation of the TAP line (used in subtests). */
     def indent:   String
 
+    /** The line itself that was parsed. */
     override def toString: String =
       indent + contents
   }
 
-  case class CommentLine (text: String, indent: String) extends Line {
+  /** A parsed TAP line containing a comment.
+    *
+    * @param text The text of the comment (not including the `#`).
+    */
+  case class CommentLine private[Consumer] (
+    text:   String,
+    indent: String
+  ) extends Line {
     def contents = "# " + text
   }
 
-  case class PlanLine (plan: Plan, indent: String) extends Line {
+  /** A parsed TAP line containing a test plan.
+    *
+    * @param plan The [[org.perl8.test.Plan Plan]] that this line represents.
+    */
+  case class PlanLine private[Consumer] (
+    plan:   Plan,
+    indent: String
+  ) extends Line {
     def contents = {
       val count = plan.plan
       val comment = plan match {
@@ -73,7 +97,15 @@ object Consumer {
     }
   }
 
-  case class ResultLine (result: TestResult, indent: String) extends Line {
+  /** A parsed TAP line containing a test result.
+    *
+    * @param result The [[org.perl8.test.tap.TestResult TestResult]] that this
+    *               line represents.
+    */
+  case class ResultLine private[Consumer] (
+    result: TestResult,
+    indent: String
+  ) extends Line {
     def contents = {
       val success = (if (result.passed) "ok" else "not ok") + " "
       val number = result.number + " "
