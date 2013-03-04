@@ -40,11 +40,12 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CommentLine</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="indent">indent: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">CommentLine</span><span class="result"> extends <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A parsed TAP line containing a comment.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -82,23 +83,7 @@
 
       <div id="template">
         <div id="allMembers">
-        <div id="constructors" class="members">
-              <h3>Instance Constructors</h3>
-              <ol><li name="org.perl8.test.tap.Consumer.CommentLine#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(text:String,indent:String):org.perl8.test.tap.Consumer.CommentLine"></a>
-      <a id="&lt;init&gt;:CommentLine"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">new</span>
-      </span>
-      <span class="symbol">
-        <span class="name">CommentLine</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="indent">indent: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
-      </span>
-      </h4>
-      
-    </li></ol>
-            </div>
+        
 
         
 
@@ -212,7 +197,7 @@
         <span class="name">contents</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.tap.Consumer.CommentLine">CommentLine</a> → <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a></dd></dl></div>
+      <p class="shortcomment cmt">The meaningful portion of the TAP line.</p><div class="fullcomment"><div class="comment cmt"><p>The meaningful portion of the TAP line.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.tap.Consumer.CommentLine">CommentLine</a> → <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -267,7 +252,7 @@
         <span class="name">indent</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.tap.Consumer.CommentLine">CommentLine</a> → <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a></dd></dl></div>
+      <p class="shortcomment cmt">The indentation of the TAP line (used in subtests).</p><div class="fullcomment"><div class="comment cmt"><p>The indentation of the TAP line (used in subtests).</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.tap.Consumer.CommentLine">CommentLine</a> → <a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -345,7 +330,7 @@
         <span class="name">text</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The text of the comment (not including the <code>#</code>).</p>
     </li><li name="org.perl8.test.tap.Consumer.Line#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -358,7 +343,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a> → AnyRef → Any</dd></dl></div>
+      <p class="shortcomment cmt">The line itself that was parsed.</p><div class="fullcomment"><div class="comment cmt"><p>The line itself that was parsed.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Consumer$$Line.html" class="extype" name="org.perl8.test.tap.Consumer.Line">Line</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

@@ -98,7 +98,7 @@
         <a href="package$$BailOutException.html"><span class="name">BailOutException</span></a><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="java.lang.RuntimeException">RuntimeException</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Exception thrown when a test bails out.</p>
     </li><li name="org.perl8.test.ExternalTest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ExternalTestextendsTest"></a>
       <a id="ExternalTest:ExternalTest"></a>
@@ -111,7 +111,7 @@
         <a href="ExternalTest.html"><span class="name">ExternalTest</span></a><span class="result"> extends <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Runs an external process which emits TAP, and parses it as a test.</p>
     </li><li name="org.perl8.test.NumericPlan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="NumericPlanextendspackage.PlanwithProductwithSerializable"></a>
       <a id="NumericPlan:NumericPlan"></a>
@@ -124,7 +124,7 @@
         <a href="package$$NumericPlan.html"><span class="name">NumericPlan</span></a><span class="params">(<span name="plan">plan: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">An explicit plan number.</p>
     </li><li name="org.perl8.test.Plan" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="PlanextendsObject"></a>
       <a id="Plan:Plan"></a>
@@ -137,7 +137,7 @@
         <a href="package$$Plan.html"><span class="name">Plan</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">A test plan.</p>
     </li><li name="org.perl8.test.SkipAll" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SkipAllextendspackage.PlanwithProductwithSerializable"></a>
       <a id="SkipAll:SkipAll"></a>
@@ -150,7 +150,7 @@
         <a href="package$$SkipAll.html"><span class="name">SkipAll</span></a><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">A test which has declared that the entire test has been skipped.</p>
     </li><li name="org.perl8.test.Test" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="TestextendsObject"></a>
       <a id="Test:Test"></a>
@@ -196,7 +196,7 @@
         <a href="package$$NoPlan$.html"><span class="name">NoPlan</span></a><span class="result"> extends <a href="package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">A test which did not declare a plan yet.</p>
     </li><li name="org.perl8.test.harness" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="harness"></a>
       <a id="harness:harness"></a>
@@ -222,7 +222,9 @@
         <span class="name">intToPlan</span><span class="params">(<span name="p">p: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Converts an
+<a href="http://www.scala-lang.org/api/current/index.html#scala.Int" target="_blank">Int</a> to a
+<a href="package$$NumericPlan.html" class="extype" name="org.perl8.test.NumericPlan">NumericPlan</a>.</p>
     </li><li name="org.perl8.test.sbt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="sbt"></a>
       <a id="sbt:sbt"></a>

@@ -44,7 +44,28 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is the entry point to running tests written with this library from
+the command line. Note that this library also implements the
+<a href="https://github.com/harrah/test-interface" target="_blank">common testing interface</a> for
+test libraries, so tests should also just work with <code>sbt test</code>.</p><p>If this application is run and given just a single test class name, it
+will run that test and write its TAP stream to the console.</p><pre>$ scala org.perl8.test.harness.TestHarness MyTest
+ok <span class="num">1</span>
+ok <span class="num">2</span>
+<span class="num">1.</span><span class="num">.2</span></pre><p>If this application is run and given multiple test class names, it will
+run each of those tests, and present a summary report, similar to the one
+produces by
+<a href="https://metacpan.org/module/Test::Harness" target="_blank">Perl's Test::Harness</a>.</p><pre>$ scala org.perl8.test.harness.TestHarness MyTest1 MyTest2
+MyTest1 .. ok
+MyTest2 .. ok
+All tests successful.
+Files=<span class="num">2</span>, Tests=<span class="num">4</span>
+Result: PASS</pre><p>This application also accepts a few command line options to customize its
+behavior:</p><ul><li><code>-r</code>: Alternative <a href="Reporter.html" class="extype" name="org.perl8.test.harness.Reporter">Reporter</a> class to
+         use for running a single test.</li><li><code>-R</code>: Alternative
+         <a href="MultiTestReporter.html" class="extype" name="org.perl8.test.harness.MultiTestReporter">MultiTestReporter</a>
+         class to use for running a group of tests. Also enables using the
+         MultiTestReporter for a single test.</li><li><code>--help</code>: Prints usage information.
+</li></ul></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -277,7 +298,7 @@
         <span class="name">main</span><span class="params">(<span name="args">args: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Entry point for the harness application.</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -317,7 +338,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.harness.TestHarness#parseOpts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.harness.TestHarness#parseOpts" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="parseOpts(args:List[String]):Map[String,Any]"></a>
       <a id="parseOpts(List[String]):Map[String,Any]"></a>
       <h4 class="signature">
@@ -329,7 +350,7 @@
         <span class="name">parseOpts</span><span class="params">(<span name="args">args: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Any">Any</span>]</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -356,7 +377,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.harness.TestHarness#usage" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.harness.TestHarness#usage" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="usage(exitCode:Int):Nothing"></a>
       <a id="usage(Int):Nothing"></a>
       <h4 class="signature">
@@ -368,7 +389,7 @@
         <span class="name">usage</span><span class="params">(<span name="exitCode">exitCode: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Nothing">Nothing</span></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

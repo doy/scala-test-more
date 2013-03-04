@@ -44,7 +44,14 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Runs an external process which emits TAP, and parses it as a test.</p><p>This test class can be used if you have existing tests that you would like
+to be able to include in a test suite using this framework. You just need
+to write a test class for each external test that looks like this:</p><pre><span class="kw">class</span> MyTest1 <span class="kw">extends</span> ExternalTest(<span class="lit">"perl"</span>, <span class="lit">"t/basic.t"</span>)</pre><p>This will run your external process, and use its TAP stream as its output.
+This will allow it to, for instance, be a part of the test suite that runs
+via <code>sbt test</code>. As with any other test class, its stdout and stderr will
+be sent to <code>Console.out</code> and <code>Console.err</code>, where they can be overridden
+as needed.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -360,7 +367,7 @@ Console.err, so you can swap these out as required in order to parse it.
  stderr, where they are typically displayed as-is) prefix the message
  with a newline, to ensure that the output starts on its own line.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
-    </li><li name="org.perl8.test.ExternalTest#runTests" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="org.perl8.test.ExternalTest#runTests" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="runTests(raw:Boolean):Int"></a>
       <a id="runTests(Boolean):Int"></a>
       <h4 class="signature">
@@ -372,7 +379,7 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">runTests</span><span class="params">(<span name="raw">raw: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.ExternalTest">ExternalTest</a> → <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.ExternalTest">ExternalTest</a> → <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

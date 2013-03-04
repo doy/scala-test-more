@@ -44,7 +44,11 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The summarized results of a TAP stream. Contains the
+<a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> that was given, as well as a list of
+<a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResults</a> corresponding to each of the
+tests in the stream.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -84,7 +88,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="org.perl8.test.tap.TAPResult#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="org.perl8.test.tap.TAPResult#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(plan:org.perl8.test.Plan,results:Seq[org.perl8.test.tap.TestResult]):org.perl8.test.tap.TAPResult"></a>
       <a id="&lt;init&gt;:TAPResult"></a>
       <h4 class="signature">
@@ -96,7 +100,9 @@
         <span class="name">TAPResult</span><span class="params">(<span name="plan">plan: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>, <span name="results">results: <span class="extype" name="scala.Seq">Seq</span>[<a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResult</a>]</span>)</span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">plan</dt><dd class="cmt"><p>The <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> from the TAP stream</p></dd><dt class="param">results</dt><dd class="cmt"><p>The list of <a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResults</a>
+               from the TAP stream
+</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -226,7 +232,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.TAPResult#exitCode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.TAPResult#exitCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="exitCode:Int"></a>
       <a id="exitCode:Int"></a>
       <h4 class="signature">
@@ -238,7 +244,9 @@
         <span class="name">exitCode</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns the exit code to use if running this test on its own.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the exit code to use if running this test on its own.</p><p>Success is indicated by 0, invalid TAP streams (such as incorrect plans)
+by 255, and other kinds of failures by the failure count.
+</p></div></div>
     </li><li name="org.perl8.test.tap.TAPResult#fails" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="fails:Int"></a>
       <a id="fails:Int"></a>
@@ -251,7 +259,7 @@
         <span class="name">fails</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns the number of test failures in the TAP stream.</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -319,7 +327,8 @@
         <span class="name">matchesPlan</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns true if the number of tests executed was compatible with the
+provided test plan.</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -371,7 +380,7 @@
         <span class="name">plan</span><span class="result">: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> from the TAP stream</p>
     </li><li name="org.perl8.test.tap.TAPResult#results" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="results:Seq[org.perl8.test.tap.TestResult]"></a>
       <a id="results:Seq[TestResult]"></a>
@@ -384,8 +393,10 @@
         <span class="name">results</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResult</a>]</span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TAPResult#success" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">The list of <a href="TestResult.html" class="extype" name="org.perl8.test.tap.TestResult">TestResults</a>
+               from the TAP stream
+</p>
+    </li><li name="org.perl8.test.tap.TAPResult#success" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="success:Boolean"></a>
       <a id="success:Boolean"></a>
       <h4 class="signature">
@@ -397,7 +408,9 @@
         <span class="name">success</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns true if the TAP stream overall passed.</p><div class="fullcomment"><div class="comment cmt"><p>Returns true if the TAP stream overall passed.</p><p>Differs from <code>testsPassed</code> in that it also takes into account things
+like invalid plans.
+</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -423,7 +436,7 @@
         <span class="name">testsPassed</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns true if all of the tests passed.</p>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>

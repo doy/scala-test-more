@@ -44,7 +44,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The result of a single test.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -84,7 +85,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="org.perl8.test.tap.TestResult#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="org.perl8.test.tap.TestResult#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(passed:Boolean,number:Int,description:String,directive:Option[org.perl8.test.tap.Directive],subtest:Option[org.perl8.test.tap.TAPResult]):org.perl8.test.tap.TestResult"></a>
       <a id="&lt;init&gt;:TestResult"></a>
       <h4 class="signature">
@@ -96,7 +97,10 @@
         <span class="name">TestResult</span><span class="params">(<span name="passed">passed: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="number">number: <span class="extype" name="scala.Int">Int</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="directive">directive: <span class="extype" name="scala.Option">Option</span>[<a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a>]</span>, <span name="subtest">subtest: <span class="extype" name="scala.Option">Option</span>[<a href="TAPResult.html" class="extype" name="org.perl8.test.tap.TAPResult">TAPResult</a>]</span>)</span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">passed</dt><dd class="cmt"><p>True if the test passed</p></dd><dt class="param">number</dt><dd class="cmt"><p>The test number in the TAP stream</p></dd><dt class="param">description</dt><dd class="cmt"><p>The test description</p></dd><dt class="param">directive</dt><dd class="cmt"><p>The <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a> (either
+                   skip or todo) that was provided for this test, if any</p></dd><dt class="param">subtest</dt><dd class="cmt"><p>The <a href="TAPResult.html" class="extype" name="org.perl8.test.tap.TAPResult">org.perl8.test.tap.TAPResult</a> for the subtest
+                   that this test corresponds to, if any
+</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -212,7 +216,7 @@
         <span class="name">description</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The test description</p>
     </li><li name="org.perl8.test.tap.TestResult#directive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="directive:Option[org.perl8.test.tap.Directive]"></a>
       <a id="directive:Option[Directive]"></a>
@@ -225,7 +229,8 @@
         <span class="name">directive</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a>]</span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The <a href="Directive.html" class="extype" name="org.perl8.test.tap.Directive">Directive</a> (either
+                   skip or todo) that was provided for this test, if any</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -358,7 +363,7 @@
         <span class="name">number</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The test number in the TAP stream</p>
     </li><li name="org.perl8.test.tap.TestResult#passed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="passed:Boolean"></a>
       <a id="passed:Boolean"></a>
@@ -371,7 +376,7 @@
         <span class="name">passed</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">True if the test passed</p>
     </li><li name="org.perl8.test.tap.TestResult#subtest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="subtest:Option[org.perl8.test.tap.TAPResult]"></a>
       <a id="subtest:Option[TAPResult]"></a>
@@ -384,7 +389,9 @@
         <span class="name">subtest</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="TAPResult.html" class="extype" name="org.perl8.test.tap.TAPResult">TAPResult</a>]</span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The <a href="TAPResult.html" class="extype" name="org.perl8.test.tap.TAPResult">org.perl8.test.tap.TAPResult</a> for the subtest
+                   that this test corresponds to, if any
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

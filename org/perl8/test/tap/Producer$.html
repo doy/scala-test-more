@@ -44,7 +44,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains functions for producing individual lines of TAP.</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -168,7 +168,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Producer#bailOut" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.Producer#bailOut" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="bailOut(message:String):String"></a>
       <a id="bailOut(String):String"></a>
       <h4 class="signature">
@@ -180,20 +180,11 @@
         <span class="name">bailOut</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#bailOut" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bailOut:String"></a>
-      <a id="bailOut:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bailOut</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Returns a bail out with a reason.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a bail out with a reason.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>Bail out!  Not supported on this platform.</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -210,7 +201,7 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="org.perl8.test.tap.Producer#comment" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.Producer#comment" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="comment(message:String):String"></a>
       <a id="comment(String):String"></a>
       <h4 class="signature">
@@ -222,7 +213,11 @@
         <span class="name">comment</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns a comment.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a comment.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code># this is a comment</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -343,7 +338,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Producer#plan" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.Producer#plan" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="plan(plan:org.perl8.test.Plan):String"></a>
       <a id="plan(Plan):String"></a>
       <h4 class="signature">
@@ -355,8 +350,12 @@
         <span class="name">plan</span><span class="params">(<span name="plan">plan: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#result" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Returns a test plan.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a test plan.
+</p></div><dl class="attributes block"> <div class="block">Examples:
+                <ol><li class="cmt"><p><code>1..0 # SKIP don't run this test</code> (<a href="../package$$SkipAll.html" class="extype" name="org.perl8.test.SkipAll">SkipAll</a>)
+</p></li>, <li class="cmt"><p><code>1..5</code> (<a href="../package$$NumericPlan.html" class="extype" name="org.perl8.test.NumericPlan">NumericPlan</a>)</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.tap.Producer#result" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="result(cond:Boolean,num:Int,desc:String):String"></a>
       <a id="result(Boolean,Int,String):String"></a>
       <h4 class="signature">
@@ -368,8 +367,12 @@
         <span class="name">result</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="num">num: <span class="extype" name="scala.Int">Int</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#result" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Returns a test result that contains a description.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a test result that contains a description.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>ok 28 - our test succeeded</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.tap.Producer#result" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="result(cond:Boolean,num:Int):String"></a>
       <a id="result(Boolean,Int):String"></a>
       <h4 class="signature">
@@ -381,8 +384,12 @@
         <span class="name">result</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="num">num: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#skip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Returns a test result.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a test result.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>ok 4</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.tap.Producer#skip" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="skip(num:Int,reason:String):String"></a>
       <a id="skip(Int,String):String"></a>
       <h4 class="signature">
@@ -394,20 +401,11 @@
         <span class="name">skip</span><span class="params">(<span name="num">num: <span class="extype" name="scala.Int">Int</span></span>, <span name="reason">reason: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#skip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="skip(num:Int):String"></a>
-      <a id="skip(Int):String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">skip</span><span class="params">(<span name="num">num: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Returns a skipped test result with a reason.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a skipped test result with a reason.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>ok 4 # skip this test won't run here</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -434,7 +432,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.Producer#todoResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.Producer#todoResult" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="todoResult(cond:Boolean,num:Int,desc:String,todo:String):String"></a>
       <a id="todoResult(Boolean,Int,String,String):String"></a>
       <h4 class="signature">
@@ -446,8 +444,12 @@
         <span class="name">todoResult</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="num">num: <span class="extype" name="scala.Int">Int</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.Producer#todoResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Returns a todo test result that contains a description.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a todo test result that contains a description.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>not ok 18 - test the feature # TODO can't figure this out</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.tap.Producer#todoResult" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="todoResult(cond:Boolean,num:Int,todo:String):String"></a>
       <a id="todoResult(Boolean,Int,String):String"></a>
       <h4 class="signature">
@@ -459,7 +461,11 @@
         <span class="name">todoResult</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="num">num: <span class="extype" name="scala.Int">Int</span></span>, <span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Returns a todo test result.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a todo test result.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>not ok 1 # TODO this doesn't work yet</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

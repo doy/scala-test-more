@@ -44,7 +44,13 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class provides a convenient yet low level API for generating TAP
+streams. Each instance of this class handles a single TAP stream, and
+keeps track of things like the current test number for you. All
+TAP-producing methods write the TAP lines to <code>Console.out</code> or
+<code>Console.err</code>, so you can override those (via <code>Console.withOut</code> or
+<code>Console.withErr</code>).
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -84,7 +90,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="org.perl8.test.tap.TestBuilder#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="org.perl8.test.tap.TestBuilder#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(plan:org.perl8.test.Plan,terminalInUse:Boolean):org.perl8.test.tap.TestBuilder"></a>
       <a id="&lt;init&gt;:TestBuilder"></a>
       <h4 class="signature">
@@ -96,7 +102,15 @@
         <span class="name">TestBuilder</span><span class="params">(<span name="plan">plan: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> = <span class="symbol"><span class="name"><a href="../../../package.html">NoPlan</a></span></span></span>, <span name="terminalInUse">terminalInUse: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Creates a new builder instance, and emits the corresponding plan line,
+unless the plan is not given.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new builder instance, and emits the corresponding plan line,
+unless the plan is not given.
+</p></div><dl class="paramcmts block"><dt class="param">plan</dt><dd class="cmt"><p><a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">plan</a> for this test.</p></dd><dt class="param">terminalInUse</dt><dd class="cmt"><p>Whether this test is being run from a harness which
+                     will not just be writing directly to the output.
+                     This will make things written to <code>Console.err</code> have
+                     a newline prepended, so that they always start on
+                     an empty line.
+</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -196,20 +210,7 @@
         <span class="name">bailOut</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#bailOut" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bailOut:Unit"></a>
-      <a id="bailOut:Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bailOut</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Abort the current test, with a message.</p>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -226,7 +227,7 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="org.perl8.test.tap.TestBuilder#cloneForSubtest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.TestBuilder#cloneForSubtest" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="cloneForSubtest(newPlan:org.perl8.test.Plan):org.perl8.test.tap.TestBuilder"></a>
       <a id="cloneForSubtest(Plan):TestBuilder"></a>
       <h4 class="signature">
@@ -238,8 +239,13 @@
         <span class="name">cloneForSubtest</span><span class="params">(<span name="newPlan">newPlan: <a href="../package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a></span>)</span><span class="result">: <a href="" class="extype" name="org.perl8.test.tap.TestBuilder">TestBuilder</a></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#diag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Create a new TestBuilder instance, to be used to run a subtest.</p><div class="fullcomment"><div class="comment cmt"><p>Create a new TestBuilder instance, to be used to run a subtest. This new
+instance will have all of its lines prefixed by an additional level of
+indentation. This instance will still need to have <code>doneTesting</code>
+called on it, and the result of the subtest will still need to be
+reported as a separate test result through <code>ok</code>.
+</p></div></div>
+    </li><li name="org.perl8.test.tap.TestBuilder#diag" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="diag(message:String):Unit"></a>
       <a id="diag(String):Unit"></a>
       <h4 class="signature">
@@ -251,8 +257,11 @@
         <span class="name">diag</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#doneTesting" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Writes a comment line to <code>Console.err</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Writes a comment line to <code>Console.err</code>. This will allow it to be
+visible in most summarizing harnesses (which consume and parse
+everything that goes to <code>Console.out</code>).
+</p></div></div>
+    </li><li name="org.perl8.test.tap.TestBuilder#doneTesting" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="doneTesting:Boolean"></a>
       <a id="doneTesting:Boolean"></a>
       <h4 class="signature">
@@ -264,7 +273,11 @@
         <span class="name">doneTesting</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Finalize the current builder instance.</p><div class="fullcomment"><div class="comment cmt"><p>Finalize the current builder instance. This writes the auto-calculated
+plan to <code>Console.out</code> if the plan type was <code>NoPlan</code> and reports a
+summary of the test results as a comment to <code>Console.err</code>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>whether or not the test class as a whole passed.
+</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -291,7 +304,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.tap.TestBuilder#exitCode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.TestBuilder#exitCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="exitCode:Int"></a>
       <a id="exitCode:Int"></a>
       <h4 class="signature">
@@ -303,7 +316,11 @@
         <span class="name">exitCode</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">The exit code to use, in harnesses that run a single test.</p><div class="fullcomment"><div class="comment cmt"><p>The exit code to use, in harnesses that run a single test. Passing tests
+return 0, invalid tests (such as running a different number of tests
+than planned) return 255, and all others return the number of failed
+tests.
+</p></div></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -372,7 +389,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.tap.TestBuilder#note" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.tap.TestBuilder#note" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="note(message:String):Unit"></a>
       <a id="note(String):Unit"></a>
       <h4 class="signature">
@@ -384,7 +401,9 @@
         <span class="name">note</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Write a comment line to <code>Console.out</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Write a comment line to <code>Console.out</code>. This will typically only be
+visible in the raw TAP stream.
+</p></div></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -423,7 +442,7 @@
         <span class="name">ok</span><span class="params">(<span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Reports a single test result with description to <code>Console.out</code>.</p>
     </li><li name="org.perl8.test.tap.TestBuilder#ok" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ok(test:Boolean):Unit"></a>
       <a id="ok(Boolean):Unit"></a>
@@ -436,33 +455,7 @@
         <span class="name">ok</span><span class="params">(<span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#okTodo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="okTodo(test:Boolean,description:String,todo:String):Unit"></a>
-      <a id="okTodo(Boolean,String,String):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">okTodo</span><span class="params">(<span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#okTodo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="okTodo(test:Boolean,todo:String):Unit"></a>
-      <a id="okTodo(Boolean,String):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">okTodo</span><span class="params">(<span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Reports a single test result to <code>Console.out</code>.</p>
     </li><li name="org.perl8.test.tap.TestBuilder#skip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="skip(reason:String):Unit"></a>
       <a id="skip(String):Unit"></a>
@@ -475,20 +468,7 @@
         <span class="name">skip</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.tap.TestBuilder#skip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="skip:Unit"></a>
-      <a id="skip:Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">skip</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Reports a single skipped test result to <code>Console.out</code>.</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -515,6 +495,32 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.perl8.test.tap.TestBuilder#todo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="todo(todo:String,test:Boolean,description:String):Unit"></a>
+      <a id="todo(String,Boolean,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">todo</span><span class="params">(<span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Reports a single TODO test result with description to <code>Console.out</code>.</p>
+    </li><li name="org.perl8.test.tap.TestBuilder#todo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="todo(todo:String,test:Boolean):Unit"></a>
+      <a id="todo(String,Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">todo</span><span class="params">(<span name="todo">todo: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="test">test: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Reports a single TODO test result to <code>Console.out</code>.</p>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
