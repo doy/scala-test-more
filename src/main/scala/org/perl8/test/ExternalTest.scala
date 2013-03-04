@@ -7,8 +7,24 @@ import scala.concurrent.Future
 import scala.concurrent.Future._
 import scala.annotation.tailrec
 
+/** Runs an external process which emits TAP, and parses it as a test.
+  *
+  * This test class can be used if you have existing tests that you would like
+  * to be able to include in a test suite using this framework. You just need
+  * to write a test class for each external test that looks like this:
+  *
+  * {{{
+  * class MyTest1 extends ExternalTest("perl", "t/basic.t")
+  * }}}
+  *
+  * This will run your external process, and use its TAP stream as its output.
+  * This will allow it to, for instance, be a part of the test suite that runs
+  * via `sbt test`. As with any other test class, its stdout and stderr will
+  * be sent to `Console.out` and `Console.err`, where they can be overridden
+  * as needed.
+  */
 class ExternalTest (cmdLine: String*) extends Test {
-  def runTests (raw: Boolean): Int = {
+  protected def runTests (raw: Boolean): Int = {
     val processBuilder = new ProcessBuilder(cmdLine: _*)
 
     // Ensure that if stdout and stderr are both pointing to the same place (a
