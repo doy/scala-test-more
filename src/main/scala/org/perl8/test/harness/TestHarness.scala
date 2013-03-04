@@ -1,8 +1,49 @@
 package org.perl8.test.harness
 
+/** This is the entry point to running tests written with this library from
+  * the command line. Note that this library also implements the
+  * [[https://github.com/harrah/test-interface common testing interface]] for
+  * test libraries, so tests should also just work with `sbt test`.
+  *
+  * If this application is run and given just a single test class name, it
+  * will run that test and write its TAP stream to the console.
+  *
+  * {{{
+  * $ scala org.perl8.test.harness.TestHarness MyTest
+  * ok 1
+  * ok 2
+  * 1..2
+  * }}}
+  *
+  * If this application is run and given multiple test class names, it will
+  * run each of those tests, and present a summary report, similar to the one
+  * produces by
+  * [[https://metacpan.org/module/Test::Harness Perl's Test::Harness]].
+  *
+  * {{{
+  * $ scala org.perl8.test.harness.TestHarness MyTest1 MyTest2
+  * MyTest1 .. ok
+  * MyTest2 .. ok
+  * All tests successful.
+  * Files=2, Tests=4
+  * Result: PASS
+  * }}}
+  *
+  * This application also accepts a few command line options to customize its
+  * behavior:
+  *
+  *  - `-r`: Alternative [[org.perl8.test.harness.Reporter Reporter]] class to
+  *          use for running a single test.
+  *  - `-R`: Alternative
+  *          [[org.perl8.test.harness.MultiTestReporter MultiTestReporter]]
+  *          class to use for running a group of tests. Also enables using the
+  *          MultiTestReporter for a single test.
+  *  - `--help`: Prints usage information.
+  */
 object TestHarness {
   import org.perl8.test.Test
 
+  /** Entry point for the harness application. */
   def main (args: Array[String]) {
     val opts = parseOpts(args.toList)
     val single = opts("prefer-single").asInstanceOf[Boolean]
@@ -23,7 +64,7 @@ object TestHarness {
     sys.exit(exitCode)
   }
 
-  def parseOpts (args: List[String]): Map[String, Any] = args match {
+  protected def parseOpts (args: List[String]): Map[String, Any] = args match {
     case Nil => Map(
       "single-reporter" -> "org.perl8.test.harness.TAPReporter",
       "multi-reporter"  -> "org.perl8.test.harness.SummaryReporter",
@@ -56,7 +97,7 @@ object TestHarness {
     }
   }
 
-  def usage (exitCode: Int) = {
+  protected def usage (exitCode: Int) = {
     val out = if (exitCode == 0) Console.out else Console.err
     out.println("harness [-r <single-reporter-class>]\n" +
                 "        [-R <multi-reporter-class>]\n" +
