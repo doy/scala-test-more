@@ -9,16 +9,30 @@ import scala.util.parsing.input.{Position,Reader}
 import org.perl8.test.Plan
 import org.perl8.test.tap.Consumer._
 
+/** This class parses a TAP stream. It can either parse it all at once (from a
+  * string), or it can be used as a streaming parser, where TAP events are
+  * emitted through a given callback.
+  */
 class Parser private (
   cb:     TAPEvent => Unit,
   indent: String
 ) {
+  /** Creates a parser instance.
+    * @param cb The event handler callback. It will be called after each
+    *           meaningful line of TAP, with a
+    *           [[org.perl8.test.tap.TAPEvent TAPEvent]] instance representing
+    *           the event that was just parsed.
+    */
   def this (cb: TAPEvent => Unit = e => ()) =
     this(cb, "")
 
   private def this (indent: String) =
     this(e => (), indent)
 
+  /** Parses TAP from an input stream. This variant will actually parse lines
+    * as they are available to read from the input stream, so this can be used
+    * as a streaming parser.
+    */
   def parse (input: InputStream): TAPResult = {
     import parser._
 
@@ -32,9 +46,19 @@ class Parser private (
     }
   }
 
+  /** Parses TAP contained in a string. This isn't useful for incremental
+    * parsing, because the entire input string must be created before
+    * parsing can begin.
+    */
   def parse (input: String): TAPResult =
     parse(new ByteArrayInputStream(input.getBytes))
 
+  /** Parses TAP from an output stream.
+    *
+    * @todo Doesn't currently work as a streaming parser, since it just
+    *       collects the entire output as a string and feeds it to the parser
+    *       for strings. This could likely be improved.
+    */
   def parse (input: OutputStream): TAPResult =
     parse(input.toString)
 
