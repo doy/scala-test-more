@@ -28,12 +28,12 @@ class TestBuilder private (
     outLine(Producer.result(test, state.currentTest, description))
   }
 
-  def okTodo (test: Boolean, todo: String) {
+  def todo (todo: String, test: Boolean) {
     state.ok(true)
     outLine(Producer.todoResult(test, state.currentTest, todo))
   }
 
-  def okTodo (test: Boolean, description: String, todo: String) {
+  def todo (todo: String, test: Boolean, description: String) {
     state.ok(true)
     outLine(Producer.todoResult(test, state.currentTest, description, todo))
   }

@@ -140,7 +140,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     desc:   String
   ): Boolean = {
     todo match {
-      case Some(t) => builder.okTodo(cond, "- " + desc, t)
+      case Some(t) => builder.todo(t, cond, "- " + desc)
       case None    => builder.ok(cond, "- " + desc)
     }
     if (!cond) {
@@ -155,7 +155,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     reason: => String
   ): Boolean = {
     todo match {
-      case Some(t) => builder.okTodo(cond, "- " + desc, t)
+      case Some(t) => builder.todo(t, cond, "- " + desc)
       case None    => builder.ok(cond, "- " + desc)
     }
     if (!cond) {
@@ -166,7 +166,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
 
   private def test (cond: Boolean): Boolean = {
     todo match {
-      case Some(t) => builder.okTodo(cond, t)
+      case Some(t) => builder.todo(t, cond)
       case None    => builder.ok(cond)
     }
     if (!cond) {
@@ -177,7 +177,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
 
   private def test (cond: Boolean, reason: => String): Boolean = {
     todo match {
-      case Some(t) => builder.okTodo(cond, t)
+      case Some(t) => builder.todo(t, cond)
       case None    => builder.ok(cond)
     }
     if (!cond) {

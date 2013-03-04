@@ -227,8 +227,8 @@ class TestBuilderTest extends TestMore {
     Console.withOut(output) {
       Console.withErr(output) {
         val builder = new TestBuilder
-        builder.okTodo(false, "do a thing", todo = "not working yet")
-        builder.okTodo(true, todo = "is it?")
+        builder.todo("not working yet", false, "do a thing")
+        builder.todo("is it?", true)
         builder.doneTesting
       }
     }
