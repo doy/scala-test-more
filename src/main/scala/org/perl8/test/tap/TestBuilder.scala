@@ -38,11 +38,6 @@ class TestBuilder private (
     outLine(Producer.todoResult(test, state.currentTest, description, todo))
   }
 
-  def skip {
-    state.ok(true)
-    outLine(Producer.skip(state.currentTest))
-  }
-
   def skip (reason: String) {
     state.ok(true)
     outLine(Producer.skip(state.currentTest, reason))
@@ -54,12 +49,6 @@ class TestBuilder private (
 
   def note (message: String) {
     outLine(Producer.comment(message))
-  }
-
-  def bailOut {
-    val bailOutMessage = Producer.bailOut
-    outLine(bailOutMessage)
-    throw new BailOutException(bailOutMessage)
   }
 
   def bailOut (message: String) {

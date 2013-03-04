@@ -32,19 +32,12 @@ object Producer {
   def todoResult (cond: Boolean, num: Int, desc: String, todo: String): String =
     result(cond, num, desc) + " # TODO " + todo
 
-  /** Returns a skipped test result.
-    *
-    * @example `ok 4 # skip`
-    */
-  def skip (num: Int): String =
-    "ok " + num + " # skip"
-
   /** Returns a skipped test result with a reason.
     *
     * @example `ok 4 # skip this test won't run here`
     */
   def skip (num: Int, reason: String): String =
-    skip(num) + " " + reason
+    "ok " + num + " # skip " + reason
 
   /** Returns a comment.
     *
@@ -60,13 +53,6 @@ object Producer {
     */
   def plan (plan: Plan): String =
     plan.skipAll.map(m => "1..0 # SKIP " + m).getOrElse("1.." + plan.plan)
-
-  /** Returns a bail out.
-    *
-    * @example `Bail out!`
-    */
-  def bailOut: String =
-    "Bail out!"
 
   /** Returns a bail out with a reason.
     *

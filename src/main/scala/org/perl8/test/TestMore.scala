@@ -72,10 +72,6 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     builder.diag(message)
   }
 
-  def BAIL_OUT {
-    builder.bailOut
-  }
-
   def BAIL_OUT (desc: String) {
     builder.bailOut(desc)
   }
@@ -88,12 +84,6 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     }
     finally {
       todo = oldTodo
-    }
-  }
-
-  def skip (count: Int)(body: => Unit) {
-    for (i <- 1 to count) {
-      builder.skip
     }
   }
 

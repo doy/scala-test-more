@@ -207,7 +207,6 @@ class TestBuilderTest extends TestMore {
         val builder = new TestBuilder
         builder.ok(false)
         builder.skip("not now")
-        builder.skip
         builder.doneTesting
       }
     }
@@ -215,9 +214,8 @@ class TestBuilderTest extends TestMore {
     val expected =
       "not ok 1\n"            +
       "ok 2 # skip not now\n" +
-      "ok 3 # skip\n"         +
-      "1..3\n"                +
-      "# Looks like you failed 1 test of 3.\n"
+      "1..2\n"                +
+      "# Looks like you failed 1 test of 2.\n"
 
     is(output.toString, expected)
   }
