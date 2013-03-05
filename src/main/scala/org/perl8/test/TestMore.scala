@@ -72,6 +72,10 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     builder.diag(message)
   }
 
+  def note (message: String) {
+    builder.note(message)
+  }
+
   def BAIL_OUT (desc: String) {
     builder.bailOut(desc)
   }
