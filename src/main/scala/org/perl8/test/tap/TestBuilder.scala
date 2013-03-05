@@ -1,6 +1,6 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
-import org.perl8.test._
+import com.iinteractive.test._
 
 /** This class provides a convenient yet low level API for generating TAP
   * streams. Each instance of this class handles a single TAP stream, and
@@ -22,7 +22,7 @@ class TestBuilder private (
   /** Creates a new builder instance, and emits the corresponding plan line,
     * unless the plan is not given.
     *
-    * @param plan [[org.perl8.test.Plan plan]] for this test.
+    * @param plan [[com.iinteractive.test.Plan plan]] for this test.
     * @param terminalInUse Whether this test is being run from a harness which
     *                      will not just be writing directly to the output.
     *                      This will make things written to `Console.err` have

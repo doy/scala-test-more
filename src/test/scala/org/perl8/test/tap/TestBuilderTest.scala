@@ -1,8 +1,8 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
 import java.io.ByteArrayOutputStream
 
-import org.perl8.test.{TestMore,SkipAll,BailOutException}
+import com.iinteractive.test.{TestMore,SkipAll,BailOutException}
 
 class TestBuilderTest extends TestMore {
   subtest ("ok") {

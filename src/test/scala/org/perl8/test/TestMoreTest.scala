@@ -1,8 +1,8 @@
-package org.perl8.test
+package com.iinteractive.test
 
 import java.io.ByteArrayOutputStream
 
-import org.perl8.test.tap.Parser
+import com.iinteractive.test.tap.Parser
 
 class TestMoreTest extends TestMore {
   val lineZero = Thread.currentThread.getStackTrace()(1).getLineNumber + 3

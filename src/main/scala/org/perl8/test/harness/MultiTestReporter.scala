@@ -1,10 +1,10 @@
-package org.perl8.test.harness
+package com.iinteractive.test.harness
 
 /** Classes that implement `MultiTestReporter` are capable of running a group
   * of test classes, given their names. This typically involves some sort of
   * summarization.
   *
-  * @see [[org.perl8.test.harness.Reporter Reporter]].
+  * @see [[com.iinteractive.test.harness.Reporter Reporter]].
   */
 trait MultiTestReporter {
   /** Runs the test classes identifed by the list of fully qualified class

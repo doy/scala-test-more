@@ -1,7 +1,7 @@
-package org.perl8.test.harness
+package com.iinteractive.test.harness
 
-import org.perl8.test.tap
-import org.perl8.test.Test
+import com.iinteractive.test.tap
+import com.iinteractive.test.Test
 
 /** Runs a single test. The TAP stream from that test is written directly to
   * stdout/stderr.

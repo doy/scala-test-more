@@ -1,4 +1,4 @@
-package org.perl8.test
+package com.iinteractive.test
 
 /** Classes to handle running test instances and providing output. */
 package object harness {

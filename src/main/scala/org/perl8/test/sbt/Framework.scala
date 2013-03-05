@@ -1,4 +1,4 @@
-package org.perl8.test.sbt
+package com.iinteractive.test.sbt
 
 import org.scalatools.testing
 

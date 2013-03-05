@@ -1,4 +1,4 @@
-package org.perl8.test
+package com.iinteractive.test
 
 /** Base trait for test classes in this framework. Any tests that should be
   * autodiscovered by `sbt test` should extend this trait, and implement
@@ -22,9 +22,10 @@ trait Test {
    *
    *  Summarizing test reporters tend to repeatedly update the same line on
    *  the terminal, so this method makes calls to
-   *  [[org.perl8.test.tap.TestBuilder#diag diag]] (which sends messages to
-   *  stderr, where they are typically displayed as-is) prefix the message
-   *  with a newline, to ensure that the output starts on its own line.
+   *  [[com.iinteractive.test.tap.TestBuilder#diag diag]] (which sends
+   *  messages to stderr, where they are typically displayed as-is) prefix the
+   *  message with a newline, to ensure that the output starts on its own
+   *  line.
    */
   def runInHarness: Int =
     runTests(true)

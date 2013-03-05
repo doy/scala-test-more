@@ -1,4 +1,4 @@
-package org.perl8.test.harness
+package com.iinteractive.test.harness
 
 import java.io.{PipedInputStream,PipedOutputStream}
 import scala.concurrent.Await
@@ -6,17 +6,18 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-import org.perl8.test.tap.{Parser,TAPEvent,TAPResult,TodoDirective}
-import org.perl8.test.Test
+import com.iinteractive.test.tap.{Parser,TAPEvent,TAPResult,TodoDirective}
+import com.iinteractive.test.Test
 
 /** This is a trait for classes that run tests and summarize the results. It
   * provides a single `runOneTest` method, which runs a test class and
-  * produces a stream of [[org.perl8.test.tap.TAPEvent TAP events]] which can
-  * be used to produce whatever summarized output you need.
+  * produces a stream of [[com.iinteractive.test.tap.TAPEvent TAP events]]
+  * which can be used to produce whatever summarized output you need.
   */
 trait SummarizedTests {
-  /** Runs a single [[org.perl8.test.Test test]] instance, calling `cb` with
-    * each [[org.perl8.test.tap.TAPEvent TAP event]] as it is produced.
+  /** Runs a single [[com.iinteractive.test.Test test]] instance, calling `cb`
+    * with each [[com.iinteractive.test.tap.TAPEvent TAP event]] as it is
+    * produced.
     *
     * @return The overall result of the test instance.
     */

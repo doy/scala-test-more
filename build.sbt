@@ -8,4 +8,4 @@ libraryDependencies += "org.scala-tools.testing" % "test-interface" % "0.5"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
-testFrameworks += new TestFramework("org.perl8.test.sbt.Framework")
+testFrameworks += new TestFramework("com.iinteractive.test.sbt.Framework")

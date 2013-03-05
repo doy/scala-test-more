@@ -1,8 +1,8 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
 /** Contains functions for producing individual lines of TAP. */
 object Producer {
-  import org.perl8.test.Plan
+  import com.iinteractive.test.Plan
 
   /** Returns a test result.
     *
@@ -48,8 +48,8 @@ object Producer {
 
   /** Returns a test plan.
     *
-    * @example `1..5` ([[org.perl8.test.NumericPlan NumericPlan]])
-    * @example `1..0 # SKIP don't run this test` ([[org.perl8.test.SkipAll SkipAll]])
+    * @example `1..5` ([[com.iinteractive.test.NumericPlan NumericPlan]])
+    * @example `1..0 # SKIP don't run this test` ([[com.iinteractive.test.SkipAll SkipAll]])
     */
   def plan (plan: Plan): String =
     plan.skipAll.map(m => "1..0 # SKIP " + m).getOrElse("1.." + plan.plan)

@@ -1,8 +1,8 @@
-package org.perl8.test
+package com.iinteractive.test
 
 import java.io.ByteArrayOutputStream
 
-import org.perl8.test.tap.Parser
+import com.iinteractive.test.tap.Parser
 
 trait NumberZero { this: TestMore =>
   def is_zero (i: Int, desc: String): Boolean = hideTestMethod {

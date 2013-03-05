@@ -1,6 +1,6 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
-import org.perl8.test.{TestMore,SkipAll,NumericPlan}
+import com.iinteractive.test.{TestMore,SkipAll,NumericPlan}
 
 class ParserTest extends TestMore {
   subtest ("basic") {

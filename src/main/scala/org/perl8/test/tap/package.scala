@@ -1,4 +1,4 @@
-package org.perl8.test
+package com.iinteractive.test
 
 /** Classes for TAP generation and parsing. */
 package object tap {

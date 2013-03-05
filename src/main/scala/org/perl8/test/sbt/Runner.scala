@@ -1,13 +1,13 @@
-package org.perl8.test.sbt
+package com.iinteractive.test.sbt
 
 import org.scalatools.testing
 
-import org.perl8.test.harness.SummaryReporter
-import org.perl8.test.Test
+import com.iinteractive.test.harness.SummaryReporter
+import com.iinteractive.test.Test
 
 /** Implementation of
   * [[http://github.com/harrah/test-interface/blob/master/src/org/scalatools/testing/Runner2.java org.scalatools.testing.Runner2]]
-  * using [[org.perl8.test.sbt.SBTReporter SBTReporter]].
+  * using [[com.iinteractive.test.sbt.SBTReporter SBTReporter]].
   */
 class Runner (
   loader:  ClassLoader,

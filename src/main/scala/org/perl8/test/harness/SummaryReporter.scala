@@ -1,8 +1,8 @@
-package org.perl8.test.harness
+package com.iinteractive.test.harness
 
-import org.perl8.test.tap.{TAPEvent,StartEvent,ResultEvent,PlanEvent,EndEvent}
-import org.perl8.test.tap.{TAPResult,TodoDirective}
-import org.perl8.test.Test
+import com.iinteractive.test.tap.{TAPEvent,TAPResult,TodoDirective}
+import com.iinteractive.test.tap.{StartEvent,ResultEvent,PlanEvent,EndEvent}
+import com.iinteractive.test.Test
 
 /** Runs a series of tests. The TAP output from these tests is parsed, and
   * output is produced which is similar in style to Perl's

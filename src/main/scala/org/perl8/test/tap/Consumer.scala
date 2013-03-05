@@ -1,13 +1,13 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
-import org.perl8.test.{Plan,NumericPlan,SkipAll}
+import com.iinteractive.test.{Plan,NumericPlan,SkipAll}
 
 /** Contains a method to parse an individual line of TAP. */
 object Consumer {
   /** Parses a line of TAP.
     *
-    * @return A [[org.perl8.test.tap.Consumer.Line Line]] object corresponding
-    *         to the parsed line.
+    * @return A [[com.iinteractive.test.tap.Consumer.Line Line]] object
+    *         corresponding to the parsed line.
     */
   def parseLine (line: String): Line = {
     commentRx.findFirstMatchIn(line).map { m =>
@@ -81,7 +81,8 @@ object Consumer {
 
   /** A parsed TAP line containing a test plan.
     *
-    * @param plan The [[org.perl8.test.Plan Plan]] that this line represents.
+    * @param plan The [[com.iinteractive.test.Plan Plan]] that this line
+    *             represents.
     */
   case class PlanLine private[Consumer] (
     plan:   Plan,
@@ -99,8 +100,8 @@ object Consumer {
 
   /** A parsed TAP line containing a test result.
     *
-    * @param result The [[org.perl8.test.tap.TestResult TestResult]] that this
-    *               line represents.
+    * @param result The [[com.iinteractive.test.tap.TestResult TestResult]]
+    *               that this line represents.
     */
   case class ResultLine private[Consumer] (
     result: TestResult,

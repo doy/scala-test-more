@@ -1,4 +1,4 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
 import java.io.{ByteArrayInputStream,InputStream,OutputStream}
 import scala.annotation.tailrec
@@ -6,8 +6,8 @@ import scala.io.Source
 import scala.util.parsing.combinator._
 import scala.util.parsing.input.{Position,Reader}
 
-import org.perl8.test.Plan
-import org.perl8.test.tap.Consumer._
+import com.iinteractive.test.Plan
+import com.iinteractive.test.tap.Consumer._
 
 /** This class parses a TAP stream. It can either parse it all at once (from a
   * string), or it can be used as a streaming parser, where TAP events are
@@ -20,8 +20,8 @@ class Parser private (
   /** Creates a parser instance.
     * @param cb The event handler callback. It will be called after each
     *           meaningful line of TAP, with a
-    *           [[org.perl8.test.tap.TAPEvent TAPEvent]] instance representing
-    *           the event that was just parsed.
+    *           [[com.iinteractive.test.tap.TAPEvent TAPEvent]] instance
+    *           representing the event that was just parsed.
     */
   def this (cb: TAPEvent => Unit = e => ()) =
     this(cb, "")
@@ -112,9 +112,9 @@ class Parser private (
     private def subtest: Parser[TAPResult] =
       LineParser("subtest") { in =>
         // can't just return the result directly, because it's of a different
-        // type (the path dependent type associated with the new Parser instance
-        // we create here, rather than the path dependent type associated with
-        // this)
+        // type (the path dependent type associated with the new Parser
+        // instance we create here, rather than the path dependent type
+        // associated with this)
         val subParser = new TAPParser(
           e => (),
           in.first.indent

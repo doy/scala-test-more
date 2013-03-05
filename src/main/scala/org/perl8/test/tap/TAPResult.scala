@@ -1,15 +1,16 @@
-package org.perl8.test.tap
+package com.iinteractive.test.tap
 
-import org.perl8.test.{Plan,NumericPlan,SkipAll}
+import com.iinteractive.test.{Plan,NumericPlan,SkipAll}
 
 /** The summarized results of a TAP stream. Contains the
-  * [[org.perl8.test.Plan Plan]] that was given, as well as a list of
-  * [[org.perl8.test.tap.TestResult TestResults]] corresponding to each of the
-  * tests in the stream.
+  * [[com.iinteractive.test.Plan Plan]] that was given, as well as a list of
+  * [[com.iinteractive.test.tap.TestResult TestResults]] corresponding to each
+  * of the tests in the stream.
   *
-  * @param plan    The [[org.perl8.test.Plan Plan]] from the TAP stream
-  * @param results The list of [[org.perl8.test.tap.TestResult TestResults]]
-  *                from the TAP stream
+  * @param plan    The [[com.iinteractive.test.Plan Plan]] from the TAP stream
+  * @param results The list of
+  *                [[com.iinteractive.test.tap.TestResult TestResults]] from
+  *                the TAP stream
   */
 class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
   /** Returns true if the number of tests executed was compatible with the
@@ -60,10 +61,11 @@ class TAPResult (val plan: Plan, val results: Seq[TestResult]) {
   * @param passed      True if the test passed
   * @param number      The test number in the TAP stream
   * @param description The test description
-  * @param directive   The [[org.perl8.test.tap.Directive Directive]] (either
-  *                    skip or todo) that was provided for this test, if any
-  * @param subtest     The [[org.perl8.test.tap.TAPResult]] for the subtest
-  *                    that this test corresponds to, if any
+  * @param directive   The [[com.iinteractive.test.tap.Directive Directive]]
+  *                    (either skip or todo) that was provided for this test,
+  *                    if any
+  * @param subtest     The [[com.iinteractive.test.tap.TAPResult]] for the
+  *                    subtest that this test corresponds to, if any
   */
 class TestResult (
   val passed:      Boolean,

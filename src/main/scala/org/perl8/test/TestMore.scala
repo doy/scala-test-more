@@ -1,8 +1,8 @@
-package org.perl8.test
+package com.iinteractive.test
 
 import scala.util.matching.Regex
 
-import org.perl8.test.tap.TestBuilder
+import com.iinteractive.test.tap.TestBuilder
 
 /** This class is an implementation of the excellent
   * [[https://metacpan.org/module/Test::More Test::More]] testing library for
@@ -38,7 +38,7 @@ import org.perl8.test.tap.TestBuilder
   * framework with sbt by adding this line to your `build.sbt` file:
   *
   * <pre>
-  * testFrameworks += new TestFramework("org.perl8.test.sbt.Framework")
+  * testFrameworks += new TestFramework("com.iinteractive.test.sbt.Framework")
   * </pre>
   *
   * Then, any classes in your test directory which extend `TestMore` will be
@@ -465,7 +465,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
       !ignoreFrame(frame)
     }
     val idx = stack.lastIndexWhere { frame =>
-      frame.getClassName == "org.perl8.test.TestMore" &&
+      frame.getClassName == "com.iinteractive.test.TestMore" &&
       frame.getMethodName == "hideTestMethod"
     }
     val caller = idx match {
@@ -502,7 +502,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
 
     // ignore everything in this class, except the hideTestMethod call which we
     // use as a stack trace marker
-    (className == "org.perl8.test.TestMore" &&
+    (className == "com.iinteractive.test.TestMore" &&
       methodName != "hideTestMethod") ||
     // when you call a method in a class when the method is defined in a
     // trait, it calls a stub which calls the real definition in the trait.

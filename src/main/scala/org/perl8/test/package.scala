@@ -1,4 +1,4 @@
-package org.perl8
+package com.iinteractive
 
 package object test {
   import language.implicitConversions

@@ -1,4 +1,4 @@
-package org.perl8.test
+package com.iinteractive.test
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration

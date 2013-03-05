@@ -1,4 +1,4 @@
-package org.perl8.test.harness
+package com.iinteractive.test.harness
 
 /** This is the entry point to running tests written with this library from
   * the command line. Note that this library also implements the
@@ -9,7 +9,7 @@ package org.perl8.test.harness
   * will run that test and write its TAP stream to the console.
   *
   * {{{
-  * $ scala org.perl8.test.harness.TestHarness MyTest
+  * $ scala com.iinteractive.test.harness.TestHarness MyTest
   * ok 1
   * ok 2
   * 1..2
@@ -21,7 +21,7 @@ package org.perl8.test.harness
   * [[https://metacpan.org/module/Test::Harness Perl's Test::Harness]].
   *
   * {{{
-  * $ scala org.perl8.test.harness.TestHarness MyTest1 MyTest2
+  * $ scala com.iinteractive.test.harness.TestHarness MyTest1 MyTest2
   * MyTest1 .. ok
   * MyTest2 .. ok
   * All tests successful.
@@ -32,16 +32,16 @@ package org.perl8.test.harness
   * This application also accepts a few command line options to customize its
   * behavior:
   *
-  *  - `-r`: Alternative [[org.perl8.test.harness.Reporter Reporter]] class to
-  *          use for running a single test.
+  *  - `-r`: Alternative [[com.iinteractive.test.harness.Reporter Reporter]]
+  *          class to use for running a single test.
   *  - `-R`: Alternative
-  *          [[org.perl8.test.harness.MultiTestReporter MultiTestReporter]]
+  *          [[com.iinteractive.test.harness.MultiTestReporter MultiTestReporter]]
   *          class to use for running a group of tests. Also enables using the
   *          MultiTestReporter for a single test.
   *  - `--help`: Prints usage information.
   */
 object TestHarness {
-  import org.perl8.test.Test
+  import com.iinteractive.test.Test
 
   /** Entry point for the harness application. */
   def main (args: Array[String]) {
@@ -66,8 +66,8 @@ object TestHarness {
 
   protected def parseOpts (args: List[String]): Map[String, Any] = args match {
     case Nil => Map(
-      "single-reporter" -> "org.perl8.test.harness.TAPReporter",
-      "multi-reporter"  -> "org.perl8.test.harness.SummaryReporter",
+      "single-reporter" -> "com.iinteractive.test.harness.TAPReporter",
+      "multi-reporter"  -> "com.iinteractive.test.harness.SummaryReporter",
       "prefer-single"   -> true,
       "test-classes"    -> Nil
     )
