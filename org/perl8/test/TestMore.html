@@ -44,7 +44,108 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class is an implementation of the excellent
+<a href="https://metacpan.org/module/Test::More" target="_blank">Test::More</a> testing library for
+Perl. It provides a simple assertion-based testing API, which produces
+<a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol" target="_blank">TAP</a>, which can be
+parsed by any TAP consumer. This library includes several TAP-consuming
+harnesses to use with tests using this class, including one that supports
+testing via <code>sbt test</code>.</p><h4>Basics</h4><p>The most basic test looks like this:</p><p><pre>
+class MyTest extends TestMore {
+  ok(true)
+}
+</pre></p><p>This runs a test containing a single assertion. This will generate a TAP
+stream that looks like this:</p><p><pre>
+ok 1
+1..1
+</pre></p><p>which can be parsed by one of the test harnesses provided by this library.</p><h4>Running tests</h4><p>The simplest way to run tests is through sbt. You can register this
+framework with sbt by adding this line to your <code>build.sbt</code> file:</p><p><pre>
+testFrameworks += new TestFramework("org.perl8.test.sbt.Framework")
+</pre></p><p>Then, any classes in your test directory which extend <code>TestMore</code> will be
+automatically detected and run.</p><h4>Assertions</h4><p>This class contains many more assertion methods than just <code>ok</code>. Here is a
+more extensive example (borrowed from Test::More's documentation):</p><p><pre>
+class MyTest extends TestMore {
+  ok(got == expected, testName)
+
+  is(got, expected, testName)
+  isnt(got, expected, testName)
+
+  diag("here's what went wrong")
+
+  like(got, """expected""".r, testName)
+  unlike(got, """expected""".r, testName)
+
+  skip(howMany, why) {
+    ok(foo(), testName)
+    is(foo(42), 23, testName)
+  }
+
+  todo(why) {
+    ok(foo(), testName)
+    is(foo(42), 23, testName)
+  }
+
+  pass(testName)
+  fail(testName)
+
+  BAIL_OUT(why)
+}
+</pre></p><p>The difference between the simple <code>ok</code> method and the more specific
+methods like <code>is</code> and <code>like</code> is in how failures are reported. If you write
+this:</p><p><pre>
+ok(1 == 2)
+</pre></p><p>the output will look like this:</p><p><pre>
+not ok 1
+#   Failed test at MyTest.scala line 4.
+</pre></p><p>On the other hand, a more specific assertion such as:</p><p><pre>
+is(1, 2)
+</pre></p><p>will produce more useful output:</p><p><pre>
+not ok 1
+#   Failed test at MyTest.scala line 4.
+#          got: 1
+#     expected: 2
+</pre></p><p>In addition to assertions, there are also several methods which take a
+block of code to run, to modify the assertions contained in that block.</p><p>The <code>todo</code> method runs tests which are expected to fail. If they do fail,
+the failure is reported to the test harness as a normal succeeding test,
+and nothing happens. If they succeed, they are still reported as a
+succeeding test, but a message is displayed to the user indicating that
+the todo indication can be removed.</p><p>The <code>skip</code> method takes a block which should not be run at all. This is
+similar to <code>todo</code>, except that it is useful for tests which could cause
+problems if they were to actually run. Since the tests are never run, it's
+not possible to count how many tests there should be, so this must be
+specified as a parameter.</p><p>The <code>subtest</code> method runs a block of assertions as though they were an
+entirely separate test, and then reports the result of that test as a
+single assertion in the test that called <code>subtest</code>.</p><h4>Test plans</h4><p>Normally, you can run any number of assertions within your class body, and
+the framework will assume that if no exceptions were thrown, all of the
+assertions that were meant to be run were actually run. Sometimes,
+however, that may not be a safe assumption, especially with heavily
+callback-driven code. In this case, you can specify exactly how many tests
+you intend to run, and the number of tests actually run will be checked
+against this at the end. To declare this, give a number to the <code>TestMore</code>
+constructor:</p><p><pre>
+class MyTest extends TestMore(5) {
+  ???
+}
+</pre></p><p>In addition, if the entire test should be skipped, you can give a plan of
+<code>SkipAll()</code>:</p><p><pre>
+class MyTest extends TestMore(SkipAll()) {
+  ???
+}
+</pre></p><h4>Extensions</h4><p>These assertion methods are written with the intention of being
+composable. You can write your own test methods which call <code>is</code> or <code>ok</code> on
+more specific bits of data. The one issue here is that, as shown above,
+test failure messages refer to the file and line where the <code>is</code> or <code>ok</code>
+call was made. If you want this to instead point at the line where your
+assertion helper method was called, you can use the <code>hideTestMethod</code>
+method like this:</p><p><pre>
+trait MyTestHelpers { this: TestMore =>
+  def notok (cond: Boolean) = hideTestMethod {
+    ok(!cond)
+  }
+}
+</pre></p><p>This way, the test failure will be reported from the line where <code>notok</code>
+was called, not from the call to <code>ok</code> in the <code>notok</code> method.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.DelayedInit">DelayedInit</span>, <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -171,7 +272,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#BAIL_OUT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#BAIL_OUT" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BAIL_OUT(desc:String):Unit"></a>
       <a id="BAIL_OUT(String):Unit"></a>
       <h4 class="signature">
@@ -183,7 +284,11 @@
         <span class="name">BAIL_OUT</span><span class="params">(<span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Halt execution of the entire test suite.</p><div class="fullcomment"><div class="comment cmt"><p>Halt execution of the entire test suite.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>BAIL_OUT(&quot;can't connect to the database!&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -226,7 +331,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.TestMore">TestMore</a> → DelayedInit</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#diag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#diag" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="diag(message:String):Unit"></a>
       <a id="diag(String):Unit"></a>
       <h4 class="signature">
@@ -238,7 +343,12 @@
         <span class="name">diag</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Output a comment to <code>Console.err</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Output a comment to <code>Console.err</code>. This is intended to be visible to
+users even when running the test under a summarizing harness.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>diag(&quot;Testing with Scala &quot; + util.Properties.versionString)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -265,7 +375,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#fail" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#fail" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fail(desc:String):Boolean"></a>
       <a id="fail(String):Boolean"></a>
       <h4 class="signature">
@@ -277,8 +387,12 @@
         <span class="name">fail</span><span class="params">(<span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#fail" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">An assertion that always fails, with a reason.</p><div class="fullcomment"><div class="comment cmt"><p>An assertion that always fails, with a reason.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>fail(&quot;we should never get here&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#fail" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fail:Boolean"></a>
       <a id="fail:Boolean"></a>
       <h4 class="signature">
@@ -290,7 +404,11 @@
         <span class="name">fail</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">An assertion that always fails.</p><div class="fullcomment"><div class="comment cmt"><p>An assertion that always fails.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>fail()</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -333,7 +451,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#hideTestMethod" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#hideTestMethod" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hideTestMethod[T](body:=&gt;T):T"></a>
       <a id="hideTestMethod[T](⇒T):T"></a>
       <h4 class="signature">
@@ -345,7 +463,18 @@
         <span class="name">hideTestMethod</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="org.perl8.test.TestMore.hideTestMethod.T">T</span></span>)</span><span class="result">: <span class="extype" name="org.perl8.test.TestMore.hideTestMethod.T">T</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">A helper method which should be used to wrap test utility methods.</p><div class="fullcomment"><div class="comment cmt"><p>A helper method which should be used to wrap test utility methods.
+Normally, when tests fail, a message is printed giving the file and line
+number of the call to the test method. If you write your own test
+methods, they will typically use the existing methods to generate
+assertions, and so the file and line numbers will likely be much less
+useful. Wrapping the body of your method in this method will ensure that
+the file and line number that is reported is the line where your helper
+method is called instead.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>def testFixtures = hideTestMethod { ??? }</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="org.perl8.test.TestMore#ignoreFrame" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ignoreFrame(frame:StackTraceElement):Boolean"></a>
       <a id="ignoreFrame(StackTraceElement):Boolean"></a>
@@ -359,7 +488,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#is" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#is" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="is[T](got:T,expected:T,desc:String):Boolean"></a>
       <a id="is[T](T,T,String):Boolean"></a>
       <h4 class="signature">
@@ -371,8 +500,14 @@
         <span class="name">is</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="got">got: <span class="extype" name="org.perl8.test.TestMore.is.T">T</span></span>, <span name="expected">expected: <span class="extype" name="org.perl8.test.TestMore.is.T">T</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#is" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that two objects are equal (using <code>==</code>), and describe the
+assertion.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that two objects are equal (using <code>==</code>), and describe the
+assertion.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>is(response.status, 200, &quot;we got a 200 OK response&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#is" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="is[T](got:T,expected:T):Boolean"></a>
       <a id="is[T](T,T):Boolean"></a>
       <h4 class="signature">
@@ -384,7 +519,11 @@
         <span class="name">is</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="got">got: <span class="extype" name="org.perl8.test.TestMore.is.T">T</span></span>, <span name="expected">expected: <span class="extype" name="org.perl8.test.TestMore.is.T">T</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Assert that two objects are equal (using <code>==</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Assert that two objects are equal (using <code>==</code>).
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>is(response.status, 200)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -398,7 +537,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#isnt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#isnt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isnt[T](got:T,expected:T,desc:String):Boolean"></a>
       <a id="isnt[T](T,T,String):Boolean"></a>
       <h4 class="signature">
@@ -410,8 +549,14 @@
         <span class="name">isnt</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="got">got: <span class="extype" name="org.perl8.test.TestMore.isnt.T">T</span></span>, <span name="expected">expected: <span class="extype" name="org.perl8.test.TestMore.isnt.T">T</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#isnt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that two objects are not equal (using <code>!=</code>), and describe the
+assertion.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that two objects are not equal (using <code>!=</code>), and describe the
+assertion.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>isnt(response.body, &quot;&quot;, &quot;we got a response body&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#isnt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isnt[T](got:T,expected:T):Boolean"></a>
       <a id="isnt[T](T,T):Boolean"></a>
       <h4 class="signature">
@@ -423,8 +568,12 @@
         <span class="name">isnt</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="got">got: <span class="extype" name="org.perl8.test.TestMore.isnt.T">T</span></span>, <span name="expected">expected: <span class="extype" name="org.perl8.test.TestMore.isnt.T">T</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#like" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that two objects are not equal (using <code>!=</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Assert that two objects are not equal (using <code>!=</code>).
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>isnt(response.body, &quot;&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#like" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="like(got:String,rx:scala.util.matching.Regex,desc:String):Boolean"></a>
       <a id="like(String,Regex,String):Boolean"></a>
       <h4 class="signature">
@@ -436,8 +585,14 @@
         <span class="name">like</span><span class="params">(<span name="got">got: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="rx">rx: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#like" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that a string matches a regular expression, and describe the
+assertion.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a string matches a regular expression, and describe the
+assertion.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>like(response.header(&quot;Content-Type&quot;), &quot;&quot;&quot;text/x?html&quot;&quot;&quot;.r, &quot;we got an html content type&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#like" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="like(got:String,rx:scala.util.matching.Regex):Boolean"></a>
       <a id="like(String,Regex):Boolean"></a>
       <h4 class="signature">
@@ -449,7 +604,11 @@
         <span class="name">like</span><span class="params">(<span name="got">got: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="rx">rx: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Assert that a string matches a regular expression.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a string matches a regular expression.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>like(response.header(&quot;Content-Type&quot;), &quot;&quot;&quot;text/x?html&quot;&quot;&quot;.r)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -463,6 +622,24 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="org.perl8.test.TestMore#note" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="note(message:String):Unit"></a>
+      <a id="note(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">note</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Output a comment to <code>Console.out</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Output a comment to <code>Console.out</code>. This is intended to only be visible
+when viewing the raw TAP stream.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>note(&quot;Starting the response tests&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -489,7 +666,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#ok" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#ok" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ok(cond:Boolean,desc:String):Boolean"></a>
       <a id="ok(Boolean,String):Boolean"></a>
       <h4 class="signature">
@@ -501,8 +678,12 @@
         <span class="name">ok</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#ok" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that a condition is true, and describe the assertion.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a condition is true, and describe the assertion.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>ok(response.isSuccess, &quot;the response succeeded&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#ok" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ok(cond:Boolean):Boolean"></a>
       <a id="ok(Boolean):Boolean"></a>
       <h4 class="signature">
@@ -514,8 +695,12 @@
         <span class="name">ok</span><span class="params">(<span name="cond">cond: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#pass" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that a condition is true.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a condition is true.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>ok(response.isSuccess)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#pass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pass(desc:String):Boolean"></a>
       <a id="pass(String):Boolean"></a>
       <h4 class="signature">
@@ -527,8 +712,12 @@
         <span class="name">pass</span><span class="params">(<span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#pass" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">An assertion that always succeeds, with a reason.</p><div class="fullcomment"><div class="comment cmt"><p>An assertion that always succeeds, with a reason.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>pass(&quot;this line of code should be executed&quot;)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#pass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pass:Boolean"></a>
       <a id="pass:Boolean"></a>
       <h4 class="signature">
@@ -540,7 +729,11 @@
         <span class="name">pass</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">An assertion that always succeeds.</p><div class="fullcomment"><div class="comment cmt"><p>An assertion that always succeeds.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>pass()</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="org.perl8.test.Test#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="run:Int"></a>
       <a id="run:Int"></a>
@@ -581,7 +774,7 @@ Console.err, so you can swap these out as required in order to parse it.
  stderr, where they are typically displayed as-is) prefix the message
  with a newline, to ensure that the output starts on its own line.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#runTests" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#runTests" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="runTests(terminalInUse:Boolean):Int"></a>
       <a id="runTests(Boolean):Int"></a>
       <h4 class="signature">
@@ -593,8 +786,8 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">runTests</span><span class="params">(<span name="terminalInUse">terminalInUse: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.TestMore">TestMore</a> → <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#skip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="org.perl8.test.TestMore">TestMore</a> → <a href="Test.html" class="extype" name="org.perl8.test.Test">Test</a></dd></dl></div>
+    </li><li name="org.perl8.test.TestMore#skip" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="skip(count:Int,reason:String)(body:=&gt;Unit):Unit"></a>
       <a id="skip(Int,String)(⇒Unit):Unit"></a>
       <h4 class="signature">
@@ -606,8 +799,13 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">skip</span><span class="params">(<span name="count">count: <span class="extype" name="scala.Int">Int</span></span>, <span name="reason">reason: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#subtest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Mark a block of tests that should not be run at all.</p><div class="fullcomment"><div class="comment cmt"><p>Mark a block of tests that should not be run at all. They are treated as
+always passing.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>skip(3, &quot;too dangerous to run for now&quot;) { ??? }</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#subtest" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="subtest(name:String,plan:org.perl8.test.Plan)(body:=&gt;Unit):Boolean"></a>
       <a id="subtest(String,Plan)(⇒Unit):Boolean"></a>
       <h4 class="signature">
@@ -619,7 +817,16 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">subtest</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="plan">plan: <a href="package$$Plan.html" class="extype" name="org.perl8.test.Plan">Plan</a> = <span class="symbol"><span class="name"><a href="package$$NoPlan$.html">NoPlan</a></span></span></span>)</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Declare a logical group of assertions, to be run as a single test.</p><div class="fullcomment"><div class="comment cmt"><p>Declare a logical group of assertions, to be run as a single test. This
+is effectively an entirely separate test, which is run, and the result
+of that test is reported as a single assertion in the test that contains
+it. The subtest can specify its own plan in the same way that the
+overall test is allowed to. The name will be used as the description for
+the single assertion that the overall test sees.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>subtest(&quot;response tests&quot;) { ??? }</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -646,7 +853,7 @@ Console.err, so you can swap these out as required in order to parse it.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.perl8.test.TestMore#todo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.perl8.test.TestMore#todo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="todo(reason:String)(body:=&gt;Unit):Unit"></a>
       <a id="todo(String)(⇒Unit):Unit"></a>
       <h4 class="signature">
@@ -658,8 +865,14 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">todo</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#unlike" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Mark a block of tests as expected to fail.</p><div class="fullcomment"><div class="comment cmt"><p>Mark a block of tests as expected to fail. If the tests which run in the
+todo block fail, they will not be treated as test failures, and if they
+succeed, the user will be notified.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>todo(&quot;waiting on fixes elsewhere&quot;) { ??? }</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#unlike" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="unlike(got:String,rx:scala.util.matching.Regex,desc:String):Boolean"></a>
       <a id="unlike(String,Regex,String):Boolean"></a>
       <h4 class="signature">
@@ -671,8 +884,12 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">unlike</span><span class="params">(<span name="got">got: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="rx">rx: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>, <span name="desc">desc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
-    </li><li name="org.perl8.test.TestMore#unlike" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Assert that a string doesn't match a regular expression.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a string doesn't match a regular expression.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>unlike(response.header(&quot;Authorization&quot;), &quot;&quot;&quot;^Digest.*&quot;&quot;&quot;.r, &quot;we don't support digest authentication&quot;)<code>
+</code></code></p></li></ol>
+              </div></dl></div>
+    </li><li name="org.perl8.test.TestMore#unlike" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="unlike(got:String,rx:scala.util.matching.Regex):Boolean"></a>
       <a id="unlike(String,Regex):Boolean"></a>
       <h4 class="signature">
@@ -684,7 +901,11 @@ Console.err, so you can swap these out as required in order to parse it.
         <span class="name">unlike</span><span class="params">(<span name="got">got: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="rx">rx: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Assert that a string doesn't match a regular expression.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that a string doesn't match a regular expression.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>unlike(response.header(&quot;Authorization&quot;), &quot;&quot;&quot;^Digest.*&quot;&quot;&quot;.r)<code>
+</code></code></p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
