@@ -1,4 +1,4 @@
-name         := "scala-test-builder"
+name         := "scala-test-more"
 
 version      := "0.01"
 
