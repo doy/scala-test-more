@@ -16,7 +16,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     }
   }
 
-  def runTests (terminalInUse: Boolean): Int = {
+  protected def runTests (terminalInUse: Boolean): Int = {
     if (testBody == null) {
       delayedInit { }
     }
