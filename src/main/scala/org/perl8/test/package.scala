@@ -1,5 +1,9 @@
 package com.iinteractive
 
+/** This library implements several components of Perl's testing ecosystem in
+  * Scala. The most useful place to get started to use this library is likely
+  * [[com.iinteractive.test.TestMore TestMore]].
+  */
 package object test {
   import language.implicitConversions
 
