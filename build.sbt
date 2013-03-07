@@ -1,6 +1,10 @@
 name         := "scala-test-more"
 
+organization := "com.iinteractive"
+
 version      := "0.01"
+
+description  := "Test library based on Perl's Test::More"
 
 homepage     := Some(url("https://github.com/doy/scala-test-more"))
 
