@@ -1,0 +1,22 @@
+This library implements some of the more useful parts of the Test:: and TAP::
+namespaces from Perl. Currently, we have:
+
+- a class for writing tests (TestMore, similar to Test::More)
+- a TAP generator (tap.TestBuilder, similar to Test::Builder)
+- a TAP parser (tap.Parser, similar to TAP::Parser)
+- a standalone test harness (harness.TestHarness, similar to Test::Harness)
+- a harness which integrates into sbt
+
+More features to come as requested!
+
+This library is on the Maven Central Repository, as the artifact
+com.iinteractive#scala-test-more_2.10;0.01
+
+To use this library with your project, just add these two lines to your
+build.sbt:
+
+  libraryDependencies += "com.iinteractive" % "scala-test-more_2.10" % "0.01" % "test"
+
+  testFrameworks += new TestFramework("com.iinteractive.test.sbt.Framework")
+
+Further documentation can be found at http://doy.github.com/scala-test-more/.
