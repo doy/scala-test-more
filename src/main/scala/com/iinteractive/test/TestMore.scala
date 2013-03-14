@@ -302,7 +302,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     *
     * @example `diag("Testing with Scala " + util.Properties.versionString)`
     */
-  def diag (message: String) {
+  def diag (message: Any) {
     builder.diag(message)
   }
 
@@ -311,7 +311,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     *
     * @example `note("Starting the response tests")`
     */
-  def note (message: String) {
+  def note (message: Any) {
     builder.note(message)
   }
 

@@ -75,15 +75,15 @@ class TestBuilder private (
     * visible in most summarizing harnesses (which consume and parse
     * everything that goes to `Console.out`).
     */
-  def diag (message: String) {
-    errLine(Producer.comment(message))
+  def diag (message: Any) {
+    errLine(Producer.comment(message.toString))
   }
 
   /** Write a comment line to `Console.out`. This will typically only be
     * visible in the raw TAP stream.
     */
-  def note (message: String) {
-    outLine(Producer.comment(message))
+  def note (message: Any) {
+    outLine(Producer.comment(message.toString))
   }
 
   /** Abort the current test, with a message. */

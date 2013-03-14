@@ -70,6 +70,9 @@ class TestBuilderTest extends TestMore {
   }
 
   subtest ("diag") {
+    class Foo {
+      override def toString = "stringified"
+    }
     val output = new ByteArrayOutputStream
     Console.withOut(output) {
       Console.withErr(output) {
@@ -78,19 +81,23 @@ class TestBuilderTest extends TestMore {
         builder.ok(false, "the test passes")
         builder.diag("got false, expected true")
         builder.ok(true)
+        builder.diag(List(1, "foo", Nil, ('a', 2.3)))
+        builder.diag(new Foo)
         builder.diag("ending\nnow")
         builder.doneTesting
       }
     }
 
     val expected =
-      "ok 1 the test passes\n"       +
-      "not ok 2 the test passes\n"   +
-      "# got false, expected true\n" +
-      "ok 3\n"                       +
-      "# ending\n"                   +
-      "# now\n"                      +
-      "1..3\n"                       +
+      "ok 1 the test passes\n"            +
+      "not ok 2 the test passes\n"        +
+      "# got false, expected true\n"      +
+      "ok 3\n"                            +
+      "# List(1, foo, List(), (a,2.3))\n" +
+      "# stringified\n"                   +
+      "# ending\n"                        +
+      "# now\n"                           +
+      "1..3\n"                            +
       "# Looks like you failed 1 test of 3.\n"
 
     is(output.toString, expected)

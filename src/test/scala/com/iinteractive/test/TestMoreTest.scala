@@ -55,6 +55,8 @@ class TestMoreTest extends TestMore {
       fail("it doesn't work")
       fail
     }
+
+    diag(List(1, "foo"))
   }
 
   val out = new ByteArrayOutputStream
@@ -140,6 +142,7 @@ class TestMoreTest extends TestMore {
     "#   at TestMoreTest.scala line " + line(44) + ".\n" +
     "not ok 23 # TODO not working yet\n" +
     "#   Failed (TODO) test at TestMoreTest.scala line " + line(45) + ".\n" +
+    "# List(1, foo)\n" +
     "1..23\n" +
     "# Looks like you failed 9 tests of 23.\n"
 
