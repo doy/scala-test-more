@@ -3,14 +3,15 @@ package com.iinteractive.test.sbt
 import org.scalatools.testing
 
 import com.iinteractive.test.harness.{Reporter,SummarizedTests}
-import com.iinteractive.test.tap.{TAPEvent,ResultEvent,EndEvent}
+import com.iinteractive.test.tap.{TAPEvent,ResultEvent,EndEvent,LineEvent}
 import com.iinteractive.test.Test
 
 /** Runs a single test under the SBT test harness. */
 class SBTReporter (
   loader:       ClassLoader,
   loggers:      Array[testing.Logger],
-  eventHandler: testing.EventHandler
+  eventHandler: testing.EventHandler,
+  verbose:      Boolean
 ) extends Reporter with SummarizedTests {
   def run (testName: String): Int = {
     val cb = (e: TAPEvent) => e match {
@@ -72,12 +73,18 @@ class SBTReporter (
           logError("FAIL " + testName + " " + errors)
         }
       }
+      case LineEvent(line) => {
+        if (verbose) {
+          logInfo(line.toString)
+        }
+      }
       case _ => ()
     }
 
     runOneTest(
       loader.loadClass(testName).newInstance.asInstanceOf[Test],
-      cb
+      cb,
+      verbose
     ).exitCode
   }
 

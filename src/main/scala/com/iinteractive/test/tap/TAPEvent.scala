@@ -1,5 +1,6 @@
 package com.iinteractive.test.tap
 
+import com.iinteractive.test.tap.Consumer.Line
 import com.iinteractive.test.Plan
 
 /** An event emitted while parsing a TAP stream. */
@@ -38,3 +39,9 @@ case class  SubtestEndEvent private[tap] (result: TestResult) extends TAPEvent
 
 /** A comment (currently unused). */
 case class  CommentEvent private[tap] (text: String) extends TAPEvent
+
+/** A line was parsed.
+  * @param line The [[com.iinteractive.test.Consumer.Line Line]] that was
+  *             parsed.
+  */
+case class  LineEvent private[tap] (line: Line) extends TAPEvent

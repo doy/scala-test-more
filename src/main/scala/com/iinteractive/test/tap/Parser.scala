@@ -212,6 +212,7 @@ class Parser private (
         val (line, rest) = stream.span(_ != '\n') match {
           case (l, r) => (parseLine(l.mkString), r.drop(1))
         }
+        cb(LineEvent(line))
         line match {
           case _: CommentLine => readNextLine(rest)
           case other          => (Some(other), rest)

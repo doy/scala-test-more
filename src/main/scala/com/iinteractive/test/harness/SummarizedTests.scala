@@ -21,13 +21,25 @@ trait SummarizedTests {
     *
     * @return The overall result of the test instance.
     */
-  protected def runOneTest (test: Test, cb: TAPEvent => Unit): TAPResult = {
+  protected def runOneTest (
+    test:    Test,
+    cb:      TAPEvent => Unit,
+    combine: Boolean = false
+  ): TAPResult = {
     val out = new PipedOutputStream
     val in  = new PipedInputStream(out)
+    val err = if (combine) out else Console.err
 
     val testFuture = Future {
       Console.withOut(out) {
-        test.runInHarness
+        Console.withErr(err) {
+          if (combine) {
+            test.run
+          }
+          else {
+            test.runInHarness
+          }
+        }
       }
       out.close
     }

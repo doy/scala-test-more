@@ -19,7 +19,8 @@ class Runner (
     eventHandler:  testing.EventHandler,
     args:          Array[String]
   ) {
-    val reporter = new SBTReporter(loader, loggers, eventHandler)
+    val verbose = args.contains("-v")
+    val reporter = new SBTReporter(loader, loggers, eventHandler, verbose)
     reporter.run(testClassName)
   }
 }
