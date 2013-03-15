@@ -5,6 +5,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Try,Success,Failure}
 
 import com.iinteractive.test.tap.{Parser,TAPEvent,TAPResult,TodoDirective}
 import com.iinteractive.test.Test
@@ -31,24 +32,33 @@ trait SummarizedTests {
     val err = if (combine) out else Console.err
 
     val testFuture = Future {
-      Console.withOut(out) {
-        Console.withErr(err) {
-          if (combine) {
-            test.run
-          }
-          else {
-            test.runInHarness
+      val result = Try {
+        Console.withOut(out) {
+          Console.withErr(err) {
+            if (combine) {
+              test.run
+            }
+            else {
+              test.runInHarness
+            }
           }
         }
       }
       out.close
+      result
     }
 
     val parser = new Parser(cb)
-    val result = parser.parse(in)
+    val result = Try(parser.parse(in))
     in.close
-    Await.ready(testFuture, Duration.Inf)
+    Await.result(testFuture, Duration.Inf) match {
+      case Success(_) => ()
+      case Failure(e) => throw e
+    }
 
-    result
+    result match {
+      case Success(r) => r
+      case Failure(e) => throw e
+    }
   }
 }
