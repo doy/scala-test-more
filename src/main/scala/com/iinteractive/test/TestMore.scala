@@ -1,6 +1,8 @@
 package com.iinteractive.test
 
+import scala.reflect.{ClassTag,classTag}
 import scala.util.matching.Regex
+import scala.util.{Try,Success,Failure}
 
 import com.iinteractive.test.tap.TestBuilder
 
@@ -297,6 +299,58 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
   def fail (desc: String): Boolean =
     ok(false, desc)
 
+  /** Assert that the given block of code doesn't throw an exception.
+    *
+    * @example `lives_ok { myObj.explode }`
+    */
+  def lives_ok (body: => Unit): Boolean = {
+    val gotOpt = exception(body)
+    val success = gotOpt.isEmpty
+    val desc = "didn't throw an exception"
+    val message = gotOpt.map(livesOkMessage).getOrElse("")
+    testWithDesc(success, desc, message)
+  }
+
+  /** Assert that the given block of code throws an exception.
+    *
+    * @example `dies_ok[MyException] { myObj.explode }`
+    */
+  def dies_ok[T <: Throwable : ClassTag] (body: => Unit): Boolean = {
+    val gotOpt = exception(body)
+    val success = gotOpt.map { got =>
+      classTag[T].runtimeClass.isAssignableFrom(got.getClass)
+    }.getOrElse(false)
+    val desc = "threw a " + classTag[T].toString + " exception"
+    val message = gotOpt.map(diesOkMessage[T]).getOrElse(diesOkMessage[T])
+    testWithDesc(success, desc, message)
+  }
+
+  /** Assert that the given block of code throws an exception, and that the
+    * exception that it throws is equal to the passed exception.
+    *
+    * @example `throws_ok(new MyException("foo")) { myObj.explode }`
+    */
+  def throws_ok (e: Throwable)(body: => Unit): Boolean = {
+    val gotOpt = exception(body)
+    val success = gotOpt.map { got => got == e }.getOrElse(false)
+    val desc = "threw " + e.toString
+    val message = gotOpt.map(
+      throwsOkMessage(_, e)
+    ).getOrElse(throwsOkMessage(e))
+    testWithDesc(success, desc, message)
+  }
+
+  /** Runs a block of code, returning the exception that it throws, or None if
+    * no exception was thrown. Not an assertion on its own, but can be used to
+    * create more complicated assertions about exceptions.
+    *
+    * @example `is(exception { myObj.explode }, None)`
+    */
+  def exception (body: => Unit): Option[Throwable] = Try(body) match {
+    case Success(_) => None
+    case Failure(e) => Some(e)
+  }
+
   /** Output a comment to `Console.err`. This is intended to be visible to
     * users even when running the test under a summarizing harness.
     *
@@ -408,6 +462,26 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
   private def unlikeMessage (got: String, rx: Regex): String =
     "                  '" + got + "'\n" +
     "          matches '" + rx + "'\n"
+
+  private def livesOkMessage(got: Throwable) =
+    "         got: " + got + "\n" +
+    "    expected: normal exit\n"
+
+  private def diesOkMessage[T: ClassTag] =
+    "         got: normal exit\n" +
+    "    expected: a " + classTag[T].toString + " exception\n"
+
+  private def diesOkMessage[T: ClassTag](got: Throwable) =
+    "         got: " + got + "\n" +
+    "    expected: a " + classTag[T].toString + " exception\n"
+
+  private def throwsOkMessage[T](e: T) =
+    "         got: normal exit\n" +
+    "    expected: " + e + "\n"
+
+  private def throwsOkMessage[T](got: Throwable, e: T) =
+    "         got: " + got + "\n" +
+    "    expected: " + e + "\n"
 
   private def testWithDesc (
     cond:   Boolean,
