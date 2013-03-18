@@ -111,18 +111,25 @@ class Parser private (
 
     private def subtest: Parser[TAPResult] =
       LineParser("subtest") { in =>
-        // can't just return the result directly, because it's of a different
-        // type (the path dependent type associated with the new Parser
-        // instance we create here, rather than the path dependent type
-        // associated with this)
-        val subParser = new TAPParser(
-          e => (),
-          in.first.indent
-        )
-        subParser.tap(in) match {
-          case subParser.Success(p, rest) => Success(p, rest)
-          case subParser.Failure(m, rest) => Failure(m, rest)
-          case subParser.Error(m, rest)   => Error(m, rest)
+        val newIndent = in.first.indent
+
+        if (newIndent.startsWith(indent) && newIndent != indent) {
+          // can't just return the result directly, because it's of a
+          // different type (the path dependent type associated with the new
+          // Parser instance we create here, rather than the path dependent
+          // type associated with this)
+          val subParser = new TAPParser(
+            e => (),
+            newIndent
+          )
+          subParser.tap(in) match {
+            case subParser.Success(p, rest) => Success(p, rest)
+            case subParser.Failure(m, rest) => Failure(m, rest)
+            case subParser.Error(m, rest)   => Error(m, rest)
+          }
+        }
+        else {
+          Failure("not a subtest", in)
         }
       }
 
