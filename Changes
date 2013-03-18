@@ -1,0 +1,12 @@
+Changelog for scala-test-more
+
+0.02   2013-03-18
+- Fix hang when a test throws an exception without catching it
+- Fix exponential edge case in parsing TAP streams with lots of subtests
+- Add lives_ok/dies_ok/throws_ok/exception for testing exceptions
+- Passing -v to the test-only task now displays the tap stream in addition to
+  the summary
+- Allow diag() and note() to take any object, rather than just Strings
+
+0.01   2013-03-07
+- Initial release
