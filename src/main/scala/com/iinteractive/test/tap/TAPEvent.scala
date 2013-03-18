@@ -41,7 +41,7 @@ case class  SubtestEndEvent private[tap] (result: TestResult) extends TAPEvent
 case class  CommentEvent private[tap] (text: String) extends TAPEvent
 
 /** A line was parsed.
-  * @param line The [[com.iinteractive.test.Consumer.Line Line]] that was
+  * @param line The [[com.iinteractive.test.tap.Consumer.Line Line]] that was
   *             parsed.
   */
 case class  LineEvent private[tap] (line: Line) extends TAPEvent
