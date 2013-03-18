@@ -332,21 +332,38 @@ was called, not from the call to <code>ok</code> in the <code>notok</code> metho
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.iinteractive.test.TestMore">TestMore</a> → DelayedInit</dd></dl></div>
     </li><li name="com.iinteractive.test.TestMore#diag" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="diag(message:String):Unit"></a>
-      <a id="diag(String):Unit"></a>
+      <a id="diag(message:Any):Unit"></a>
+      <a id="diag(Any):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">diag</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">diag</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Output a comment to <code>Console.err</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Output a comment to <code>Console.err</code>. This is intended to be visible to
 users even when running the test under a summarizing harness.
 </p></div><dl class="attributes block"> <div class="block">Example:
                 <ol><li class="cmt"><p><code>diag(&quot;Testing with Scala &quot; + util.Properties.versionString)</code>
+</p></li></ol>
+              </div></dl></div>
+    </li><li name="com.iinteractive.test.TestMore#dies_ok" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dies_ok[T&lt;:Throwable](body:=&gt;Unit)(implicitevidence$1:scala.reflect.ClassTag[T]):Boolean"></a>
+      <a id="dies_ok[T&lt;:Throwable](⇒Unit)(ClassTag[T]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dies_ok</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Throwable">Throwable</span></span>]</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="com.iinteractive.test.TestMore.dies_ok.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Assert that the given block of code throws an exception.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that the given block of code throws an exception.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>dies_ok[MyException] { myObj.explode }</code>
 </p></li></ol>
               </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -375,6 +392,26 @@ users even when running the test under a summarizing harness.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.iinteractive.test.TestMore#exception" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="exception(body:=&gt;Unit):Option[Throwable]"></a>
+      <a id="exception(⇒Unit):Option[Throwable]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">exception</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Throwable">Throwable</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Runs a block of code, returning the exception that it throws, or None if
+no exception was thrown.</p><div class="fullcomment"><div class="comment cmt"><p>Runs a block of code, returning the exception that it throws, or None if
+no exception was thrown. Not an assertion on its own, but can be used to
+create more complicated assertions about exceptions.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>is(exception { myObj.explode }, None)</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="com.iinteractive.test.TestMore#fail" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fail(desc:String):Boolean"></a>
       <a id="fail(String):Boolean"></a>
@@ -609,6 +646,23 @@ assertion.
                 <ol><li class="cmt"><p><code>like(response.header(&quot;Content-Type&quot;), &quot;&quot;&quot;text/x?html&quot;&quot;&quot;.r)</code>
 </p></li></ol>
               </div></dl></div>
+    </li><li name="com.iinteractive.test.TestMore#lives_ok" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lives_ok(body:=&gt;Unit):Boolean"></a>
+      <a id="lives_ok(⇒Unit):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lives_ok</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Assert that the given block of code doesn't throw an exception.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that the given block of code doesn't throw an exception.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>lives_ok { myObj.explode }</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -623,15 +677,15 @@ assertion.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.iinteractive.test.TestMore#note" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="note(message:String):Unit"></a>
-      <a id="note(String):Unit"></a>
+      <a id="note(message:Any):Unit"></a>
+      <a id="note(Any):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">note</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">note</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Output a comment to <code>Console.out</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Output a comment to <code>Console.out</code>. This is intended to only be visible
@@ -770,7 +824,7 @@ Console.err, so you can swap these out as required in order to parse it.
  results are being summarized rather than directly displayed.</p><div class="fullcomment"><div class="comment cmt"><p>Runs the test just like <a href="#run:Int" class="extmbr" name="com.iinteractive.test.TestMore#run">run</a>, but in a way that makes sense when test
  results are being summarized rather than directly displayed.</p><p> Summarizing test reporters tend to repeatedly update the same line on
  the terminal, so this method makes calls to
- <a href="tap/TestBuilder.html#diag(message:String):Unit" class="extmbr" name="com.iinteractive.test.tap.TestBuilder#diag">diag</a> (which sends
+ <a href="tap/TestBuilder.html#diag(message:Any):Unit" class="extmbr" name="com.iinteractive.test.tap.TestBuilder#diag">diag</a> (which sends
  messages to stderr, where they are typically displayed as-is) prefix the
  message with a newline, to ensure that the output starts on its own
  line.
@@ -841,6 +895,25 @@ the single assertion that the overall test sees.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.iinteractive.test.TestMore#throws_ok" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="throws_ok(e:Throwable)(body:=&gt;Unit):Boolean"></a>
+      <a id="throws_ok(Throwable)(⇒Unit):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">throws_ok</span><span class="params">(<span name="e">e: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="params">(<span name="body">body: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Assert that the given block of code throws an exception, and that the
+exception that it throws is equal to the passed exception.</p><div class="fullcomment"><div class="comment cmt"><p>Assert that the given block of code throws an exception, and that the
+exception that it throws is equal to the passed exception.
+</p></div><dl class="attributes block"> <div class="block">Example:
+                <ol><li class="cmt"><p><code>throws_ok(new MyException(&quot;foo&quot;)) { myObj.explode }</code>
+</p></li></ol>
+              </div></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>

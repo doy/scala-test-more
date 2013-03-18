@@ -85,7 +85,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.iinteractive.test.sbt.SBTReporter#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(loader:ClassLoader,loggers:Array[org.scalatools.testing.Logger],eventHandler:org.scalatools.testing.EventHandler):com.iinteractive.test.sbt.SBTReporter"></a>
+      <a id="&lt;init&gt;(loader:ClassLoader,loggers:Array[org.scalatools.testing.Logger],eventHandler:org.scalatools.testing.EventHandler,verbose:Boolean):com.iinteractive.test.sbt.SBTReporter"></a>
       <a id="&lt;init&gt;:SBTReporter"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -93,7 +93,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">SBTReporter</span><span class="params">(<span name="loader">loader: <span class="extype" name="java.lang.ClassLoader">ClassLoader</span></span>, <span name="loggers">loggers: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.scalatools.testing.Logger">Logger</span>]</span>, <span name="eventHandler">eventHandler: <span class="extype" name="org.scalatools.testing.EventHandler">EventHandler</span></span>)</span>
+        <span class="name">SBTReporter</span><span class="params">(<span name="loader">loader: <span class="extype" name="java.lang.ClassLoader">ClassLoader</span></span>, <span name="loggers">loggers: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.scalatools.testing.Logger">Logger</span>]</span>, <span name="eventHandler">eventHandler: <span class="extype" name="org.scalatools.testing.EventHandler">EventHandler</span></span>, <span name="verbose">verbose: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span>
       </span>
       </h4>
       
@@ -338,15 +338,15 @@
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The exit code for the harness to use. Will be 0 on success.
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.iinteractive.test.sbt.SBTReporter">SBTReporter</a> → <a href="../harness/Reporter.html" class="extype" name="com.iinteractive.test.harness.Reporter">Reporter</a></dd></dl></div>
     </li><li name="com.iinteractive.test.harness.SummarizedTests#runOneTest" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="runOneTest(test:com.iinteractive.test.Test,cb:com.iinteractive.test.tap.TAPEvent=&gt;Unit):com.iinteractive.test.tap.TAPResult"></a>
-      <a id="runOneTest(Test,(TAPEvent)⇒Unit):TAPResult"></a>
+      <a id="runOneTest(test:com.iinteractive.test.Test,cb:com.iinteractive.test.tap.TAPEvent=&gt;Unit,combine:Boolean):com.iinteractive.test.tap.TAPResult"></a>
+      <a id="runOneTest(Test,(TAPEvent)⇒Unit,Boolean):TAPResult"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">runOneTest</span><span class="params">(<span name="test">test: <a href="../Test.html" class="extype" name="com.iinteractive.test.Test">Test</a></span>, <span name="cb">cb: (<a href="../tap/TAPEvent.html" class="extype" name="com.iinteractive.test.tap.TAPEvent">TAPEvent</a>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <a href="../tap/TAPResult.html" class="extype" name="com.iinteractive.test.tap.TAPResult">TAPResult</a></span>
+        <span class="name">runOneTest</span><span class="params">(<span name="test">test: <a href="../Test.html" class="extype" name="com.iinteractive.test.Test">Test</a></span>, <span name="cb">cb: (<a href="../tap/TAPEvent.html" class="extype" name="com.iinteractive.test.tap.TAPEvent">TAPEvent</a>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>, <span name="combine">combine: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <a href="../tap/TAPResult.html" class="extype" name="com.iinteractive.test.tap.TAPResult">TAPResult</a></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Runs a single <a href="../Test.html" class="extype" name="com.iinteractive.test.Test">test</a> instance, calling <code>cb</code>

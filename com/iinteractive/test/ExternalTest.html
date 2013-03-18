@@ -363,7 +363,7 @@ Console.err, so you can swap these out as required in order to parse it.
  results are being summarized rather than directly displayed.</p><div class="fullcomment"><div class="comment cmt"><p>Runs the test just like <a href="#run:Int" class="extmbr" name="com.iinteractive.test.ExternalTest#run">run</a>, but in a way that makes sense when test
  results are being summarized rather than directly displayed.</p><p> Summarizing test reporters tend to repeatedly update the same line on
  the terminal, so this method makes calls to
- <a href="tap/TestBuilder.html#diag(message:String):Unit" class="extmbr" name="com.iinteractive.test.tap.TestBuilder#diag">diag</a> (which sends
+ <a href="tap/TestBuilder.html#diag(message:Any):Unit" class="extmbr" name="com.iinteractive.test.tap.TestBuilder#diag">diag</a> (which sends
  messages to stderr, where they are typically displayed as-is) prefix the
  message with a newline, to ensure that the output starts on its own
  line.
