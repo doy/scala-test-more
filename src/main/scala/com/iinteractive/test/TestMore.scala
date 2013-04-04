@@ -216,7 +216,7 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     *
     * @example `is(response.status, 200)`
     */
-  def is[T] (got: T, expected: T): Boolean =
+  def is[T, U] (got: T, expected: U)(implicit e: U <:< T): Boolean =
     test(got == expected, isMessage(got, expected))
 
   /** Assert that two objects are equal (using `==`), and describe the
@@ -224,14 +224,16 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     *
     * @example `is(response.status, 200, "we got a 200 OK response")`
     */
-  def is[T] (got: T, expected: T, desc: String): Boolean =
+  def is[T, U] (got: T, expected: U, desc: String)(
+    implicit e: U <:< T
+  ): Boolean =
     testWithDesc(got == expected, desc, isMessage(got, expected))
 
   /** Assert that two objects are not equal (using `!=`).
     *
     * @example `isnt(response.body, "")`
     */
-  def isnt[T] (got: T, expected: T): Boolean =
+  def isnt[T, U] (got: T, expected: U)(implicit e: U <:< T): Boolean =
     test(got != expected, isntMessage(got))
 
   /** Assert that two objects are not equal (using `!=`), and describe the
@@ -239,7 +241,9 @@ class TestMore (plan: Plan = NoPlan) extends Test with DelayedInit {
     *
     * @example `isnt(response.body, "", "we got a response body")`
     */
-  def isnt[T] (got: T, expected: T, desc: String): Boolean =
+  def isnt[T, U] (got: T, expected: U, desc: String)(
+    implicit e: U <:< T
+  ): Boolean =
     testWithDesc(got != expected, desc, isntMessage(got))
 
   /** Assert that a string matches a regular expression.
