@@ -16,35 +16,35 @@ object Producer {
     * @example `ok 28 - our test succeeded`
     */
   def result (cond: Boolean, num: Int, desc: String): String =
-    result(cond, num) + " " + desc
+    result(cond, num) + " " + sanitize(desc)
 
   /** Returns a todo test result.
     *
     * @example `not ok 1 # TODO this doesn't work yet`
     */
   def todoResult (cond: Boolean, num: Int, todo: String): String =
-    result(cond, num) + " # TODO " + todo
+    result(cond, num) + " # TODO " + sanitize(todo)
 
   /** Returns a todo test result that contains a description.
     *
     * @example `not ok 18 - test the feature # TODO can't figure this out`
     */
   def todoResult (cond: Boolean, num: Int, desc: String, todo: String): String =
-    result(cond, num, desc) + " # TODO " + todo
+    result(cond, num, desc) + " # TODO " + sanitize(todo)
 
   /** Returns a skipped test result with a reason.
     *
     * @example `ok 4 # skip this test won't run here`
     */
   def skip (num: Int, reason: String): String =
-    "ok " + num + " # skip " + reason
+    "ok " + num + " # skip " + sanitize(reason)
 
   /** Returns a comment.
     *
     * @example `# this is a comment`
     */
   def comment (message: String): String =
-    message.split("\n").map(m => "# " + m).mkString("\n")
+    "# " + sanitize(if (message.last == '\n') message.init else message)
 
   /** Returns a test plan.
     *
@@ -52,7 +52,9 @@ object Producer {
     * @example `1..0 # SKIP don't run this test` ([[com.iinteractive.test.SkipAll SkipAll]])
     */
   def plan (plan: Plan): String =
-    plan.skipAll.map(m => "1..0 # SKIP " + m).getOrElse("1.." + plan.plan)
+    plan.skipAll.map(
+      m => "1..0 # SKIP " + sanitize(m)
+    ).getOrElse("1.." + plan.plan)
 
   /** Returns a bail out with a reason.
     *
@@ -60,4 +62,7 @@ object Producer {
     */
   def bailOut (message: String): String =
     "Bail out!  " + message
+
+  private def sanitize (text: String): String =
+    text.replace("\n", "\n# ")
 }
