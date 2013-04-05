@@ -2,7 +2,7 @@ name         := "scala-test-more"
 
 organization := "com.iinteractive"
 
-version      := "0.02"
+version      := "0.03"
 
 description  := "Test library based on Perl's Test::More"
 
